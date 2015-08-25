@@ -1,0 +1,41 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Apple
+.DS_Store
+xcuserdata/
+DerivedData/
+Intermediates/
+Release/
+
+# Useful?
+*.opensdf
+*.xcactivitylog
+*.db
+Cache.db
+*.pcm
+*.d
+*.dat
+*.hmap
+dgph
+*.idx
+*.strings-sym
