@@ -9,10 +9,10 @@
 #ifndef __Minimal__eosBrowser__
 #define __Minimal__eosBrowser__
 
-#include "axLib.h"
-#include "axScrollBar.h"
+#include "axLib/axLib.h"
+#include "axLib/axScrollBar.h"
 
-#include "axFileSystem.h"
+#include "axLib/axOSFileSystem.h"
 
 namespace eos
 {

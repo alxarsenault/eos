@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<axObjects>
+  <axLabel name="screen" rect="5, 5, 155, 40" info="Label.axobj" label="0.000000"></axLabel>
+
+  <axButton name="C" rect="5, 55, 35, 35" info="Button.axobj" label="C" event="OnOperation" msg="9"></axButton> 
+  <axButton name="+-" rect="45, 55, 35, 35" info="Button.axobj" label="+ -" event="OnOperation" msg="6"></axButton>
+  <axButton name="^" rect="85, 55, 35, 35" info="Button.axobj" label="^" event="OnOperation" msg="4"></axButton>
+  <axButton name="%" rect="125, 55, 35, 35" info="Button.axobj" label="%" event="OnOperation" msg="5"></axButton>
+
+  <axButton name="7" rect="5, 95, 35, 35" info="Button.axobj" label="7" event="OnNumber" msg="7"></axButton> 
+  <axButton name="8" rect="45, 95, 35, 35" info="Button.axobj" label="8" event="OnNumber" msg="8"></axButton>
+  <axButton name="9" rect="85, 95, 35, 35" info="Button.axobj" label="9" event="OnNumber" msg="9"></axButton>
+  <axButton name="+" rect="125, 95, 35, 35" info="Button.axobj" label="+" event="OnOperation" msg="0"></axButton>
+
+  <axButton name="4" rect="5, 135, 35, 35" info="Button.axobj" label="4" event="OnNumber" msg="4"></axButton> 
+  <axButton name="5" rect="45, 135, 35, 35" info="Button.axobj" label="5" event="OnNumber" msg="5"></axButton>
+  <axButton name="6" rect="85, 135, 35, 35" info="Button.axobj" label="6" event="OnNumber" msg="6"></axButton>
+  <axButton name="-" rect="125, 135, 35, 35" info="Button.axobj" label="-" event="OnOperation" msg="1"></axButton>
+
+  <axButton name="1" rect="5, 175, 35, 35" info="Button.axobj" label="1" event="OnNumber" msg="1"></axButton> 
+  <axButton name="2" rect="45, 175, 35, 35" info="Button.axobj" label="2" event="OnNumber" msg="2"></axButton>
+  <axButton name="3" rect="85, 175, 35, 35" info="Button.axobj" label="3" event="OnNumber" msg="3"></axButton>
+  <axButton name="*" rect="125, 175, 35, 35" info="Button.axobj" label="*" event="OnOperation" msg="2"></axButton>
+
+  <axButton name="." rect="5, 215, 35, 35" info="Button.axobj" label="." event="OnOperation" msg="."></axButton> 
+  <axButton name="0" rect="45, 215, 35, 35" info="Button.axobj" label="0" event="OnNumber" msg="0"></axButton>
+  <axButton name="=" rect="85, 215, 35, 35" info="Button.axobj" label="=" event="OnOperation" msg="8"></axButton>
+  <axButton name="/" rect="125, 215, 35, 35" info="Button.axobj" label="/" event="OnOperation" msg="3"></axButton>
+</axObjects>
