@@ -6,12 +6,17 @@ namespace eos
 	class Frame : public axPanel
 	{
 	public:
-		Frame(axWindow* parent, const ax::Rect& rect, const std::string& window_name);
+		Frame(axWindow* parent, 
+			  const ax::Rect& rect, 
+			  const std::string& window_name);
 	
 		ax::Rect GetChildRect() const;
 
 		void SetChildHandler(axWindow* child);
    
+		// Property.
+		// Resizable
+
 	private:
 		axWindow* _child;
 		std::string _window_name;
