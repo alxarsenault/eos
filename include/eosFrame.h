@@ -1,3 +1,6 @@
+#ifndef __EOS_FRAME_H__
+#define __EOS_FRAME_H__
+
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
 
@@ -6,6 +9,40 @@ namespace eos
 	class Frame : public axPanel
 	{
 	public:
+		
+		/****************************************************************************
+		 * eos::Frame::Msg
+		 ***************************************************************************/
+		class Msg : public ax::Event::Msg
+		{
+		public:
+			Msg();		
+
+			Msg(Frame* sender);
+
+			Frame* GetSender() const;	
+
+			ax::Event::Msg* GetCopy();
+
+		private:
+			Frame* _sender;	
+				
+		};
+
+		class Events
+		{
+		public:
+			enum : ax::Event::Id 
+			{
+				MINIMIZE,
+				CLOSE,
+				MOVE,
+				RESIZE
+			};
+
+			Events(){}
+		};		
+
 		Frame(axWindow* parent, 
 			  const ax::Rect& rect, 
 			  const std::string& window_name);
@@ -47,3 +84,5 @@ namespace eos
 		void OnPaint();
 	};
 }
+
+#endif //__EOS_FRAME_H__

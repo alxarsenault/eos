@@ -3,7 +3,34 @@
 
 namespace eos
 {
-	Frame::Frame(axWindow* parent, const ax::Rect& rect, const std::string& window_name):
+
+	Frame::Msg::Msg():
+	_sender(nullptr)
+	{
+
+	}
+
+	Frame::Msg::Msg(Frame* sender):
+	_sender(sender)
+	{
+
+	}
+
+	Frame* Frame::Msg::GetSender() const
+	{
+		return _sender;
+	}
+
+	ax::Event::Msg* Frame::Msg::GetCopy()
+	{
+		return new eos::Frame::Msg(*this);
+	}
+
+
+
+	Frame::Frame(axWindow* parent, 
+				 const ax::Rect& rect, 
+				 const std::string& window_name):
     // Parent.
     axPanel(parent, rect),
 	_font(0),
@@ -49,16 +76,19 @@ namespace eos
 
 	void Frame::OnButtonClick(const ax::Button::Msg& msg)
 	{
-		ax::Print("Button click in module.");
+		PushEvent(Frame::Events::CLOSE, new Frame::Msg(this));
+		//PushEvent(Frame::Events::
+		//ax::Print("Button click in module.");
 	
-		PushEvent(190, new ax::Button::Msg(msg));
-		this->DeleteWindow();
+		//PushEvent(190, new ax::Button::Msg(msg));
+		//this->DeleteWindow();
 	}
 	
 	void Frame::OnMinimize(const ax::Button::Msg& msg)
 	{
-		PushEvent(189, new ax::Button::Msg(msg));
-		Hide();
+		PushEvent(Frame::Events::MINIMIZE, new Frame::Msg(this));
+		//PushEvent(189, new ax::Button::Msg(msg));
+		//Hide();
 	}
 
 	void Frame::OnMouseLeave()

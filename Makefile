@@ -6,9 +6,15 @@ INCLUDE_LINKER =  -L/usr/local/lib/ -L/opt/vc/lib/
 
 LINKER_FLAG = -lportaudio -lsndfile -lpng -laxLibCore -lfreetype -lEGL -lGLESv1_CM -lpthread -lopenmaxil -lbcm_host -ldl
 
-all:
-	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) source/main.cpp source/eosStatusBar.cpp $(LINKER_FLAG) -o main 
+OBJ_DIR = build
+MAIN_SRC = source/main.cpp source/eosDock.cpp source/eosAppLoader.cpp source/eosStatusBar.cpp source/eosFrame.cpp
+MAIN_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(MAIN_SRC:.cpp=.o)))
 
+all: $(MAIN_OBJ)
+	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) $(MAIN_OBJ) $(LINKER_FLAG) -o main
+
+build/%.o: source/%.cpp
+	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) -c -o $@ $<
 
 browser:
 	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosBrowser.cpp source/app.cpp source/eosFrame.cpp 

@@ -60,8 +60,10 @@ extern "C"
 	axWindow* StartApplication(axWindow* parent, ax::Rect rect)
 	{
 		ax::Print("Start application.");
+		rect.size = ax::Size(500, 500);
 		//MainPanel* main_panel = new MainPanel(parent, rect);
 		eos::Frame* frame = new eos::Frame(parent, rect, "Browser");
+		frame->AddProperty("Resizable");
 
 	//	ax::Rect rel_rect(4 + 5, 25, rect.size.x - 2 * (4 + 5), rect.size.y - 25 - (4+5));		
 		eos::Browser* browser = new eos::Browser(frame, frame->GetChildRect());
