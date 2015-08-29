@@ -17,9 +17,16 @@ ax::Button(parent,
 		   img_path, 
 		   "", 
 		   ax::Button::Flags::SINGLE_IMG,
-		   msg)
+		   msg),
+_anim_percent(1.0)
 {
 	
+}
+
+void eos::DockIcon::SetAnimationPercent(const double& percent)
+{
+	_anim_percent = percent;
+	Update();
 }
 
 void eos::DockIcon::OnMouseLeave()
@@ -34,6 +41,31 @@ void eos::DockIcon::OnMouseLeave()
 		GetParent()->OnMouseLeave();
 	}
 }
+
+void eos::DockIcon::OnPaint()
+{
+    ax::GC gc;
+    
+    ax::Rect rect(GetRect());
+    ax::Rect rect0(GetDrawingRect());
+    
+	ax::Color col(*_currentColor);
+	col.SetAlpha(_anim_percent);
+
+    gc.SetColor(col);
+    gc.DrawRectangle(rect0);
+    
+    if (_btnImg->IsImageReady())
+    {
+        gc.DrawImageResize(_btnImg, ax::Point(0, 0), rect0.size, _anim_percent);
+    }
+   
+    ax::Color ctr_col(static_cast<ax::Button::Info*>(_info)->contour);	
+    ctr_col.SetAlpha(_anim_percent);
+	gc.SetColor(ctr_col);
+	gc.DrawRectangleContour(rect0);
+}
+
 
 eos::Dock::Dock(axWindow* parent, const ax::Rect& rect):
 axPanel(parent, rect),
@@ -58,8 +90,11 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
 							  ax::Color(0.0, 0.0, 0.0),
 							  ax::Color(0.0, 0.0, 0.0),
 							  0);
+
+	ax::Size icon_size(32, 32);
+
 	eos::DockIcon* btn = new eos::DockIcon(this, 
-										   ax::Rect(10, 5, 32, 32),
+										   ax::Rect(ax::Point(10, 5), icon_size),
 										   GetOnAppSelect(), 
 										   btn_info, 
 										   "FileMan_32x32.png",
@@ -68,7 +103,7 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
 	_app_icons.push_back(btn);	
 
 	eos::DockIcon* cal = new eos::DockIcon(this, 
-										   ax::Rect(10 + 35, 5, 32, 32),
+										   ax::Rect(btn->GetRect().GetNextPosRight(10), icon_size),
 										   GetOnAppSelect(), 
 										   btn_info, 
 										   "FileMan_32x32.png",
@@ -76,9 +111,18 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
 
 	_app_icons.push_back(cal);
 
-	_appLoaders["calc"] = AppLoader("/home/pi/Projects/eos/app/calculator.so");
-	_appLoaders["browser"] = AppLoader("/home/pi/Projects/eos/app/browser.so");
+	eos::DockIcon* txt_edit = new eos::DockIcon(this, 
+												ax::Rect(cal->GetRect().GetNextPosRight(10), icon_size),
+												GetOnAppSelect(), 
+												btn_info, 
+												"FileMan_32x32.png",
+												"txtedit");
+
+	_app_icons.push_back(txt_edit);
 	
+	_appLoaders["calc"] = AppLoader("/home/pi/Projects/eos/app/calculator.so");
+	_appLoaders["browser"] = AppLoader("/home/pi/Projects/eos/app/browser.so");	
+	_appLoaders["txtedit"] = AppLoader("/home/pi/Projects/eos/app/text_editor.so");
 	//SetSize(ax::Size(rect.size.x, 10));
 	//SetPosition(ax::Point(rect.position.x, _start_position.y + 30));
 	SetRect(_drop_rect);
@@ -94,7 +138,6 @@ void eos::Dock::OnAnimationTimer(const ax::Event::Timer::Msg& msg)
 {
 	if(_anim_up == true)
 	{
-
 		int count = msg.GetTime().count() + _timer_interval;
 		_anim_percent = float(count) / float(_timer_length);
 
@@ -102,6 +145,11 @@ void eos::Dock::OnAnimationTimer(const ax::Event::Timer::Msg& msg)
 		{
 			_anim_percent = 1.0;
 			_anim_active = false;
+		}
+
+		for(auto& n : _app_icons)
+		{
+			n->SetAnimationPercent(_anim_percent);
 		}
 
 		Update();
@@ -115,15 +163,22 @@ void eos::Dock::OnAnimationTimerDown(const ax::Event::Timer::Msg& msg)
 		int count = msg.GetTime().count() + _timer_interval;
 		_anim_percent = float(count) / float(_timer_length);
 
+		for(auto& n : _app_icons)
+		{
+			n->SetAnimationPercent(1.0 - _anim_percent);
+		}
+
 		if(count == _timer_length)
 		{
 			_anim_percent = 1.0;
 			_anim_active = false;
 			
 			SetRect(_drop_rect);
-//				ax::Rect rect(GetRect());
-//				SetSize(ax::Size(rect.size.x, 10));
-//				SetPosition(ax::Point(rect.position.x, rect.position.y + 30));
+
+			for(auto& n : _app_icons)
+			{
+				n->Hide();
+			}
 		}
 
 		Update();
@@ -140,9 +195,6 @@ void eos::Dock::OnMouseEnter()
 	if(_isDrop)
 	{
 		SetRect(_up_rect);
-		//ax::Rect rect(GetRect());
-		//SetSize(ax::Size(rect.size.x, 40));
-		//SetPosition(ax::Point(rect.position.x, rect.position.y - 30));
 		
 		_isDrop = false;	
 		_anim_active = true;
@@ -155,6 +207,7 @@ void eos::Dock::OnMouseEnter()
 
 		for(auto& n : _app_icons)
 		{
+			n->SetAnimationPercent(_anim_percent);
 			n->Show();
 		}
 	}
@@ -167,10 +220,6 @@ void eos::Dock::OnMouseLeave()
 
 	if(over == false)
 	{
-//		ax::Rect rect(GetRect());
-//		SetSize(ax::Size(rect.size.x, 10));
-//		SetPosition(ax::Point(rect.position.x, rect.position.y + 30));
-		
 		_isDrop = true;
 		_anim_active = true;
 		_anim_percent = 0.0;
@@ -179,10 +228,10 @@ void eos::Dock::OnMouseLeave()
 		_timer_down->StartTimer(ax::Event::Timer::TimeMs(_timer_interval),
 						  ax::Event::Timer::TimeMs(_timer_length)); 
 
-		for(auto& n : _app_icons)
-		{
-			n->Hide();
-		}
+//		for(auto& n : _app_icons)
+//		{
+//			n->Hide();
+//		}
 	}
 }
 

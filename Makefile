@@ -20,6 +20,9 @@ browser:
 	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosBrowser.cpp source/app.cpp source/eosFrame.cpp 
 	$(CC) -shared -o app/browser.so app.o eosBrowser.o eosFrame.o
 
+txtedit:
+	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTextEditor.cpp source/txt_edit_main.cpp source/eosFrame.cpp 
+	$(CC) -shared -o app/text_editor.so txt_edit_main.o eosTextEditor.o eosFrame.o
 
 calc:
 	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/main_calc.cpp source/eosFrame.cpp 

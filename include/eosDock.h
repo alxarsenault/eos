@@ -20,8 +20,13 @@ namespace eos
 				const std::string& img_path,
 				const std::string& msg);
 
+		void SetAnimationPercent(const double& percent);
+
+	private:
+		double _anim_percent;
+
 		virtual void OnMouseLeave();
-		//virtual void OnMouseEnter();
+		virtual void OnPaint();
 	};
 
 	/**************************************************************************
