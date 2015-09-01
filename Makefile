@@ -1,10 +1,12 @@
 CC = g++-4.9
-CC_FLAGS = -std=c++14 -DANDROID -fpermissive
+CC_FLAGS = -std=c++14 -DANDROID -DGL_GLEXT_PROTOTYPES=1 -fpermissive
 INCLUDE_SRC = -Iinclude/ -I/usr/include/freetype2/ -I/usr/local/include/ -I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I /opt/vc/include/interface/vmcs_host/linux
 
 INCLUDE_LINKER =  -L/usr/local/lib/ -L/opt/vc/lib/
 
-LINKER_FLAG = -lportaudio -lsndfile -lpng -laxLibCore -lfreetype -lEGL -lGLESv1_CM -lpthread -lopenmaxil -lbcm_host -ldl
+
+#LINKER_FLAG = -lportaudio -lsndfile -lpng -laxLibCore -lfreetype -lEGL -lGLESv2 -lpthread -lopenmaxil -lbcm_host -ldl
+LINKER_FLAG = -lportaudio -lsndfile -lpng -laxLibCore -lfreetype -lEGL -lGLESv1_CM -lpthread -lopenmaxil -lbcm_host -ldl -lutil
 
 OBJ_DIR = build
 MAIN_SRC = source/main.cpp source/eosDock.cpp source/eosAppLoader.cpp source/eosStatusBar.cpp source/eosFrame.cpp
@@ -24,6 +26,13 @@ txtedit:
 	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTextEditor.cpp source/txt_edit_main.cpp source/eosFrame.cpp 
 	$(CC) -shared -o app/text_editor.so txt_edit_main.o eosTextEditor.o eosFrame.o
 
+term:
+	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTerminal.cpp source/axOSTerminal.cpp source/terminal_main.cpp source/eosFrame.cpp 
+	$(CC) -shared -o app/terminal.so  terminal_main.o eosTerminal.o  axOSTerminal.o eosFrame.o
+
 calc:
 	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/main_calc.cpp source/eosFrame.cpp 
 	$(CC) -shared -o app/calculator.so main_calc.o eosFrame.o
+
+clean:
+	rm -f build/*.o

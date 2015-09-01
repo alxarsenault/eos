@@ -13,12 +13,12 @@ public:
     // Parent.
     axPanel(app, rect)
     {
-		_bg_img = new ax::Image("F18-alpha-wallpaper-standard.png");
+		_bg_img = new ax::Image("resource/wallpaper-standard.png");
 		
 		ax::Rect status_rect(0, 0, rect.size.x, 25);		
 		eos::StatusBar* status = new eos::StatusBar(this, status_rect);
 
-		ax::Rect dock_rect(100, rect.size.y - 40, rect.size.x - 200, 40);
+		ax::Rect dock_rect(100, rect.size.y - 64 - (2 * 5), rect.size.x - 200, 64 + 2 * 5);
 		eos::Dock* dock = new eos::Dock(this, dock_rect);
     }
    

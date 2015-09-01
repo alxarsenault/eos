@@ -50,7 +50,7 @@ void eos::DockIcon::OnPaint()
     ax::Rect rect0(GetDrawingRect());
     
 	ax::Color col(*_currentColor);
-	col.SetAlpha(_anim_percent);
+	col.SetAlpha(_anim_percent * _currentColor->GetAlpha());
 
     gc.SetColor(col);
     gc.DrawRectangle(rect0);
@@ -61,7 +61,9 @@ void eos::DockIcon::OnPaint()
     }
    
     ax::Color ctr_col(static_cast<ax::Button::Info*>(_info)->contour);	
-    ctr_col.SetAlpha(_anim_percent);
+    ctr_col.SetAlpha(_anim_percent * ctr_col.GetAlpha());
+
+
 	gc.SetColor(ctr_col);
 	gc.DrawRectangleContour(rect0);
 }
@@ -75,7 +77,7 @@ _timer_interval(20),
 _timer_length(200),
 _anim_up(true),
 _up_rect(rect),
-_drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
+_drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.size.x, 10))
 {
 	_timer = new ax::Event::Timer(GetApp()->GetEventManager(),
 								  GetOnAnimationTimer());		
@@ -83,15 +85,15 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
 	_timer_down = new ax::Event::Timer(GetApp()->GetEventManager(),
 									   GetOnAnimationTimerDown());		
 
-	ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5),
-							  ax::Color(0.6, 0.6, 0.6),
-							  ax::Color(0.4, 0.4, 0.4),
-							  ax::Color(0.5, 0.5, 0.5),
-							  ax::Color(0.0, 0.0, 0.0),
-							  ax::Color(0.0, 0.0, 0.0),
+	ax::Button::Info btn_info(ax::Color(0.3, 0.3),
+							  ax::Color(0.32, 0.3),
+							  ax::Color(0.28, 0.3),
+							  ax::Color(0.3, 0.3),
+							  ax::Color(0.0, 0.0),
+							  ax::Color(0.0, 0.0),
 							  0);
 
-	ax::Size icon_size(32, 32);
+	ax::Size icon_size(64, 64);
 
 	eos::DockIcon* btn = new eos::DockIcon(this, 
 										   ax::Rect(ax::Point(10, 5), icon_size),
@@ -106,7 +108,7 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
 										   ax::Rect(btn->GetRect().GetNextPosRight(10), icon_size),
 										   GetOnAppSelect(), 
 										   btn_info, 
-										   "FileMan_32x32.png",
+										   "resource/calculator-icon.png",
 										   "calc");
 
 	_app_icons.push_back(cal);
@@ -115,15 +117,24 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + 30, rect.size.x, 10))
 												ax::Rect(cal->GetRect().GetNextPosRight(10), icon_size),
 												GetOnAppSelect(), 
 												btn_info, 
-												"FileMan_32x32.png",
+												"resource/Apps-text-editor-icon.png",
 												"txtedit");
 
 	_app_icons.push_back(txt_edit);
 	
+	eos::DockIcon* term = new eos::DockIcon(this, 
+											ax::Rect(txt_edit->GetRect().GetNextPosRight(10), icon_size),
+											GetOnAppSelect(), 
+											btn_info, 
+											"resource/terminal.png",
+											"term");
+
+	_app_icons.push_back(term);
+	
 	_appLoaders["calc"] = AppLoader("/home/pi/Projects/eos/app/calculator.so");
 	_appLoaders["browser"] = AppLoader("/home/pi/Projects/eos/app/browser.so");	
 	_appLoaders["txtedit"] = AppLoader("/home/pi/Projects/eos/app/text_editor.so");
-	//SetSize(ax::Size(rect.size.x, 10));
+	_appLoaders["term"] = AppLoader("/home/pi/Projects/eos/app/terminal.so");
 	//SetPosition(ax::Point(rect.position.x, _start_position.y + 30));
 	SetRect(_drop_rect);
 	_isDrop = true;
