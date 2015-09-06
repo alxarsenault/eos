@@ -1,0 +1,193 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		7CE9A6B11B99EC1D00E5D7B5 /* axOSTerminal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = axOSTerminal.cpp; path = ../../../source/axOSTerminal.cpp; sourceTree = "<group>"; };
+		7CE9A6B21B99EC1D00E5D7B5 /* eosTerminal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = eosTerminal.cpp; path = ../../../source/eosTerminal.cpp; sourceTree = "<group>"; };
+		7CE9A6B31B99EC1D00E5D7B5 /* terminal_main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = terminal_main.cpp; path = ../../../source/terminal_main.cpp; sourceTree = "<group>"; };
+		7CE9A6B41B99EC2E00E5D7B5 /* axOSTerminal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = axOSTerminal.h; path = ../../../include/axOSTerminal.h; sourceTree = "<group>"; };
+		7CE9A6B51B99EC2E00E5D7B5 /* eosTerminal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eosTerminal.h; path = ../../../include/eosTerminal.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		7CE9A6A71B99EC0000E5D7B5 = {
+			isa = PBXGroup;
+			children = (
+				7CE9A6B41B99EC2E00E5D7B5 /* axOSTerminal.h */,
+				7CE9A6B51B99EC2E00E5D7B5 /* eosTerminal.h */,
+				7CE9A6B11B99EC1D00E5D7B5 /* axOSTerminal.cpp */,
+				7CE9A6B21B99EC1D00E5D7B5 /* eosTerminal.cpp */,
+				7CE9A6B31B99EC1D00E5D7B5 /* terminal_main.cpp */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		7CE9A6B61B99EC4500E5D7B5 /* eosTerminal */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = term;
+			buildConfigurationList = 7CE9A6B71B99EC4500E5D7B5 /* Build configuration list for PBXLegacyTarget "eosTerminal" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/alexarse/Project/eos;
+			dependencies = (
+			);
+			name = eosTerminal;
+			passBuildSettingsInEnvironment = 1;
+			productName = eosTerminal;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		7CE9A6A81B99EC0000E5D7B5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					7CE9A6B61B99EC4500E5D7B5 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 7CE9A6AB1B99EC0000E5D7B5 /* Build configuration list for PBXProject "eosTerminal" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7CE9A6A71B99EC0000E5D7B5;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7CE9A6B61B99EC4500E5D7B5 /* eosTerminal */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		7CE9A6AC1B99EC0000E5D7B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		7CE9A6AD1B99EC0000E5D7B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		7CE9A6B81B99EC4500E5D7B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7CE9A6B91B99EC4500E5D7B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7CE9A6AB1B99EC0000E5D7B5 /* Build configuration list for PBXProject "eosTerminal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CE9A6AC1B99EC0000E5D7B5 /* Debug */,
+				7CE9A6AD1B99EC0000E5D7B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CE9A6B71B99EC4500E5D7B5 /* Build configuration list for PBXLegacyTarget "eosTerminal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CE9A6B81B99EC4500E5D7B5 /* Debug */,
+				7CE9A6B91B99EC4500E5D7B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7CE9A6A81B99EC0000E5D7B5 /* Project object */;
+}

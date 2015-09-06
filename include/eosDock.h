@@ -8,8 +8,14 @@
 #include "eosAppLoader.h"
 #include "eosFrame.h"
 
+#include "eosWindowManager.h"
+#include "eosDesktop.h"
+
 namespace eos
 {
+    /**************************************************************************
+     * eos::DockIcon.
+     *************************************************************************/
 	class DockIcon : public ax::Button
 	{
 	public:
@@ -32,7 +38,7 @@ namespace eos
 	/**************************************************************************
 	 * eos::Dock
 	 *************************************************************************/
-	class Dock : public axPanel
+    class Dock : public axPanel
 	{
 	public:
 		Dock(axWindow* parent, const ax::Rect& rect);

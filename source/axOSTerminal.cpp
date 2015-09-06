@@ -14,8 +14,14 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+
+#ifdef __linux__
 #include <pty.h>
 #include <utmp.h>
+#else 
+#include <util.h>
+#endif // __linux__
+
 //#include <util/util.h>
 //#include <libutil.h>
 #include <errno.h>

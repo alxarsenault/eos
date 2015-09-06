@@ -27,12 +27,13 @@ namespace eos
         _file_start_index(0)
         {
             
-            _folder_img = new ax::Image("folder_blue_15x15.png");
-            _file_img = new ax::Image("file_15x15.png");
+            _folder_img = new ax::Image("resource/folder_blue_15x15.png");
+            _file_img = new ax::Image("resource/file_15x15.png");
             
             
             //_dir.Goto("/Users/alexarse/Project/axFrameworks");
-            _dir.Goto("/home/pi/");
+//            _dir.Goto("/home/pi/");
+            _dir.Goto("/");
             
             const std::vector<ax::os::File> files = _dir.GetContent();
             

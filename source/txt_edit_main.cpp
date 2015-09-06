@@ -8,6 +8,48 @@
 #include "eosFrame.h"
 #include "eosTextEditor.h"
 
+class TextEditorMenu : public axPanel
+{
+public:
+    TextEditorMenu(axWindow* parent, const ax::Rect& rect):
+    // Parent.
+    axPanel(parent, rect)
+    {
+        ax::Button::Info menu_btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
+                                       ax::Color(1.0, 0.0, 0.0, 0.0),
+                                       ax::Color(0.95, 0.0, 0.0, 0.0),
+                                       ax::Color(0.5, 0.5, 0.5, 0.0),
+                                       ax::Color(0.0, 0.0, 0.0, 0.0),
+                                       ax::Color(0.0, 0.0, 0.0, 0.0),
+                                       0);
+        
+        new ax::Button(this, ax::Rect(10, 10, 48, 48),
+                       ax::Button::Events(GetOnInfoClick()),
+                       menu_btn_info,
+                       "resource/info.png", "",
+                       ax::Button::Flags::SINGLE_IMG);
+    }
+    
+private:
+    
+    axEVENT_ACCESSOR(ax::Button::Msg, OnInfoClick);
+    void OnInfoClick(const ax::Button::Msg& msg)
+    {
+        ax::Print("INFO CLICK.");
+    }
+    
+    void OnPaint()
+    {
+        ax::GC gc;
+        ax::Rect rect(GetDrawingRect());
+        
+        gc.SetColor(ax::Color(1.0, 0.2));
+        gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+        
+        gc.SetColor(ax::Color(0.05, 0.6));
+        gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+    }
+};
 
 class MainPanel : public axPanel
 {
@@ -62,6 +104,10 @@ extern "C"
 		MainPanel* txt_edit = new MainPanel(frame, frame->GetChildRect());
 
 		frame->SetChildHandler(txt_edit);
+        
+        TextEditorMenu* menu = new TextEditorMenu(frame, frame->GetChildRect());
+        frame->SetChildMenuHandler(menu);
+        
 		return frame;
 	}
 }

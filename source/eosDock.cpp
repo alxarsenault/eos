@@ -2,7 +2,8 @@
 #include "eosFrame.h"
 
 #include "axLib/axWindowManager.h"
-
+#include "eosDesktop.h"
+#include "eosAlert.h"
 
 eos::DockIcon::DockIcon(axWindow* parent,
 						const ax::Rect& rect,
@@ -49,23 +50,23 @@ void eos::DockIcon::OnPaint()
     ax::Rect rect(GetRect());
     ax::Rect rect0(GetDrawingRect());
     
-	ax::Color col(*_currentColor);
-	col.SetAlpha(_anim_percent * _currentColor->GetAlpha());
+	//ax::Color col(*_currentColor);
+	//col.SetAlpha(_anim_percent * _currentColor->GetAlpha());
 
-    gc.SetColor(col);
-    gc.DrawRectangle(rect0);
+    //gc.SetColor(col);
+    //gc.DrawRectangle(rect0);
     
     if (_btnImg->IsImageReady())
     {
         gc.DrawImageResize(_btnImg, ax::Point(0, 0), rect0.size, _anim_percent);
     }
    
-    ax::Color ctr_col(static_cast<ax::Button::Info*>(_info)->contour);	
-    ctr_col.SetAlpha(_anim_percent * ctr_col.GetAlpha());
+    //ax::Color ctr_col(static_cast<ax::Button::Info*>(_info)->contour);
+    //ctr_col.SetAlpha(_anim_percent * ctr_col.GetAlpha());
 
 
-	gc.SetColor(ctr_col);
-	gc.DrawRectangleContour(rect0);
+	//gc.SetColor(ctr_col);
+	//gc.DrawRectangleContour(rect0);
 }
 
 
@@ -95,47 +96,45 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.si
 
 	ax::Size icon_size(64, 64);
 
-	eos::DockIcon* btn = new eos::DockIcon(this, 
-										   ax::Rect(ax::Point(10, 5), icon_size),
-										   GetOnAppSelect(), 
-										   btn_info, 
-										   "FileMan_32x32.png",
-										   "browser");
+    ax::StringPairVector apps_icon_info =
+    {
+        ax::StringPair("resource/folder.png", "browser"),
+        ax::StringPair("resource/calculator-icon.png", "calc"),
+        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
+        ax::StringPair("resource/terminal.png", "term"),
+        ax::StringPair("resource/image.png", "viewer"),
+    };
 
-	_app_icons.push_back(btn);	
+    ax::Point icon_pos(10, 5);
+    
+    for(auto& n : apps_icon_info)
+    {
+        eos::DockIcon* icon = new eos::DockIcon(this,
+                                                ax::Rect(icon_pos, icon_size),
+                                                GetOnAppSelect(),
+                                                btn_info,
+                                                n.first,
+                                                n.second);
+        _app_icons.push_back(icon);
+        
+        icon_pos = icon->GetRect().GetNextPosRight(10);
+    }
+    
 
-	eos::DockIcon* cal = new eos::DockIcon(this, 
-										   ax::Rect(btn->GetRect().GetNextPosRight(10), icon_size),
-										   GetOnAppSelect(), 
-										   btn_info, 
-										   "resource/calculator-icon.png",
-										   "calc");
+//	_appLoaders["calc"] = AppLoader("/home/pi/Projects/eos/app/calculator.so");
+//	_appLoaders["browser"] = AppLoader("/home/pi/Projects/eos/app/browser.so");	
+//	_appLoaders["txtedit"] = AppLoader("/home/pi/Projects/eos/app/text_editor.so");
+//  _appLoaders["term"] = AppLoader("/home/pi/Projects/eos/app/terminal.so");
+    
+    _appLoaders["calc"] = AppLoader("/Users/alexarse/Project/eos/app/calculator.so");
+    _appLoaders["browser"] = AppLoader("/Users/alexarse/Project/eos/app/browser.so");
+//    _appLoaders["browser"] = AppLoader("/Users/alexarse/Project/eos/app/terminal.so");
+    _appLoaders["txtedit"] = AppLoader("/Users/alexarse/Project/eos/app/text_editor.so");
+    _appLoaders["term"] = AppLoader("/Users/alexarse/Project/eos/app/terminal.so");
+    _appLoaders["viewer"] = AppLoader("/Users/alexarse/Project/eos/app/image_viewer.so");
 
-	_app_icons.push_back(cal);
-
-	eos::DockIcon* txt_edit = new eos::DockIcon(this, 
-												ax::Rect(cal->GetRect().GetNextPosRight(10), icon_size),
-												GetOnAppSelect(), 
-												btn_info, 
-												"resource/Apps-text-editor-icon.png",
-												"txtedit");
-
-	_app_icons.push_back(txt_edit);
-	
-	eos::DockIcon* term = new eos::DockIcon(this, 
-											ax::Rect(txt_edit->GetRect().GetNextPosRight(10), icon_size),
-											GetOnAppSelect(), 
-											btn_info, 
-											"resource/terminal.png",
-											"term");
-
-	_app_icons.push_back(term);
-	
-	_appLoaders["calc"] = AppLoader("/home/pi/Projects/eos/app/calculator.so");
-	_appLoaders["browser"] = AppLoader("/home/pi/Projects/eos/app/browser.so");	
-	_appLoaders["txtedit"] = AppLoader("/home/pi/Projects/eos/app/text_editor.so");
-	_appLoaders["term"] = AppLoader("/home/pi/Projects/eos/app/terminal.so");
-	//SetPosition(ax::Point(rect.position.x, _start_position.y + 30));
+    
+    
 	SetRect(_drop_rect);
 	_isDrop = true;
 
@@ -253,10 +252,25 @@ void eos::Dock::OnAppSelect(const ax::Button::Msg& msg)
 	if(loader.GetHandle() == nullptr)
 	{
 		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
-		axWindow* frame = loader.Create(GetParent(), rect);
-		frame->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize()); 
-		frame->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose()); 
-		return;
+		
+        axWindow* frame = loader.Create(GetParent(), rect);
+        
+        if(frame != nullptr)
+        {
+            frame->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
+            frame->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
+            
+            eos::Frame* osframe = static_cast<eos::Frame*>(frame);
+            static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
+        }
+        else
+        {
+            // WARNING MESSAGE BOX.
+//            eos::Alert* alert = new eos::Alert(GetParent(),
+//                                               ax::Rect(50, 50, 200, 200),
+//                                               "Can't open application.");
+        }
+        return;
 	}
 
 	axWindow* frame = loader.GetHandle();

@@ -292,8 +292,8 @@ eos::TextEditor::TextEditor(axWindow* parent,
                             const eos::TextEditor::Info& info):
 // Parent.
 axPanel(parent, rect),
-_font("VeraMono.ttf"),
-_line_num_font("DejaVuSansMono.ttf"),
+_font("resource/VeraMono.ttf"),
+_line_num_font("resource/DejaVuSansMono.ttf"),
 _line_height(15),
 _file_start_index(0),
 _info(info)
@@ -326,7 +326,7 @@ _info(info)
                                  scrollEvents,
                                  scrollInfo);
     
-    _logic.OpenFile("text_edit_file_test.cpp");
+    _logic.OpenFile("resource/text_edit_file_test.cpp");
     
     
     int h_size = (int)_logic.GetFileData().size() * _line_height;

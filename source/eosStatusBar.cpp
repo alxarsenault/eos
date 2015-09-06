@@ -1,12 +1,5 @@
-//
-//  eosStatusBar.cpp
-//  Minimal
-//
-//  Created by Alexandre Arsenault on 2015-08-25.
-//  Copyright (c) 2015 axLib. All rights reserved.
-//
-
 #include "eosStatusBar.h"
+#include "eosDesktop.h"
 
 Clock::Clock(axWindow* parent, const ax::Rect& rect):
 // Parent.
@@ -58,12 +51,80 @@ void Clock::OnPaint()
     gc.DrawString(_font, _clock_str, ax::Point(80, 5));
 }
 
+
+
 eos::StatusBar::StatusBar(axWindow* parent, const ax::Rect& rect):
 // Parent.
 axPanel(parent, rect),
 _font(0)
 {
     Clock* clock = new Clock(this, ax::Rect(rect.size.x - 140, 0, 140, 25));
+    
+    
+    
+    ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
+                              ax::Color(1.0, 0.0, 0.0, 0.0),
+                              ax::Color(0.95, 0.0, 0.0, 0.0),
+                              ax::Color(0.5, 0.5, 0.5, 0.0),
+                              ax::Color(0.0, 0.0, 0.0, 0.0),
+                              ax::Color(0.0, 0.0, 0.0, 0.0),
+                              0);
+    
+    ax::Button* volume = new ax::Button(this, ax::Rect(rect.size.x - 140 - 30, 3, 20, 20),
+                                      ax::Button::Events(),
+                                      btn_info, "resource/volume51.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* view = new ax::Button(this, ax::Rect(5, 3, 20, 20),
+                                      ax::Button::Events(),
+                                      btn_info, "resource/home.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* btn = new ax::Button(this, ax::Rect(view->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
+                                     ax::Button::Events(GetOnNotificationMode()),
+                                     btn_info, "resource/sort52.png", "",
+                                     ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* btn2 = new ax::Button(this, ax::Rect(btn->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
+                                      ax::Button::Events(),
+                                      btn_info, "resource/view.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* btn3 = new ax::Button(this, ax::Rect(btn2->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
+                                      ax::Button::Events(GetOnTerminalMode()),
+                                      btn_info, "resource/terminal_mode.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* btn4 = new ax::Button(this, ax::Rect(btn3->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
+                                      ax::Button::Events(),
+                                      btn_info, "resource/setting.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* btn5 = new ax::Button(this, ax::Rect(btn4->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
+                                      ax::Button::Events(GetOnView()),
+                                      btn_info, "resource/elipse.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+}
+
+void eos::StatusBar::OnView(const ax::Button::Msg& msg)
+{
+    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+    desktop->ShowView();
+}
+
+void eos::StatusBar::OnNotificationMode(const ax::Button::Msg& msg)
+{
+    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+    desktop->ShowNotification();
+    //desktop->ShowView();
+}
+
+void eos::StatusBar::OnTerminalMode(const ax::Button::Msg& msg)
+{
+    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+    desktop->ShowTerminal();
+//    desktop->ShowNotification();
+    //desktop->ShowView();
 }
 
 void eos::StatusBar::OnPaint()
@@ -72,5 +133,8 @@ void eos::StatusBar::OnPaint()
     ax::Rect rect(GetDrawingRect());
     
     gc.SetColor(ax::Color(0.4, 0.4));
-    gc.DrawRectangle(rect);
+    gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+    
+    gc.SetColor(ax::Color(0.4, 1.0));
+    gc.DrawLine(ax::Point(0, rect.size.y), ax::Point(rect.size.x, rect.size.y));
 }

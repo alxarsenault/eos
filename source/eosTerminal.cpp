@@ -276,9 +276,12 @@ void eos::Terminal::Logic::ClearCommand()
 /*******************************************************************************
  * eos::Terminal.
  ******************************************************************************/
-eos::Terminal::Terminal(axWindow* parent, const ax::Rect& rect):
+eos::Terminal::Terminal(axWindow* parent,
+                        const ax::Rect& rect,
+                        const eos::Terminal::Info& info):
 axPanel(parent, rect),
-_font("DejaVuSansMono.ttf"),
+_info(info),
+_font("resource/DejaVuSansMono.ttf"),
 _line_height(15),
 _start_line_index(0)
 {
@@ -297,14 +300,14 @@ _start_line_index(0)
                             ax::Color(0.38), // Hover.
                             ax::Color(0.34), // Clicked.
                             ax::Color(0.3), // Slider contour.
-                            ax::Color(0.96), // Contour.
+                            ax::Color(0.36), // Contour.
                             ax::Color(0.96), // Bg top.
                             ax::Color(0.90)); // Bg bottom.
     
     axScrollBarEvents sb_evts;
     sb_evts.value_change = GetOnScroll();
     
-    ax::Rect sb_rect(rect.size.x - 11, 0, 10, rect.size.y - 1);
+    ax::Rect sb_rect(rect.size.x - 9, 0, 8, rect.size.y - 1);
     _scrollBar = new axScrollBar(this, nullptr, sb_rect, sb_evts, sb_info);
     
     // Create ax::os::Terminal.
@@ -415,10 +418,10 @@ void eos::Terminal::OnPaint()
     ax::GC gc;
     ax::Rect rect(GetDrawingRect());
     
-    gc.SetColor(ax::Color(1.0));
+    gc.SetColor(_info.bg_color);
     gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
     
-    gc.SetColor(ax::Color(0.0));
+    gc.SetColor(_info.text_color);
     
     const ax::StringVector& out = _logic.GetOutputData();
     
@@ -517,7 +520,7 @@ void eos::Terminal::OnPaint()
     
     ax::Point cursor_pos(_next_pos_data[cursor_index.x], line_pos.y);
     
-    gc.SetColor(ax::Color(0.4, 0.4));
+    gc.SetColor(_info.cursor_color);
     gc.DrawRectangle(ax::Rect(cursor_pos, ax::Size(7, 15)));
 //    gc.DrawLine(cursor_pos, cursor_pos + line_delta);
 }

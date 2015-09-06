@@ -10,6 +10,15 @@ namespace eos
 	{
 	public:
 		
+        class Info
+        {
+        public:
+            Info()
+            {
+                
+            }
+        };
+        
 		/****************************************************************************
 		 * eos::Frame::Msg
 		 ***************************************************************************/
@@ -50,20 +59,33 @@ namespace eos
 		ax::Rect GetChildRect() const;
 
 		void SetChildHandler(axWindow* child);
+        
+        void SetChildMenuHandler(axWindow* menu);
    
 		// Property.
 		// Resizable
 
 	private:
+        static const int _title_bar_height;
+        
+        bool _menuMode;
+        
+//        ax::Button* _info_btn;
+        
 		axWindow* _child;
+        axWindow* _child_menu;
+        
 		std::string _window_name;
 		ax::Button *_close_btn, *_min_btn;
+        ax::Button* _menu_btn;
 		ax::Size _click_size;
 		int _frame_status;
 		ax::Font _font;
 		ax::Point _click_pos, _abs_click_pos;;
 		bool _highlight;
 
+        axEVENT_ACCESSOR(ax::Button::Msg, OnOpenMenu);
+        void OnOpenMenu(const ax::Button::Msg& msg);
 
 		axEVENT_ACCESSOR(ax::Button::Msg, OnButtonClick);
 		void OnButtonClick(const ax::Button::Msg& msg);
@@ -82,6 +104,9 @@ namespace eos
 		void OnMouseLeftDragging(const ax::Point& pos);
 
 		void OnPaint();
+        void DrawMenuMode(ax::GC& gc);
+        
+        virtual void OnPaintStatic();
 	};
 }
 

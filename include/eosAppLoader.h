@@ -14,6 +14,8 @@ namespace eos
 			typedef std::function<axWindow*(axWindow*, ax::Rect)> EntryFunction;
 
 			Module(const std::string& path);
+            
+            Module(const std::string& path, const std::string& func_name);
 			
 			~Module();
 
@@ -27,6 +29,8 @@ namespace eos
 		AppLoader();
 
 		AppLoader(const std::string& path);
+        
+        AppLoader(const std::string& path, const std::string& func_name);
 
 		axWindow* Create(axWindow* parent, const ax::Rect& rect);
 
@@ -35,7 +39,7 @@ namespace eos
 		axWindow* GetHandle();
 
 	private:
-		std::string _path;
+		std::string _path, _func_name;
 		Module* _module;
 		axWindow* _handle;
 	};

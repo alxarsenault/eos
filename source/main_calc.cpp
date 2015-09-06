@@ -1,6 +1,7 @@
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
 #include "axLib/axLabel.h"
+
 #include "eosFrame.h"
 
 enum CalcOperator
@@ -94,7 +95,7 @@ public:
     {
         AddEventFunction("OnNumber", GetOnNumber());
         AddEventFunction("OnOperation", GetOnOperation());
-        axObjectLoader loader(this, "Calculator.xml");
+        axObjectLoader loader(this, "resource/Calculator.xml");
 
 		std::vector<std::pair<std::string, ax::StringPairVector>> obj_data = loader.GetObjData();
 	

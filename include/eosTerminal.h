@@ -54,9 +54,36 @@ namespace eos
             std::string _current_command;
         };
         
-        Terminal(axWindow* parent, const ax::Rect& rect);
+        class Info
+        {
+        public:
+            Info():
+            text_color(0.0),
+            bg_color(1.0),
+            cursor_color(0.4, 0.4)
+            {
+                
+            }
+            
+            Info(const ax::Color& text_c,
+                 const ax::Color& bg_c,
+                 const ax::Color& cursor_c):
+            text_color(text_c),
+            bg_color(bg_c),
+            cursor_color(cursor_c)
+            {
+                
+            }
+            
+            ax::Color text_color;
+            ax::Color bg_color;
+            ax::Color cursor_color;
+        };
+        
+        Terminal(axWindow* parent, const ax::Rect& rect, const Info& info);
         
     private:
+        Info _info;
         Logic _logic;
         ax::Font _font;
         int _line_height, _start_line_index, _n_line_shown;
