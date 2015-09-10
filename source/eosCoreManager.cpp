@@ -1,20 +1,20 @@
-#include "eosWindowManager.h"
+#include "eosCoreManager.h"
 #include "eosDesktop.h"
 
 #include "axLib/axWindowManager.h"
 #include "axLib/axWindowTree.h"
 
-eos::WindowManager::WindowManager()
+eos::Core::Manager::Manager()
 {
     _axApp = new ax::App();
 }
 
-void eos::WindowManager::MainLoop()
+void eos::Core::Manager::MainLoop()
 {
     _axApp->MainLoop();
 }
 
-void eos::WindowManager::AddFrame(eos::Frame* frame)
+void eos::Core::Manager::AddFrame(eos::Frame* frame)
 {
     if(frame != nullptr)
     {
@@ -50,7 +50,7 @@ void eos::WindowManager::AddFrame(eos::Frame* frame)
     }
 }
 
-void eos::WindowManager::BringToFront(eos::Frame* frame)
+void eos::Core::Manager::BringToFront(eos::Frame* frame)
 {
     if(frame != nullptr)
     {
@@ -99,7 +99,7 @@ void eos::WindowManager::BringToFront(eos::Frame* frame)
     }
 }
 
-std::vector<eos::Frame*> eos::WindowManager::GetFrameVector()
+std::vector<eos::Frame*> eos::Core::Manager::GetFrameVector()
 {
     std::vector<eos::Frame*> frames;
     axWindowTree* tree = _axApp->GetWindowManager()->GetWindowTree();

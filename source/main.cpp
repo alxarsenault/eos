@@ -1,29 +1,29 @@
 #include "axLib/axLib.h"
 
-#include "eosWindowManager.h"
+#include "eosCoreSystem.h"
 #include "eosDesktop.h"
 
 int main()
 {
-    eos::WindowManager eosManager;
+    eos::Core::System* system = new eos::Core::System();
+    system->LoginUser(1);
     
-    eosManager.AddMainEntry([&eosManager]()
+    system->GetManager()->AddMainEntry([system]()
     {
-        ax::App* app = eosManager.GetMainApp();
+        ax::App* app = system->GetManager()->GetMainApp();
 
         #ifdef __linux__
         ax::Size size(app.GetScreenSize());
         #else
-//        ax::Size size(ax::Size(1000, 700));
         ax::Size size(ax::Size(1000, 700));
         app->SetFrameSize(size);
         #endif
         
         ax::Rect deskRect(ax::Point(0, 0), size);
-        eosManager.SetDesktop(new eos::Desktop(&eosManager, deskRect));
+        system->GetManager()->SetDesktop(new eos::Desktop(system, deskRect));
     });
 
-    eosManager.MainLoop();
+    system->GetManager()->MainLoop();
     
 	return 0;
 }

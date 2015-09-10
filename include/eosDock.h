@@ -8,7 +8,7 @@
 #include "eosAppLoader.h"
 #include "eosFrame.h"
 
-#include "eosWindowManager.h"
+//#include "eosWindowManager.h"
 #include "eosDesktop.h"
 
 namespace eos

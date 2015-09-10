@@ -522,5 +522,8 @@ void eos::Terminal::OnPaint()
     
     gc.SetColor(_info.cursor_color);
     gc.DrawRectangle(ax::Rect(cursor_pos, ax::Size(7, 15)));
+    
+    gc.SetColor(_info.bg_color, 0.5);
+    gc.DrawRectangleContour(ax::Rect(1, 0, rect.size.x, rect.size.y));
 //    gc.DrawLine(cursor_pos, cursor_pos + line_delta);
 }

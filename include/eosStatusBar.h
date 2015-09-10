@@ -60,6 +60,9 @@ namespace eos
         axEVENT_ACCESSOR(ax::Button::Msg, OnTerminalMode);
         void OnTerminalMode(const ax::Button::Msg& msg);
         
+        axEVENT_ACCESSOR(ax::Button::Msg, OnTraceMode);
+        void OnTraceMode(const ax::Button::Msg& msg);
+        
         void OnPaint();
     };
 }

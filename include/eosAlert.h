@@ -2,21 +2,33 @@
 #define __EOS_ALERT_H__
 
 #include "axLib/axLib.h"
-#include "axLib/axButton.h"
+#include <fstream>
 
 namespace eos
 {
+    namespace Core
+    {
+        class System;
+    }
+    
 	class Alert : public axPanel
 	{
 	public:
 		Alert(axWindow* parent,
-			  const ax::Rect& rect, 
-			  const std::string& alert_message);
+			  const ax::Rect& rect,
+              eos::Core::System* system);
 	
 	private:
-        std::string _alert_str;
-		ax::Font _font;
+		ax::Font _font, _time_font;
+        eos::Core::System* _system;
+        std::fstream _tracer_stream;
+        ax::StringVector _trace;
+        ax::StringVector _trace_time;
+        std::size_t _read_pos;
 		
+        axEVENT_ACCESSOR(ax::Event::SimpleMsg<int>, OnTracer);
+        void OnTracer(const ax::Event::SimpleMsg<int>& msg);
+        
 		void OnPaint();
 	};
 }

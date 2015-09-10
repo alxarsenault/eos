@@ -1,5 +1,4 @@
 UNAME := $(shell uname)
-
 ## MAC
 ifeq ($(UNAME), Darwin)
 CC = clang++
@@ -20,7 +19,7 @@ endif
 
 
 OBJ_DIR = build
-MAIN_SRC = source/main.cpp source/eosDock.cpp source/eosAppLoader.cpp source/eosStatusBar.cpp source/eosFrame.cpp
+MAIN_SRC = source/main.cpp source/eosDesktop.cpp source/eosDock.cpp source/eosAppLoader.cpp source/eosStatusBar.cpp source/eosFrame.cpp source/eosAlert.cpp source/eosWindowManager.cpp eosNotification.cpp
 MAIN_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(MAIN_SRC:.cpp=.o)))
 
 TERM_SRC = source/eosTerminal.cpp source/axOSTerminal.cpp source/terminal_main.cpp

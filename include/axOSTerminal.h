@@ -11,10 +11,8 @@
 
 #include "axLib/axLib.h"
 
-
 #include <thread>
 #include <algorithm>
-
 
 namespace ax
 {

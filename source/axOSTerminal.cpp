@@ -9,21 +9,10 @@
 #include "axOSTerminal.h"
 
 #include <unistd.h>
-
-//#define _XOPEN_SOURCE
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#ifdef __linux__
-#include <pty.h>
-#include <utmp.h>
-#else 
-#include <util.h>
-#endif // __linux__
-
-//#include <util/util.h>
-//#include <libutil.h>
 #include <errno.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -32,6 +21,13 @@
 #include <assert.h>
 
 #include <fcntl.h>
+
+#ifdef __linux__
+#include <pty.h>
+#include <utmp.h>
+#else
+#include <util.h>
+#endif // __linux__
 
 ax::os::Terminal::Terminal(ax::Event::Manager* manager):
 ax::Event::Object(manager)

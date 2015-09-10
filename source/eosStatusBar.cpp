@@ -101,9 +101,16 @@ _font(0)
                                       ax::Button::Flags::SINGLE_IMG);
     
     ax::Button* btn5 = new ax::Button(this, ax::Rect(btn4->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
+                                      ax::Button::Events(GetOnTraceMode()),
+                                      btn_info, "resource/list88.png", "",
+                                      ax::Button::Flags::SINGLE_IMG);
+    
+    ax::Button* btn6 = new ax::Button(this, ax::Rect(btn5->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
                                       ax::Button::Events(GetOnView()),
                                       btn_info, "resource/elipse.png", "",
                                       ax::Button::Flags::SINGLE_IMG);
+    
+    
 }
 
 void eos::StatusBar::OnView(const ax::Button::Msg& msg)
@@ -115,16 +122,19 @@ void eos::StatusBar::OnView(const ax::Button::Msg& msg)
 void eos::StatusBar::OnNotificationMode(const ax::Button::Msg& msg)
 {
     eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ShowNotification();
-    //desktop->ShowView();
+    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_NOTIFY);
 }
 
 void eos::StatusBar::OnTerminalMode(const ax::Button::Msg& msg)
 {
     eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ShowTerminal();
-//    desktop->ShowNotification();
-    //desktop->ShowView();
+    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TERMINAL);
+}
+
+void eos::StatusBar::OnTraceMode(const ax::Button::Msg& msg)
+{
+    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TRACE);
 }
 
 void eos::StatusBar::OnPaint()
@@ -135,6 +145,6 @@ void eos::StatusBar::OnPaint()
     gc.SetColor(ax::Color(0.4, 0.4));
     gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
     
-    gc.SetColor(ax::Color(0.4, 1.0));
+    gc.SetColor(ax::Color(0.4, 0.5));
     gc.DrawLine(ax::Point(0, rect.size.y), ax::Point(rect.size.x, rect.size.y));
 }

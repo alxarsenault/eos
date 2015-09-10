@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */; };
+		7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */; };
+		7CD2E3761BA1B76E00CEADC6 /* eosCoreUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3751BA1B76E00CEADC6 /* eosCoreUser.cpp */; };
+		7CD2E37A1BA1C7A600CEADC6 /* eosCoreTracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3791BA1C7A600CEADC6 /* eosCoreTracer.cpp */; };
 		7CE9A6031B965E1B00E5D7B5 /* eosAppLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5F61B965E1B00E5D7B5 /* eosAppLoader.cpp */; };
 		7CE9A6051B965E1B00E5D7B5 /* eosDock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5F81B965E1B00E5D7B5 /* eosDock.cpp */; };
 		7CE9A6061B965E1B00E5D7B5 /* eosFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */; };
@@ -16,7 +19,7 @@
 		7CE9A6151B96662A00E5D7B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */; };
 		7CE9A6171B96663500E5D7B5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE9A6161B96663500E5D7B5 /* OpenGL.framework */; };
 		7CE9A6191B96665600E5D7B5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9A6181B96665600E5D7B5 /* MainMenu.xib */; };
-		7CE9A6871B97378200E5D7B5 /* eosWindowManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6861B97378200E5D7B5 /* eosWindowManager.cpp */; };
+		7CE9A6871B97378200E5D7B5 /* eosCoreManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6861B97378200E5D7B5 /* eosCoreManager.cpp */; };
 		7CE9A6891B976E7100E5D7B5 /* eosDesktop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */; };
 		7CE9A6931B99D73000E5D7B5 /* eosAlert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */; };
 		7CE9A6A51B99E85D00E5D7B5 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6A41B99E85D00E5D7B5 /* Makefile */; };
@@ -25,6 +28,12 @@
 /* Begin PBXFileReference section */
 		7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosNotification.cpp; path = ../../../source/eosNotification.cpp; sourceTree = "<group>"; };
 		7CD0F66A1B9A4FA900EC4D1A /* eosNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosNotification.h; path = ../../../include/eosNotification.h; sourceTree = "<group>"; };
+		7CD2E3701BA1B00700CEADC6 /* eosCoreSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosCoreSystem.h; path = ../../../include/eosCoreSystem.h; sourceTree = "<group>"; };
+		7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosCoreSystem.cpp; path = ../../../source/eosCoreSystem.cpp; sourceTree = "<group>"; };
+		7CD2E3751BA1B76E00CEADC6 /* eosCoreUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosCoreUser.cpp; path = ../../../source/eosCoreUser.cpp; sourceTree = "<group>"; };
+		7CD2E3771BA1B77800CEADC6 /* eosCoreUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosCoreUser.h; path = ../../../include/eosCoreUser.h; sourceTree = "<group>"; };
+		7CD2E3791BA1C7A600CEADC6 /* eosCoreTracer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosCoreTracer.cpp; path = ../../../source/eosCoreTracer.cpp; sourceTree = "<group>"; };
+		7CD2E37B1BA1C7B200CEADC6 /* eosCoreTracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosCoreTracer.h; path = ../../../include/eosCoreTracer.h; sourceTree = "<group>"; };
 		7CE9A5C51B965D4500E5D7B5 /* eos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CE9A5C91B965D4500E5D7B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CE9A5EB1B965DC100E5D7B5 /* eosAppLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosAppLoader.h; path = ../../../include/eosAppLoader.h; sourceTree = "<group>"; };
@@ -39,8 +48,8 @@
 		7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7CE9A6161B96663500E5D7B5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7CE9A6181B96665600E5D7B5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		7CE9A6851B97376F00E5D7B5 /* eosWindowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eosWindowManager.h; path = ../../../include/eosWindowManager.h; sourceTree = "<group>"; };
-		7CE9A6861B97378200E5D7B5 /* eosWindowManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosWindowManager.cpp; path = ../../../source/eosWindowManager.cpp; sourceTree = "<group>"; };
+		7CE9A6851B97376F00E5D7B5 /* eosCoreManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eosCoreManager.h; path = ../../../include/eosCoreManager.h; sourceTree = "<group>"; };
+		7CE9A6861B97378200E5D7B5 /* eosCoreManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosCoreManager.cpp; path = ../../../source/eosCoreManager.cpp; sourceTree = "<group>"; };
 		7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDesktop.cpp; path = ../../../source/eosDesktop.cpp; sourceTree = "<group>"; };
 		7CE9A68A1B976E8700E5D7B5 /* eosDesktop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDesktop.h; path = ../../../include/eosDesktop.h; sourceTree = "<group>"; };
 		7CE9A6911B99D72300E5D7B5 /* eosAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosAlert.h; path = ../../../include/eosAlert.h; sourceTree = "<group>"; };
@@ -63,6 +72,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7CD2E3781BA1B9C000CEADC6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7CD2E37B1BA1C7B200CEADC6 /* eosCoreTracer.h */,
+				7CD2E3791BA1C7A600CEADC6 /* eosCoreTracer.cpp */,
+				7CD2E3771BA1B77800CEADC6 /* eosCoreUser.h */,
+				7CD2E3751BA1B76E00CEADC6 /* eosCoreUser.cpp */,
+				7CE9A6851B97376F00E5D7B5 /* eosCoreManager.h */,
+				7CE9A6861B97378200E5D7B5 /* eosCoreManager.cpp */,
+				7CD2E3701BA1B00700CEADC6 /* eosCoreSystem.h */,
+				7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
 		7CE9A5BC1B965D4500E5D7B5 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +128,7 @@
 		7CE9A5E81B965D9E00E5D7B5 /* Desktop */ = {
 			isa = PBXGroup;
 			children = (
+				7CD2E3781BA1B9C000CEADC6 /* Core */,
 				7CD0F66A1B9A4FA900EC4D1A /* eosNotification.h */,
 				7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */,
 				7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */,
@@ -118,8 +143,6 @@
 				7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */,
 				7CE9A5F61B965E1B00E5D7B5 /* eosAppLoader.cpp */,
 				7CE9A5FE1B965E1B00E5D7B5 /* main.cpp */,
-				7CE9A6851B97376F00E5D7B5 /* eosWindowManager.h */,
-				7CE9A6861B97378200E5D7B5 /* eosWindowManager.cpp */,
 			);
 			name = Desktop;
 			sourceTree = "<group>";
@@ -234,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */,
 				7CE9A6A51B99E85D00E5D7B5 /* Makefile in Sources */,
 				7CE9A6891B976E7100E5D7B5 /* eosDesktop.cpp in Sources */,
 				7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */,
@@ -241,9 +265,11 @@
 				7CE9A60B1B965E1B00E5D7B5 /* main.cpp in Sources */,
 				7CE9A6031B965E1B00E5D7B5 /* eosAppLoader.cpp in Sources */,
 				7CE9A6931B99D73000E5D7B5 /* eosAlert.cpp in Sources */,
-				7CE9A6871B97378200E5D7B5 /* eosWindowManager.cpp in Sources */,
+				7CE9A6871B97378200E5D7B5 /* eosCoreManager.cpp in Sources */,
 				7CE9A6071B965E1B00E5D7B5 /* eosStatusBar.cpp in Sources */,
 				7CE9A6061B965E1B00E5D7B5 /* eosFrame.cpp in Sources */,
+				7CD2E37A1BA1C7A600CEADC6 /* eosCoreTracer.cpp in Sources */,
+				7CD2E3761BA1B76E00CEADC6 /* eosCoreUser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +325,8 @@
 					"-lpng",
 					"-lfreetype",
 					"-laxExec",
+					"-laxDatabase",
+					"-lsqlite3",
 				);
 				SDKROOT = macosx;
 			};
@@ -347,6 +375,8 @@
 					"-lpng",
 					"-lfreetype",
 					"-laxExec",
+					"-laxDatabase",
+					"-lsqlite3",
 				);
 				SDKROOT = macosx;
 			};

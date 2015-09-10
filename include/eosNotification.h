@@ -21,5 +21,4 @@ namespace eos
     };
 }
 
-
 #endif // __EOS_NOTIFICATION_H__
