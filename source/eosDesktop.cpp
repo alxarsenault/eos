@@ -15,10 +15,14 @@ _system(system)
     _desktop_apps_status[DSKT_APP_TERMINAL] = false;
     _desktop_apps_status[DSKT_APP_TRACE]    = false;
     _desktop_apps_status[DSKT_APP_NOTIFY]   = false;
+    _desktop_apps_status[DSKT_APP_HOME]     = false;
+    _desktop_apps_status[DSKT_APP_VIEWER]   = false;
     
     _desktop_apps[DSKT_APP_TERMINAL] = nullptr;
     _desktop_apps[DSKT_APP_TRACE]    = nullptr;
     _desktop_apps[DSKT_APP_NOTIFY]   = nullptr;
+    _desktop_apps[DSKT_APP_HOME]     = nullptr;
+    _desktop_apps[DSKT_APP_VIEWER]   = nullptr;
     
     _showView = false;
     
@@ -30,9 +34,8 @@ _system(system)
     eos::Core::Manager* man = system->GetManager();
     
     
-    
     ax::Rect status_rect(0, 0, rect.size.x, 25);
-    eos::StatusBar* status = new eos::StatusBar(this, status_rect);
+    eos::StatusBar* status = new eos::StatusBar(this, status_rect, _system);
     man->AddChild(status);
     
     ax::Rect dock_rect(100, rect.size.y - 64 - (2 * 5),
@@ -64,6 +67,18 @@ _system(system)
     man->AddChild(trace);
     _desktop_apps[DSKT_APP_TRACE] = trace;
     
+    
+    
+    eos::Home* home = new eos::Home(this, ax::Rect(0, 24, 30, rect.size.y));
+    home->Hide();
+    man->AddChild(home);
+    _desktop_apps[DSKT_APP_HOME] = home;
+    
+    
+    eos::AppViewer* appViewer = new eos::AppViewer(this, ax::Rect(0, 24, 300, rect.size.y));
+    appViewer->Hide();
+    man->AddChild(appViewer);
+    _desktop_apps[DSKT_APP_VIEWER] = appViewer;
 }
 
 void eos::Desktop::ShowView()
@@ -118,16 +133,62 @@ void eos::Desktop::ToggleDesktopApp(const DesktopApps& app)
 
 void eos::Desktop::ReposAllDesktopBuiltInApps()
 {
+    if(_desktop_apps_status[DSKT_APP_VIEWER])
+    {
+        _desktop_apps[DSKT_APP_NOTIFY]->Hide();
+        _desktop_apps_status[DSKT_APP_NOTIFY] = false;
+    }
+    
+    if(_desktop_apps_status[DSKT_APP_HOME])
+    {
+        _desktop_apps[DSKT_APP_NOTIFY]->SetPosition(ax::Point(29, 24));
+        _desktop_apps[DSKT_APP_VIEWER]->SetPosition(ax::Point(29, 24));
+    }
+    else
+    {
+        ax::Point noti_pos = _desktop_apps[DSKT_APP_NOTIFY]->GetRect().position;
+        
+        if(noti_pos != ax::Point(0, 24))
+        {
+            _desktop_apps[DSKT_APP_NOTIFY]->SetPosition(ax::Point(0, 24));
+        }
+        
+        ax::Point appv_pos = _desktop_apps[DSKT_APP_VIEWER]->GetRect().position;
+        
+        if(appv_pos != ax::Point(0, 24))
+        {
+            _desktop_apps[DSKT_APP_VIEWER]->SetPosition(ax::Point(0, 24));
+        }
+    }
+    
     if(_desktop_apps_status[DSKT_APP_TERMINAL])
     {
         bool c = _desktop_apps_status[DSKT_APP_TRACE];
         bool n = _desktop_apps_status[DSKT_APP_NOTIFY];
+        bool h = _desktop_apps_status[DSKT_APP_HOME];
+        bool a = _desktop_apps_status[DSKT_APP_VIEWER];
+
         
         ax::Size noti_size = n ? _desktop_apps[DSKT_APP_NOTIFY]->GetSize() : ax::Size(0, 0);
+        ax::Size appv_size = a ? _desktop_apps[DSKT_APP_VIEWER]->GetSize() : ax::Size(0, 0);
         ax::Size trac_size = c ? _desktop_apps[DSKT_APP_TRACE]->GetSize() : ax::Size(0, 0);
-        ax::Size term_size = ax::Size(GetSize().x, 300) - ax::Size(noti_size.x + trac_size.x);
+        ax::Size home_size = h ? _desktop_apps[DSKT_APP_HOME]->GetSize() : ax::Size(0, 0);
         
-        ax::Point term_pos(noti_size.x, 24);
+        int sum_size_x = noti_size.x + trac_size.x + home_size.x + appv_size.x;
+        
+        if(h || a)
+        {
+            sum_size_x -= 1;
+        }
+        
+        ax::Size term_size = ax::Size(GetSize().x, 300) - ax::Size(sum_size_x, 0);
+        
+        ax::Point term_pos(appv_size.x + noti_size.x + home_size.x, 24);
+        
+        if(h || a)
+        {
+            term_pos.x -= 1;
+        }
         
         if(_desktop_apps[DSKT_APP_TERMINAL])
         {

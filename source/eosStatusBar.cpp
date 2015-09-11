@@ -1,6 +1,8 @@
 #include "eosStatusBar.h"
 #include "eosDesktop.h"
 
+#include "eosCoreUser.h"
+
 Clock::Clock(axWindow* parent, const ax::Rect& rect):
 // Parent.
 axPanel(parent, rect),
@@ -48,16 +50,21 @@ void Clock::OnPaint()
 
     gc.SetColor(ax::Color(1.0));
     gc.DrawString(_font, _date_str, ax::Point(0, 5));
-    gc.DrawString(_font, _clock_str, ax::Point(80, 5));
+    gc.DrawString(_font, _clock_str, ax::Point(75, 5));
 }
 
 
 
-eos::StatusBar::StatusBar(axWindow* parent, const ax::Rect& rect):
+eos::StatusBar::StatusBar(axWindow* parent,
+                          const ax::Rect& rect,
+                          eos::Core::System* system):
 // Parent.
 axPanel(parent, rect),
-_font(0)
+_font(0),
+_system(system)
 {
+    _user_name = _system->GetUser()->GetFullName();
+    
     Clock* clock = new Clock(this, ax::Rect(rect.size.x - 140, 0, 140, 25));
     
     
@@ -70,13 +77,16 @@ _font(0)
                               ax::Color(0.0, 0.0, 0.0, 0.0),
                               0);
     
-    ax::Button* volume = new ax::Button(this, ax::Rect(rect.size.x - 140 - 30, 3, 20, 20),
+    ax::Button* volume = new ax::Button(this, ax::Rect(rect.size.x - 310, 3, 20, 20),
                                       ax::Button::Events(),
                                       btn_info, "resource/volume51.png", "",
                                       ax::Button::Flags::SINGLE_IMG);
     
-    ax::Button* view = new ax::Button(this, ax::Rect(5, 3, 20, 20),
-                                      ax::Button::Events(),
+    
+    
+    
+    ax::Button* view = new ax::Button(this, ax::Rect(6, 3, 20, 20),
+                                      ax::Button::Events(GetOnHome()),
                                       btn_info, "resource/home.png", "",
                                       ax::Button::Flags::SINGLE_IMG);
     
@@ -86,7 +96,7 @@ _font(0)
                                      ax::Button::Flags::SINGLE_IMG);
     
     ax::Button* btn2 = new ax::Button(this, ax::Rect(btn->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                      ax::Button::Events(),
+                                      ax::Button::Events(GetOnAppViewer()),
                                       btn_info, "resource/view.png", "",
                                       ax::Button::Flags::SINGLE_IMG);
     
@@ -137,6 +147,18 @@ void eos::StatusBar::OnTraceMode(const ax::Button::Msg& msg)
     desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TRACE);
 }
 
+void eos::StatusBar::OnHome(const ax::Button::Msg& msg)
+{
+    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_HOME);
+}
+
+void eos::StatusBar::OnAppViewer(const ax::Button::Msg& msg)
+{
+    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_VIEWER);
+}
+
 void eos::StatusBar::OnPaint()
 {
     ax::GC gc;
@@ -144,6 +166,9 @@ void eos::StatusBar::OnPaint()
     
     gc.SetColor(ax::Color(0.4, 0.4));
     gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+    
+    gc.SetColor(ax::Color(0.9));
+    gc.DrawString(_font, _user_name, ax::Point(rect.size.x - 280, 5));
     
     gc.SetColor(ax::Color(0.4, 0.5));
     gc.DrawLine(ax::Point(0, rect.size.y), ax::Point(rect.size.x, rect.size.y));

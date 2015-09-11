@@ -13,6 +13,8 @@
 #include "eosNotification.h"
 
 #include "eosAlert.h"
+#include "eosHome.h"
+#include "eosAppViewer.h"
 
 #include "eosCoreSystem.h"
 
@@ -47,17 +49,13 @@ namespace eos
         
         void ShowView();
         
-//        void ShowNotification();
-//        
-//        void ShowTerminal();
-//        
-//        void ShowTrace();
-        
         enum DesktopApps
         {
             DSKT_APP_TERMINAL,
             DSKT_APP_TRACE,
             DSKT_APP_NOTIFY,
+            DSKT_APP_HOME,
+            DSKT_APP_VIEWER,
             DSKT_APP_COUNT
         };
         
@@ -68,14 +66,12 @@ namespace eos
         axWindow* _desktop_apps[DSKT_APP_COUNT];
         
         bool _showView;
-//        bool _terminalMode, _traceMode, _notifiMode;
         
         eos::Core::System* _system;
         
         axWindow* _terminal;
         AppLoader* _terminal_app;
         
-//        eos::WindowManager* _eosManager;
         ax::Image* _bg_img;
         eos::Notification* _notification;
         

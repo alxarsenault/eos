@@ -11,7 +11,7 @@ _current_user(nullptr)
     // Open system database.
     _db = new ax::Database("resource/system");
     
-    _tracer->Write("Init database.");
+    _tracer->Write("Open system database.");
 }
 
 bool eos::Core::System::LoginUser(const int& user_id)
@@ -22,18 +22,22 @@ bool eos::Core::System::LoginUser(const int& user_id)
     if(!users.size())
     {
         ax::Error("Can't login, users id", user_id, "doesn't exist.");
+        _tracer->Write("Can't login, users id", user_id, "doesn't exist.");
         return false;
     }
     
     if(users.size() > 1)
     {
         ax::Error("Multiple users with the same id.");
+        _tracer->Write("Multiple users with the same id.");
         return false;
     }
     
     if(_current_user)
     {
         ax::Error("User", _current_user->GetFullName() ,"already login.");
+        _tracer->Write("User", _current_user->GetFullName() ,"already login.");
+
         return false;
     }
     
@@ -43,6 +47,8 @@ bool eos::Core::System::LoginUser(const int& user_id)
                                         usr[1].second,
                                         usr[2].second,
                                         std::stoi(usr[3].second));
+    
+    _tracer->Write("Login user :", _current_user->GetFullName());
     
     return true;
 }

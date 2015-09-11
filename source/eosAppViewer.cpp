@@ -1,0 +1,83 @@
+#include "eosAppViewer.h"
+#include "eosDesktop.h"
+
+eos::AppViewer::AppViewer(axWindow* parent, const ax::Rect& rect):
+// Parent.
+axPanel(parent, rect)
+{
+    ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
+                              ax::Color(1.0, 0.0, 0.0, 0.0),
+                              ax::Color(0.95, 0.0, 0.0, 0.0),
+                              ax::Color(0.5, 0.5, 0.5, 0.0),
+                              ax::Color(0.0, 0.0, 0.0, 0.0),
+                              ax::Color(0.0, 0.0, 0.0, 0.0),
+                              0);
+    
+    ax::Size icon_size(64, 64);
+    ax::Point icon_pos(10, 10);
+    
+    ax::StringPairVector apps_icon_info =
+    {
+        ax::StringPair("resource/folder.png", "browser"),
+        ax::StringPair("resource/calculator-icon.png", "calc"),
+        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
+        ax::StringPair("resource/terminal.png", "term"),
+        ax::StringPair("resource/image.png", "viewer"),
+        ax::StringPair("resource/folder.png", "browser"),
+        ax::StringPair("resource/calculator-icon.png", "calc"),
+        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
+        ax::StringPair("resource/terminal.png", "term"),
+        ax::StringPair("resource/image.png", "viewer"),
+        ax::StringPair("resource/folder.png", "browser"),
+        ax::StringPair("resource/calculator-icon.png", "calc"),
+        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
+        ax::StringPair("resource/terminal.png", "term"),
+        ax::StringPair("resource/image.png", "viewer"),
+    };
+    
+    for(auto& n : apps_icon_info)
+    {
+        ax::Button* btn = new ax::Button(this, ax::Rect(icon_pos, icon_size),
+                                         ax::Button::Events(),
+                                         btn_info, n.first, "",
+                                         ax::Button::Flags::SINGLE_IMG);
+        
+        icon_pos = btn->GetRect().GetNextPosRight(5);
+        
+        if(icon_pos.x > rect.size.x - 70)
+        {
+            icon_pos.x = 10;
+            icon_pos.y += 80;
+            
+        }
+    }
+    
+    
+    axScrollBarInfo sb_info(ax::Color(0.36), // Normal.
+                            ax::Color(0.38), // Hover.
+                            ax::Color(0.34), // Clicked.
+                            ax::Color(0.3), // Slider contour.
+                            ax::Color(0.36), // Contour.
+                            ax::Color(0.96), // Bg top.
+                            ax::Color(0.90)); // Bg bottom.
+    
+    axScrollBarEvents sb_evts;
+//    sb_evts.value_change = GetOnScroll();
+    
+    ax::Rect sb_rect(rect.size.x - 9, 0, 8, rect.size.y - 1);
+    axScrollBar* sb = new axScrollBar(this, nullptr, sb_rect, sb_evts, sb_info);
+    
+    
+}
+
+void eos::AppViewer::OnPaint()
+{
+    ax::GC gc;
+    ax::Rect rect(GetDrawingRect());
+    
+    gc.SetColor(ax::Color(0.4, 0.4));
+    gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+    
+    gc.SetColor(ax::Color(0.4, 0.5));
+    gc.DrawRectangleContour(ax::Rect(1, 0, rect.size.x, rect.size.y));
+}

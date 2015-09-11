@@ -14,6 +14,8 @@
 #include "axLib/axTimer.h"
 #include "axLib/axButton.h"
 
+#include "eosCoreSystem.h"
+
 /*******************************************************************************
  * Clock.
  ******************************************************************************/
@@ -41,11 +43,13 @@ namespace eos
     class StatusBar : public axPanel
     {
     public:
-        StatusBar(axWindow* parent, const ax::Rect& rect);
+        StatusBar(axWindow* parent, const ax::Rect& rect,
+                  eos::Core::System* system);
         
         
     private:
-        
+        eos::Core::System* _system;
+        std::string _user_name;
         
         ax::Image* _setting_img;
         ax::Font _font;
@@ -62,6 +66,12 @@ namespace eos
         
         axEVENT_ACCESSOR(ax::Button::Msg, OnTraceMode);
         void OnTraceMode(const ax::Button::Msg& msg);
+        
+        axEVENT_ACCESSOR(ax::Button::Msg, OnHome);
+        void OnHome(const ax::Button::Msg& msg);
+        
+        axEVENT_ACCESSOR(ax::Button::Msg, OnAppViewer);
+        void OnAppViewer(const ax::Button::Msg& msg);
         
         void OnPaint();
     };

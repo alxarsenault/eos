@@ -35,8 +35,8 @@ build/%.o: source/%.cpp
 	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) -c -o $@ $<
 
 browser:
-	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosBrowser.cpp source/app.cpp source/eosFrame.cpp 
-	$(CC) -shared -undefined dynamic_lookup -o app/browser.so app.o eosBrowser.o eosFrame.o
+	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosBrowser.cpp source/app.cpp 
+	$(CC) -shared -undefined dynamic_lookup -o app/browser.so app.o eosBrowser.o
 
 txtedit:
 	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTextEditor.cpp source/txt_edit_main.cpp source/eosFrame.cpp 
