@@ -18,21 +18,18 @@ axPanel(parent, rect)
     
     ax::StringPairVector apps_icon_info =
     {
-        ax::StringPair("resource/folder.png", "browser"),
-        ax::StringPair("resource/calculator-icon.png", "calc"),
-        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
-        ax::StringPair("resource/terminal.png", "term"),
-        ax::StringPair("resource/image.png", "viewer"),
-        ax::StringPair("resource/folder.png", "browser"),
-        ax::StringPair("resource/calculator-icon.png", "calc"),
-        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
-        ax::StringPair("resource/terminal.png", "term"),
-        ax::StringPair("resource/image.png", "viewer"),
-        ax::StringPair("resource/folder.png", "browser"),
-        ax::StringPair("resource/calculator-icon.png", "calc"),
-        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
-        ax::StringPair("resource/terminal.png", "term"),
-        ax::StringPair("resource/image.png", "viewer"),
+        ax::StringPair("resource/1441952844_computer.png", "browser"),
+        ax::StringPair("resource/1441952725_terminal.png", "calc"),
+        ax::StringPair("resource/1441953050_image.png", "txtedit"),
+        ax::StringPair("resource/1441952856_calendar.png", "term"),
+        ax::StringPair("resource/1441952883_book.png", "viewer"),
+        ax::StringPair("resource/1441953077_notepad.png", "browser"),
+        ax::StringPair("resource/1441953272_enveloppe-alt.png", "calc"),
+        ax::StringPair("resource/1441953912_wrench-screwdriver.png", "txtedit"),
+        ax::StringPair("resource/1441951759_calculator.png", "term"),
+        ax::StringPair("resource/1441955424_address-book-alt.png", "viewer"),
+        ax::StringPair("resource/1441955471_movie-alt.png", "browser"),
+        ax::StringPair("resource/1441953867_social-facebook.png", "calc")
     };
     
     for(auto& n : apps_icon_info)
@@ -75,7 +72,8 @@ void eos::AppViewer::OnPaint()
     ax::GC gc;
     ax::Rect rect(GetDrawingRect());
     
-    gc.SetColor(ax::Color(0.4, 0.4));
+    gc.SetColor(ax::Color(0.7, 0.4));
+//    ax::Color dock_color(0.7, 0.4);
     gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
     
     gc.SetColor(ax::Color(0.4, 0.5));

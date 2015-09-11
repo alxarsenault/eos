@@ -73,7 +73,7 @@ _menuMode(false)
                               ax::Color(0.95, 0.0, 0.0),
                               ax::Color(0.5, 0.5, 0.5, 0.0),
                               ax::Color(0.0, 0.0, 0.0, 0.0),
-                              ax::Color(0.0, 0.0, 0.0),
+                              ax::Color(0.9),
                               0);
     
     
@@ -278,9 +278,10 @@ void eos::Frame::OnMouseLeftDragging(const ax::Point& pos)
         ax::Point rel_pos = pos - parentRect.position;
         
         ax::Point prel_pos(rel_pos - _click_pos);
-        if(prel_pos.y < 25)
+        if(prel_pos.y < 24)
         {
-            prel_pos.y = 25;
+            prel_pos.y = 24
+            ;
         }
         
         SetPosition(prel_pos);
@@ -366,30 +367,47 @@ void eos::Frame::OnPaint()
     // Title bar.
     ax::Rect topRect(rect.position, ax::Size(rect.size.x, _title_bar_height));
     gc.DrawRectangleColorFade(topRect,
-                              ax::Color(0.888),
-                              ax::Color(0.737, 1.0));
+                              ax::Color(0.4, 0.4),
+                              ax::Color(0.42, 0.42));
+//    gc.DrawRectangleColorFade(topRect,
+//                              ax::Color(0.7, 0.6),
+//                              ax::Color(0.72, 0.6));
+//    gc.DrawRectangleColorFade(topRect,
+//                              ax::Color(0.888),
+//                              ax::Color(0.737, 1.0));
     
     // Frame title.
-    gc.SetColor(ax::Color(0.1));
+    gc.SetColor(ax::Color(0.9));
     gc.DrawStringAlignedCenter(_font, _window_name,
                                ax::Rect(rect.position,
                                         ax::Size(rect.size.x, _title_bar_height)));
     
-    // Frame contour.
+//    // Frame contour.
     ax::Rect bottomRect(topRect.GetNextPosDown(0),
                         ax::Size(rect.size.x, rect.size.y - _title_bar_height));
+    
     gc.DrawRectangleColorFade(bottomRect,
-                              ax::Color(0.737),
-                              ax::Color(0.7, 1.0));
+                              ax::Color(0.42, 0.42),
+                              ax::Color(0.44, 0.44));
+    
+//    gc.DrawRectangleColorFade(bottomRect,
+//                              ax::Color(0.72, 0.6),
+//                              ax::Color(0.74, 0.7));
+
+//    gc.DrawRectangleColorFade(bottomRect,
+//                              ax::Color(0.737),
+//                              ax::Color(0.7, 1.0));
     
     // Frame contour interior.
-    gc.SetColor(ax::Color(0.7));
+//    gc.SetColor(ax::Color(0.7));
+    gc.SetColor(ax::Color(0.4, 0.4));
     
     ax::Rect inContour(rect.GetInteriorRect(ax::Point(1, 1)));
     gc.DrawRectangleContour(inContour);
     
     
-    gc.SetColor(ax::Color(0.6));
+//    gc.SetColor(ax::Color(0.6));
+    gc.SetColor(ax::Color(0.2, 0.4));
     ax::Rect winRect(rect.position.x + 5 - 1,
                      rect.position.y + _title_bar_height - 1,
                      rect.size.x - 2 * 5 + 2,
@@ -398,7 +416,7 @@ void eos::Frame::OnPaint()
     gc.DrawRectangleContour(winRect);
 
     // Frame contour.
-    gc.SetColor(ax::Color(0.4));
+    gc.SetColor(ax::Color(0.2, 0.4));
     gc.DrawRectangleContour(rect);
     
 //    if(_highlight)

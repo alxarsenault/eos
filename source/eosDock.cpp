@@ -96,13 +96,18 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.si
 
 	ax::Size icon_size(64, 64);
 
-    ax::StringPairVector apps_icon_info =
+        ax::StringPairVector apps_icon_info =
     {
-        ax::StringPair("resource/folder.png", "browser"),
-        ax::StringPair("resource/calculator-icon.png", "calc"),
-        ax::StringPair("resource/Apps-text-editor-icon.png", "txtedit"),
-        ax::StringPair("resource/terminal.png", "term"),
-        ax::StringPair("resource/image.png", "viewer"),
+        ax::StringPair("resource/1441952929_house.png", "browser"), //resource/folder.png
+        ax::StringPair("resource/1441951759_calculator.png", "calc"), // resource/calculator-icon.png
+        ax::StringPair("resource/1441953077_notepad.png", "txtedit"), // Apps-text-editor-icon.png
+        ax::StringPair("resource/1441952725_terminal.png", "term"), // terminal.png
+        ax::StringPair("resource/1441953272_enveloppe-alt.png", "mail"), //image.png
+        ax::StringPair("resource/1441952856_calendar.png", "calender"),
+        ax::StringPair("resource/1441952883_book.png", "book"),
+        ax::StringPair("resource/1441953050_image.png", "viewer"), //image.png
+        ax::StringPair("resource/1441953912_wrench-screwdriver.png", "settings"),
+        ax::StringPair("resource/1441954538_appicns_Trash_Empty.png", "trash")
     };
 
     ax::Point icon_pos(10, 5);
@@ -132,7 +137,11 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.si
     _appLoaders["txtedit"] = AppLoader("/Users/alexarse/Project/eos/app/text_editor.so");
     _appLoaders["term"] = AppLoader("/Users/alexarse/Project/eos/app/terminal.so");
     _appLoaders["viewer"] = AppLoader("/Users/alexarse/Project/eos/app/image_viewer.so");
-
+    _appLoaders["mail"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
+    _appLoaders["calender"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
+    _appLoaders["book"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
+    _appLoaders["settings"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
+    _appLoaders["trash"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
     
     
 	SetRect(_drop_rect);
@@ -330,11 +339,12 @@ void eos::Dock::OnPaint()
 	ax::GC gc;
 	ax::Rect rect(GetDrawingRect());
 
+    ax::Color dock_color(0.7, 0.4);
 	if(_isDrop)
 	{
 		if(_anim_active) 
 		{
-			gc.SetColor(ax::Color(0.4, 0.4));  
+			gc.SetColor(dock_color);
 
 			int y_size = 10 + (1.0 - _anim_percent) * (rect.size.y - 10);
 			int y_pos = rect.size.y - y_size;
@@ -343,7 +353,7 @@ void eos::Dock::OnPaint()
 		}
 		else
 		{
-			gc.SetColor(ax::Color(0.4, 0.4));
+			gc.SetColor(dock_color);
 			gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
 		}
 	}
@@ -351,16 +361,22 @@ void eos::Dock::OnPaint()
 	{
 		if(_anim_active)
 		{
-			gc.SetColor(ax::Color(0.4, 0.4));
+			gc.SetColor(dock_color);
 
 			int y_size = 10 + _anim_percent * (rect.size.y - 10); 
 			int y_pos = rect.size.y - y_size;
-			gc.DrawRectangle(ax::Rect(0, y_pos, rect.size.x, y_size));
+			
+            gc.DrawRectangle(ax::Rect(0, y_pos, rect.size.x, y_size));
 		}
 		else
 		{
-			gc.SetColor(ax::Color(0.4, 0.4));
-			gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y)); 
+			gc.SetColor(dock_color);
+			gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+            
+//            gc.DrawRectangleColorFade(ax::Rect(0, rect.size.y - 20, rect.size.x, 20),
+//                                      ax::Color(1.0, 0.0), dock_color);
+//            gc.DrawRectangleColorFade(ax::Rect(0, 0, rect.size.x, rect.size.y),
+//                                      ax::Color(1.0, 0.0), dock_color);
 		}
 	}
 }

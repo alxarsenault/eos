@@ -29,7 +29,12 @@ _system(system)
     _terminal_app = new eos::AppLoader("/Users/alexarse/Project/eos/app/terminal.so",
                                        "TerminalMode");
     
+//    _bg_img = new ax::Image("resource/dark-blue-wallpaper.png");
+//    _bg_img = new ax::Image("resource/vintage-wall-pattern-and-wood-floors-abstract_108109.png");
+//    _bg_img = new ax::Image("resource/wallpaper2.png");
+//    _bg_img = new ax::Image("resource/tabletop-wallpaper.png");
     _bg_img = new ax::Image("resource/wallpaper-standard.png");
+
     
     eos::Core::Manager* man = system->GetManager();
     

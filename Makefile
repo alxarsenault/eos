@@ -39,8 +39,8 @@ browser:
 	$(CC) -shared -undefined dynamic_lookup -o app/browser.so app.o eosBrowser.o
 
 txtedit:
-	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTextEditor.cpp source/txt_edit_main.cpp source/eosFrame.cpp 
-	$(CC) -shared -undefined dynamic_lookup -o app/text_editor.so txt_edit_main.o eosTextEditor.o eosFrame.o
+	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTextEditor.cpp source/txt_edit_main.cpp
+	$(CC) -shared -undefined dynamic_lookup -o app/text_editor.so txt_edit_main.o eosTextEditor.o
 
 term: $(TERM_OBJ)
 	$(CC) -shared -undefined dynamic_lookup -o app/terminal.so $(TERM_OBJ)
