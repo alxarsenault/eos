@@ -15,49 +15,36 @@ CC_FLAGS = -std=c++14 -DANDROID -DGL_GLEXT_PROTOTYPES=1 -fpermissive
 CC_LINK = -shared
 INCLUDE_SRC = -Iinclude/ -I/usr/include/freetype2/ -I/usr/local/include/ -I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I /opt/vc/include/interface/vmcs_host/linux -I/usr/include/
 
-INCLUDE_LINKER =  -L/usr/local/lib/ -L/opt/vc/lib/ -L/usr/lib/arm-linux-gnueabihf/ -Lapp/
+INCLUDE_LINKER =  -L/usr/local/lib/ -L/opt/vc/lib/ -L/usr/lib/arm-linux-gnueabihf/ -Llib/
 LINKER_FLAG = -lpng -laxLibCore -lfreetype -lEGL -lGLESv1_CM -lpthread -lopenmaxil -lbcm_host -ldl -lutil -lsqlite3 -leos
 endif
 
-
 OBJ_DIR = build
-MAIN_SRC = source/eosAppViewer.cpp source/eosCoreTracer.cpp source/eosFrame.cpp source/eosStatusBar.cpp source/eosCoreUser.cpp source/eosHome.cpp source/eosAlert.cpp source/eosCoreManager.cpp source/eosDesktop.cpp source/eosAppLoader.cpp source/eosCoreSystem.cpp source/eosDock.cpp source/eosNotification.cpp
+SRC_DIR = source
+LIB_DIR = lib
 
-MAIN_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(MAIN_SRC:.cpp=.o)))
+CPP_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 
-TERM_SRC = source/eosTerminal.cpp source/axOSTerminal.cpp source/terminal_main.cpp
-TERM_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(TERM_SRC:.cpp=.o)))
+all: create_dir $(OBJ_FILES)
+	$(CC) $(CC_LINK) -o $(LIB_DIR)/libeos.so $(OBJ_FILES)
+	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) main.cpp  $(LINKER_FLAG) -o main
 
-VIEWER_SRC = source/eosImageViewer.cpp source/main_viewer.cpp
-VIEWER_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(VIEWER_SRC:.cpp=.o)))
-
-all: create_dir $(MAIN_OBJ)
-	$(CC) $(CC_LINK) -o app/libeos.so $(MAIN_OBJ)
-	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) source/main.cpp  $(LINKER_FLAG) -o main
-
-build/%.o: source/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) -c -o $@ $<
 
-browser:
-	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosBrowser.cpp source/app.cpp 
-	$(CC) $(CC_LINK) -o app/browser.so app.o eosBrowser.o
-
-txtedit:
-	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/eosTextEditor.cpp source/txt_edit_main.cpp
-	$(CC) $(CC_LINK) -o app/text_editor.so txt_edit_main.o eosTextEditor.o
-
-term: $(TERM_OBJ)
-	$(CC) $(CC_LINK) -o app/terminal.so $(TERM_OBJ)
-
-viewer: $(VIEWER_OBJ)
-	$(CC) $(CC_LINK)  -o app/image_viewer.so $(VIEWER_OBJ)
-
-calc:
-	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/main_calc.cpp
-	$(CC) $(CC_LINK) -o app/calculator.so main_calc.o
-
 create_dir:
-	@mkdir -p build app
+	@mkdir -p build app lib
+
+
+MODULES_DIR = $(shell ls modules)
+
+.PHONY: app $(MODULES_DIR)
+
+app: $(MODULES_DIR)
+
+$(MODULES_DIR):
+	make -C modules/$@
 
 clean:
-	rm -f build/*.o
+	rm -f build/*.o lib/*.so
