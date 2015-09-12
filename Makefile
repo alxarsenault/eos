@@ -53,8 +53,8 @@ viewer: $(VIEWER_OBJ)
 	$(CC) $(CC_LINK)  -o app/image_viewer.so $(VIEWER_OBJ)
 
 calc:
-	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/main_calc.cpp source/eosFrame.cpp 
-	$(CC) $(CC_LINK) -o app/calculator.so main_calc.o eosFrame.o
+	$(CC) -c -fPIC $(CC_FLAGS) $(INCLUDE_SRC) source/main_calc.cpp
+	$(CC) $(CC_LINK) -o app/calculator.so main_calc.o
 
 create_dir:
 	@mkdir -p build app
