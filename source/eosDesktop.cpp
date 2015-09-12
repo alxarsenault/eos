@@ -26,7 +26,7 @@ _system(system)
     
     _showView = false;
     
-    _terminal_app = new eos::AppLoader("/Users/alexarse/Project/eos/app/terminal.so",
+    _terminal_app = new eos::AppLoader("./app/terminal.so",
                                        "TerminalMode");
     
 //    _bg_img = new ax::Image("resource/dark-blue-wallpaper.png");
