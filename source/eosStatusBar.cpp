@@ -3,7 +3,7 @@
 
 #include "eosCoreUser.h"
 
-Clock::Clock(axWindow* parent, const ax::Rect& rect):
+Clock::Clock(ax::Window* parent, const ax::Rect& rect):
 // Parent.
 axPanel(parent, rect),
 _font(0)
@@ -55,7 +55,7 @@ void Clock::OnPaint()
 
 
 
-eos::StatusBar::StatusBar(axWindow* parent,
+eos::StatusBar::StatusBar(ax::Window* parent,
                           const ax::Rect& rect,
                           eos::Core::System* system):
 // Parent.

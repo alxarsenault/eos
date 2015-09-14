@@ -11,7 +11,7 @@ namespace eos
 		class Module
 		{
 		public:
-			typedef std::function<axWindow*(axWindow*, ax::Rect)> EntryFunction;
+			typedef std::function<ax::Window*(ax::Window*, ax::Rect)> EntryFunction;
 
 			Module(const std::string& path);
             
@@ -32,16 +32,16 @@ namespace eos
         
         AppLoader(const std::string& path, const std::string& func_name);
 
-		axWindow* Create(axWindow* parent, const ax::Rect& rect);
+		ax::Window* Create(ax::Window* parent, const ax::Rect& rect);
 
 		void RemoveHandle();
 
-		axWindow* GetHandle();
+		ax::Window* GetHandle();
 
 	private:
 		std::string _path, _func_name;
 		Module* _module;
-		axWindow* _handle;
+		ax::Window* _handle;
 	};
 }
 

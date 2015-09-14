@@ -9,7 +9,7 @@
 /*******************************************************************************
  * eos::Frame.
  ******************************************************************************/
-eos::Alert::Alert(axWindow* parent,
+eos::Alert::Alert(ax::Window* parent,
                   const ax::Rect& rect,
                   eos::Core::System* system):
 // Parent.

@@ -52,15 +52,15 @@ namespace eos
 			Events(){}
 		};		
 
-		Frame(axWindow* parent, 
+		Frame(ax::Window* parent,
 			  const ax::Rect& rect, 
 			  const std::string& window_name);
 	
 		ax::Rect GetChildRect() const;
 
-		void SetChildHandler(axWindow* child);
+		void SetChildHandler(ax::Window* child);
         
-        void SetChildMenuHandler(axWindow* menu);
+        void SetChildMenuHandler(ax::Window* menu);
    
 		// Property.
 		// Resizable
@@ -72,8 +72,8 @@ namespace eos
         
 //        ax::Button* _info_btn;
         
-		axWindow* _child;
-        axWindow* _child_menu;
+		ax::Window* _child;
+        ax::Window* _child_menu;
         
 		std::string _window_name;
 		ax::Button *_close_btn, *_min_btn;

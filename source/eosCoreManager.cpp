@@ -27,7 +27,7 @@ void eos::Core::Manager::AddFrame(eos::Frame* frame)
         if(_childs.size() > 1)
         {
             // First added child.
-            axWindow* first_desktop_child = _childs[0];
+            ax::Window* first_desktop_child = _childs[0];
             std::vector<axWindowNode*>::iterator node = node_childs.end();
             
             // Find node.
@@ -62,7 +62,7 @@ void eos::Core::Manager::BringToFront(eos::Frame* frame)
         
         if(_childs.size())
         {
-            axWindow* first_desktop_child = _childs[0];
+            ax::Window* first_desktop_child = _childs[0];
             
             // Find node.
             for(auto it = node_childs.begin(); it != node_childs.end(); ++it)
@@ -105,7 +105,7 @@ std::vector<eos::Frame*> eos::Core::Manager::GetFrameVector()
     axWindowTree* tree = _axApp->GetWindowManager()->GetWindowTree();
     axWindowNode* main_node = tree->FindWinNode(_desktop);
     
-    axWindow* first_desktop_child = nullptr;
+    ax::Window* first_desktop_child = nullptr;
     
     if(_childs.size())
     {

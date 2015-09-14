@@ -13,7 +13,7 @@ namespace eos
     class AppViewer : public axPanel
     {
     public:
-        AppViewer(axWindow* parent, const ax::Rect& rect);
+        AppViewer(ax::Window* parent, const ax::Rect& rect);
         
     private:
 

@@ -3,7 +3,7 @@
 /*******************************************************************************
  * eos::ImageViewer.
  ******************************************************************************/
-eos::ImageViewer::ImageViewer(axWindow* parent,
+eos::ImageViewer::ImageViewer(ax::Window* parent,
                               const ax::Rect& rect,
                               const std::string& img_path) :
 // Parent.

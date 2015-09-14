@@ -14,7 +14,7 @@ namespace eos
 	class Alert : public axPanel
 	{
 	public:
-		Alert(axWindow* parent,
+		Alert(ax::Window* parent,
 			  const ax::Rect& rect,
               eos::Core::System* system);
 	

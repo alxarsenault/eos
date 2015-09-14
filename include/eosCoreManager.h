@@ -41,7 +41,7 @@ namespace eos
                 _axApp->AddMainEntry(fct);
             }
             
-            inline void AddChild(axWindow* child)
+            inline void AddChild(ax::Window* child)
             {
                 _childs.push_back(child);
             }
@@ -57,7 +57,7 @@ namespace eos
             ax::App* _axApp;
             
             std::vector<eos::Frame*> _apps;
-            std::vector<axWindow*> _childs;
+            std::vector<ax::Window*> _childs;
         };
     }
 }

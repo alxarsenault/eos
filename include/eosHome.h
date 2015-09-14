@@ -12,7 +12,7 @@ namespace eos
     class Home : public axPanel
     {
     public:
-        Home(axWindow* parent, const ax::Rect& rect);
+        Home(ax::Window* parent, const ax::Rect& rect);
         
     private:
 

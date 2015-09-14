@@ -19,7 +19,7 @@ namespace eos
 	class DockIcon : public ax::Button
 	{
 	public:
-		DockIcon(axWindow* parent,
+		DockIcon(ax::Window* parent,
 				const ax::Rect& rect,
 				const ax::Button::Events& events,
 				const ax::Button::Info& info,
@@ -41,7 +41,7 @@ namespace eos
     class Dock : public axPanel
 	{
 	public:
-		Dock(axWindow* parent, const ax::Rect& rect);
+		Dock(ax::Window* parent, const ax::Rect& rect);
 
 		bool IsDrop() const;
 

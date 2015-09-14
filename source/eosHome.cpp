@@ -1,7 +1,7 @@
 #include "eosHome.h"
 #include "eosDesktop.h"
 
-eos::Home::Home(axWindow* parent, const ax::Rect& rect):
+eos::Home::Home(ax::Window* parent, const ax::Rect& rect):
 // Parent.
 axPanel(parent, rect)
 {

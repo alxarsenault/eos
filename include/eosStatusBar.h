@@ -22,7 +22,7 @@
 class Clock : public axPanel
 {
 public:
-    Clock(axWindow* parent, const ax::Rect& rect);
+    Clock(ax::Window* parent, const ax::Rect& rect);
     
 private:
     ax::Font _font;
@@ -43,7 +43,7 @@ namespace eos
     class StatusBar : public axPanel
     {
     public:
-        StatusBar(axWindow* parent, const ax::Rect& rect,
+        StatusBar(ax::Window* parent, const ax::Rect& rect,
                   eos::Core::System* system);
         
         

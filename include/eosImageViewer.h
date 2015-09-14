@@ -11,7 +11,7 @@ namespace eos
     class ImageViewer : public axPanel
     {
     public:
-        ImageViewer(axWindow* parent,
+        ImageViewer(ax::Window* parent,
                     const ax::Rect& rect,
                     const std::string& img_path);
         

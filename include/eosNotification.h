@@ -13,7 +13,7 @@ namespace eos
     class Notification : public axPanel
     {
     public:
-        Notification(axWindow* parent, const ax::Rect& rect);
+        Notification(ax::Window* parent, const ax::Rect& rect);
         
     private:
 

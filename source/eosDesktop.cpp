@@ -1,10 +1,10 @@
 #include "eosDesktop.h"
 
-
-
 #include "axLib/axWindowTree.h"
 #include "axLib/axWindowManager.h"
 #include "eosCoreTracer.h"
+
+
 eos::Desktop::Desktop(eos::Core::System* system,
                       const ax::Rect& rect):
 // Parent.
@@ -48,7 +48,7 @@ _system(system)
     eos::Dock* dock = new eos::Dock(this, dock_rect);
     man->AddChild(dock);
     
-    axWindow* term = _terminal_app->Create(this, ax::Rect(0, 24, rect.size.x, 300));
+    ax::Window* term = _terminal_app->Create(this, ax::Rect(0, 24, rect.size.x, 300));
     
     if(term != nullptr)
     {
@@ -284,7 +284,7 @@ void eos::Desktop::PaintView(ax::GC& gc)
     std::function<void(axWindowNode*, ax::Rect, ax::Rect, ax::Point)> fct =
     [&](axWindowNode* node, ax::Rect main_rect, ax::Rect draw_rect, ax::Point delta_pos)
     {
-        axWindow* win = node->window;
+        ax::Window* win = node->window;
         ax::Rect win_rect = win->GetRect();
         win_rect.position += delta_pos;
         

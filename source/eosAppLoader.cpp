@@ -10,7 +10,7 @@ eos::AppLoader::Module::Module(const std::string& path)
     
 	if(_binHandle != nullptr)
 	{
-		_fctHandle = reinterpret_cast<axWindow*(*)(axWindow*, ax::Rect)>
+		_fctHandle = reinterpret_cast<ax::Window*(*)(ax::Window*, ax::Rect)>
 			(dlsym(_binHandle, "StartApplication"));
 	}
 	else
@@ -27,7 +27,7 @@ eos::AppLoader::Module::Module(const std::string& path,
     
     if(_binHandle != nullptr)
     {
-        _fctHandle = reinterpret_cast<axWindow*(*)(axWindow*, ax::Rect)>
+        _fctHandle = reinterpret_cast<ax::Window*(*)(ax::Window*, ax::Rect)>
         (dlsym(_binHandle, func_name.c_str()));
     }
     else
@@ -77,7 +77,7 @@ _handle(nullptr)
     
 }
 
-axWindow* eos::AppLoader::Create(axWindow* parent, const ax::Rect& rect)
+ax::Window* eos::AppLoader::Create(ax::Window* parent, const ax::Rect& rect)
 {
 	if(_module == nullptr)
 	{
@@ -107,7 +107,7 @@ void eos::AppLoader::RemoveHandle()
 	_handle = nullptr;
 }
 
-axWindow* eos::AppLoader::GetHandle()
+ax::Window* eos::AppLoader::GetHandle()
 {
 	return _handle;
 }

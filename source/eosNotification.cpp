@@ -1,7 +1,7 @@
 #include "eosNotification.h"
 #include "eosDesktop.h"
 
-eos::Notification::Notification(axWindow* parent, const ax::Rect& rect):
+eos::Notification::Notification(ax::Window* parent, const ax::Rect& rect):
 // Parent.
 axPanel(parent, rect)
 {

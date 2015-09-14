@@ -31,7 +31,7 @@ ax::Event::Msg* eos::Frame::Msg::GetCopy()
 /*******************************************************************************
  * eos::Frame.
  ******************************************************************************/
-eos::Frame::Frame(axWindow* parent,
+eos::Frame::Frame(ax::Window* parent,
                   const ax::Rect& rect,
                   const std::string& window_name):
 // Parent.
@@ -97,12 +97,12 @@ ax::Rect eos::Frame::GetChildRect() const
     return ax::Rect(s_w + 1, _title_bar_height, rect.size.x - 2 * s_w - 1, rect.size.y - _title_bar_height - s_w);
 }
 
-void eos::Frame::SetChildHandler(axWindow* child)
+void eos::Frame::SetChildHandler(ax::Window* child)
 {
     _child = child;
 }
 
-void eos::Frame::SetChildMenuHandler(axWindow* child_menu)
+void eos::Frame::SetChildMenuHandler(ax::Window* child_menu)
 {
     _child_menu = child_menu;
     

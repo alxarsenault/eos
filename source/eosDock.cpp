@@ -5,7 +5,7 @@
 #include "eosDesktop.h"
 #include "eosAlert.h"
 
-eos::DockIcon::DockIcon(axWindow* parent,
+eos::DockIcon::DockIcon(ax::Window* parent,
 						const ax::Rect& rect,
 						const ax::Button::Events& events,
 						const ax::Button::Info& info,
@@ -70,7 +70,7 @@ void eos::DockIcon::OnPaint()
 }
 
 
-eos::Dock::Dock(axWindow* parent, const ax::Rect& rect):
+eos::Dock::Dock(ax::Window* parent, const ax::Rect& rect):
 axPanel(parent, rect),
 _anim_percent(1.0),
 _anim_active(false),
@@ -262,7 +262,7 @@ void eos::Dock::OnAppSelect(const ax::Button::Msg& msg)
 	{
 		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
 		
-        axWindow* frame = loader.Create(GetParent(), rect);
+        ax::Window* frame = loader.Create(GetParent(), rect);
         
         if(frame != nullptr)
         {
@@ -282,7 +282,7 @@ void eos::Dock::OnAppSelect(const ax::Button::Msg& msg)
         return;
 	}
 
-	axWindow* frame = loader.GetHandle();
+	ax::Window* frame = loader.GetHandle();
 
 	if(frame != nullptr)
 	{
@@ -317,7 +317,7 @@ void eos::Dock::OnWindowClose(const eos::Frame::Msg& msg)
 	{
 		for(auto& n : _appLoaders)
 		{
-			axWindow* handle = n.second.GetHandle();
+			ax::Window* handle = n.second.GetHandle();
 
 			if(handle != nullptr)
 			{

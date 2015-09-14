@@ -63,13 +63,13 @@ namespace eos
         
     private:
         bool _desktop_apps_status[DSKT_APP_COUNT];
-        axWindow* _desktop_apps[DSKT_APP_COUNT];
+        ax::Window* _desktop_apps[DSKT_APP_COUNT];
         
         bool _showView;
         
         eos::Core::System* _system;
         
-        axWindow* _terminal;
+        ax::Window* _terminal;
         AppLoader* _terminal_app;
         
         ax::Image* _bg_img;

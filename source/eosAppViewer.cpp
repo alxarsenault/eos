@@ -1,7 +1,7 @@
 #include "eosAppViewer.h"
 #include "eosDesktop.h"
 
-eos::AppViewer::AppViewer(axWindow* parent, const ax::Rect& rect):
+eos::AppViewer::AppViewer(ax::Window* parent, const ax::Rect& rect):
 // Parent.
 axPanel(parent, rect)
 {
