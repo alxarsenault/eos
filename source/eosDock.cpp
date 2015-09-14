@@ -131,17 +131,16 @@ _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.si
 //	_appLoaders["txtedit"] = AppLoader("/home/pi/Projects/eos/app/text_editor.so");
 //  _appLoaders["term"] = AppLoader("/home/pi/Projects/eos/app/terminal.so");
     
-    _appLoaders["calc"] = AppLoader("/Users/alexarse/Project/eos/app/calculator.so");
-    _appLoaders["browser"] = AppLoader("/Users/alexarse/Project/eos/app/browser.so");
-//    _appLoaders["browser"] = AppLoader("/Users/alexarse/Project/eos/app/terminal.so");
-    _appLoaders["txtedit"] = AppLoader("/Users/alexarse/Project/eos/app/text_editor.so");
-    _appLoaders["term"] = AppLoader("/Users/alexarse/Project/eos/app/terminal.so");
-    _appLoaders["viewer"] = AppLoader("/Users/alexarse/Project/eos/app/image_viewer.so");
-    _appLoaders["mail"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
-    _appLoaders["calender"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
-    _appLoaders["book"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
-    _appLoaders["settings"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
-    _appLoaders["trash"] = AppLoader("/Users/alexarse/Project/eos/app/mail.so");
+    _appLoaders["calc"] = AppLoader("./app/calculator.so");
+    _appLoaders["browser"] = AppLoader("./app/browser.so");
+    _appLoaders["txtedit"] = AppLoader("./app/text_editor.so");
+    _appLoaders["term"] = AppLoader("./app/terminal.so");
+    _appLoaders["viewer"] = AppLoader("./app/image_viewer.so");
+    _appLoaders["mail"] = AppLoader("./app/mail.so");
+    _appLoaders["calender"] = AppLoader("./app/mail.so");
+    _appLoaders["book"] = AppLoader("./app/mail.so");
+    _appLoaders["settings"] = AppLoader("./app/mail.so");
+    _appLoaders["trash"] = AppLoader("./app/mail.so");
     
     
 	SetRect(_drop_rect);

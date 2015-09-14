@@ -13,7 +13,7 @@ int main()
         ax::App* app = system->GetManager()->GetMainApp();
 
         #ifdef __linux__
-        ax::Size size(app.GetScreenSize());
+        ax::Size size(app->GetScreenSize());
         #else
         ax::Size size(ax::Size(1000, 700));
         app->SetFrameSize(size);
