@@ -19,7 +19,7 @@ namespace eos
     class FileBrowser : public axPanel
     {
     public:
-        FileBrowser(axWindow* parent, const ax::Rect& rect):
+        FileBrowser(ax::Window* parent, const ax::Rect& rect):
         // Parent.
         axPanel(parent, rect),
         _font(0),
@@ -221,14 +221,11 @@ namespace eos
     class Browser : public axPanel
     {
     public:
-        Browser(axWindow* parent, const ax::Rect& rect):
+        Browser(ax::Window* parent, const ax::Rect& rect):
         // Parent.
         axPanel(parent, rect),
         _font(0)
         {
-            
-            
-            
             ax::Button::Info fbtn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
                                        ax::Color(1.0, 0.0, 0.0),
                                        ax::Color(0.95, 0.0, 0.0),
@@ -249,9 +246,24 @@ namespace eos
                                       ax::Color(0.6, 0.6, 0.6),
                                       ax::Color(0.4, 0.4, 0.4),
                                       ax::Color(0.5, 0.5, 0.5),
-                                      ax::Color(0.0, 0.0, 0.0),
-                                      ax::Color(0.0, 0.0, 0.0),
+                                      ax::Color(0.4, 0.4),
+                                      ax::Color(0.9),
                                       0);
+            
+            ax::Point pos(0, 0);
+            ax::Point delta(0, 25);
+            
+            ax::StringVector folders = {"Computer", "Home", "Desktop"};
+            
+            for(auto& n : folders)
+            {
+                ax::Button* btnn = new ax::Button(this,
+                                                  ax::Rect(pos, ax::Size(158, 24)),
+                                                  ax::Button::Events(),
+                                                  btn_info,
+                                                  "", n);
+                pos += delta;
+            }
             
             
         }

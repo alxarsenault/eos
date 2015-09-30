@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CD0F52B1BA6580400935AD8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F52A1BA6580400935AD8 /* main.cpp */; };
 		7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */; };
 		7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */; };
 		7CD2E3761BA1B76E00CEADC6 /* eosCoreUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3751BA1B76E00CEADC6 /* eosCoreUser.cpp */; };
@@ -17,7 +18,6 @@
 		7CE9A6051B965E1B00E5D7B5 /* eosDock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5F81B965E1B00E5D7B5 /* eosDock.cpp */; };
 		7CE9A6061B965E1B00E5D7B5 /* eosFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */; };
 		7CE9A6071B965E1B00E5D7B5 /* eosStatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5FA1B965E1B00E5D7B5 /* eosStatusBar.cpp */; };
-		7CE9A60B1B965E1B00E5D7B5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A5FE1B965E1B00E5D7B5 /* main.cpp */; };
 		7CE9A6151B96662A00E5D7B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */; };
 		7CE9A6171B96663500E5D7B5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE9A6161B96663500E5D7B5 /* OpenGL.framework */; };
 		7CE9A6191B96665600E5D7B5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9A6181B96665600E5D7B5 /* MainMenu.xib */; };
@@ -28,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7CD0F52A1BA6580400935AD8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../main.cpp; sourceTree = "<group>"; };
 		7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosNotification.cpp; path = ../../../source/eosNotification.cpp; sourceTree = "<group>"; };
 		7CD0F66A1B9A4FA900EC4D1A /* eosNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosNotification.h; path = ../../../include/eosNotification.h; sourceTree = "<group>"; };
 		7CD2E3701BA1B00700CEADC6 /* eosCoreSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosCoreSystem.h; path = ../../../include/eosCoreSystem.h; sourceTree = "<group>"; };
@@ -50,7 +51,6 @@
 		7CE9A5F81B965E1B00E5D7B5 /* eosDock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDock.cpp; path = ../../../source/eosDock.cpp; sourceTree = "<group>"; };
 		7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosFrame.cpp; path = ../../../source/eosFrame.cpp; sourceTree = "<group>"; };
 		7CE9A5FA1B965E1B00E5D7B5 /* eosStatusBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosStatusBar.cpp; path = ../../../source/eosStatusBar.cpp; sourceTree = "<group>"; };
-		7CE9A5FE1B965E1B00E5D7B5 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../source/main.cpp; sourceTree = "<group>"; };
 		7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7CE9A6161B96663500E5D7B5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7CE9A6181B96665600E5D7B5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -60,9 +60,7 @@
 		7CE9A68A1B976E8700E5D7B5 /* eosDesktop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDesktop.h; path = ../../../include/eosDesktop.h; sourceTree = "<group>"; };
 		7CE9A6911B99D72300E5D7B5 /* eosAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosAlert.h; path = ../../../include/eosAlert.h; sourceTree = "<group>"; };
 		7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosAlert.cpp; path = ../../../source/eosAlert.cpp; sourceTree = "<group>"; };
-		7CE9A69B1B99E4D500E5D7B5 /* eosImageViewer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eosImageViewer.xcodeproj; path = eosImageViewer/eosImageViewer.xcodeproj; sourceTree = "<group>"; };
 		7CE9A6A41B99E85D00E5D7B5 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../../Makefile; sourceTree = "<group>"; usesTabs = 1; };
-		7CE9A6AE1B99EC0000E5D7B5 /* eosTerminal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eosTerminal.xcodeproj; path = eosTerminal/eosTerminal.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +96,6 @@
 			children = (
 				7CE9A6A41B99E85D00E5D7B5 /* Makefile */,
 				7CE9A5C71B965D4500E5D7B5 /* eos */,
-				7CE9A69B1B99E4D500E5D7B5 /* eosImageViewer.xcodeproj */,
-				7CE9A6AE1B99EC0000E5D7B5 /* eosTerminal.xcodeproj */,
 				7CE9A5C61B965D4500E5D7B5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,6 +111,7 @@
 		7CE9A5C71B965D4500E5D7B5 /* eos */ = {
 			isa = PBXGroup;
 			children = (
+				7CD0F52A1BA6580400935AD8 /* main.cpp */,
 				7CE9A6161B96663500E5D7B5 /* OpenGL.framework */,
 				7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */,
 				7CE9A5E81B965D9E00E5D7B5 /* Desktop */,
@@ -152,7 +149,6 @@
 				7CE9A5EE1B965DC100E5D7B5 /* eosFrame.h */,
 				7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */,
 				7CE9A5F61B965E1B00E5D7B5 /* eosAppLoader.cpp */,
-				7CE9A5FE1B965E1B00E5D7B5 /* main.cpp */,
 			);
 			name = Desktop;
 			sourceTree = "<group>";
@@ -173,20 +169,6 @@
 				7CE9A5FA1B965E1B00E5D7B5 /* eosStatusBar.cpp */,
 			);
 			name = StatusBar;
-			sourceTree = "<group>";
-		};
-		7CE9A69C1B99E4D500E5D7B5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		7CE9A6AF1B99EC0000E5D7B5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,16 +216,6 @@
 			mainGroup = 7CE9A5BC1B965D4500E5D7B5;
 			productRefGroup = 7CE9A5C61B965D4500E5D7B5 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 7CE9A69C1B99E4D500E5D7B5 /* Products */;
-					ProjectRef = 7CE9A69B1B99E4D500E5D7B5 /* eosImageViewer.xcodeproj */;
-				},
-				{
-					ProductGroup = 7CE9A6AF1B99EC0000E5D7B5 /* Products */;
-					ProjectRef = 7CE9A6AE1B99EC0000E5D7B5 /* eosTerminal.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				7CE9A5C41B965D4500E5D7B5 /* eos */,
@@ -272,10 +244,10 @@
 				7CE9A6891B976E7100E5D7B5 /* eosDesktop.cpp in Sources */,
 				7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */,
 				7CE9A6051B965E1B00E5D7B5 /* eosDock.cpp in Sources */,
-				7CE9A60B1B965E1B00E5D7B5 /* main.cpp in Sources */,
 				7CD2E37D1BA22D4000CEADC6 /* eosHome.cpp in Sources */,
 				7CE9A6031B965E1B00E5D7B5 /* eosAppLoader.cpp in Sources */,
 				7CE9A6931B99D73000E5D7B5 /* eosAlert.cpp in Sources */,
+				7CD0F52B1BA6580400935AD8 /* main.cpp in Sources */,
 				7CE9A6871B97378200E5D7B5 /* eosCoreManager.cpp in Sources */,
 				7CE9A6071B965E1B00E5D7B5 /* eosStatusBar.cpp in Sources */,
 				7CE9A6061B965E1B00E5D7B5 /* eosFrame.cpp in Sources */,
@@ -399,7 +371,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = .;
+				CONFIGURATION_BUILD_DIR = ../../;
 				INFOPLIST_FILE = eos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,7 +7,7 @@
 class TerminalMenu : public axPanel
 {
 public:
-    TerminalMenu(axWindow* parent, const ax::Rect& rect):
+    TerminalMenu(ax::Window* parent, const ax::Rect& rect):
     // Parent.
     axPanel(parent, rect)
     {
@@ -50,7 +50,7 @@ private:
 
 extern "C"
 {
-    axWindow* TerminalMode(axWindow* parent, ax::Rect rect)
+    ax::Window* TerminalMode(ax::Window* parent, ax::Rect rect)
     {
         eos::Terminal::Info info(ax::Color(0.9, 0.9, 0.9),
                                  ax::Color(0.4, 0.4),
@@ -59,7 +59,7 @@ extern "C"
         return new eos::Terminal(parent, rect, info);
     }
     
-	axWindow* StartApplication(axWindow* parent, ax::Rect rect)
+    ax::Window* StartApplication(ax::Window* parent, ax::Rect rect)
 	{
 		ax::Size fixe_size(500, 500);
 		eos::Frame* frame = new eos::Frame(parent, 

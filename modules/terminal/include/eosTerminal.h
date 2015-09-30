@@ -80,7 +80,7 @@ namespace eos
             ax::Color cursor_color;
         };
         
-        Terminal(axWindow* parent, const ax::Rect& rect, const Info& info);
+        Terminal(ax::Window* parent, const ax::Rect& rect, const Info& info);
         
     private:
         Info _info;

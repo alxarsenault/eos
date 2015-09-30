@@ -276,7 +276,7 @@ void eos::Terminal::Logic::ClearCommand()
 /*******************************************************************************
  * eos::Terminal.
  ******************************************************************************/
-eos::Terminal::Terminal(axWindow* parent,
+eos::Terminal::Terminal(ax::Window* parent,
                         const ax::Rect& rect,
                         const eos::Terminal::Info& info):
 axPanel(parent, rect),
