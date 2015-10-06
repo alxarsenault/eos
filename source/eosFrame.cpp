@@ -1,5 +1,5 @@
 #include "eosFrame.h"
-#include "eosDesktop.h"
+//#include "eosDesktop.h"
 
 const int eos::Frame::_title_bar_height = 25;
 
@@ -89,6 +89,63 @@ _menuMode(false)
                               btn_info, "", "_");
 }
 
+eos::Frame::Frame(ax::App* app,
+                  const ax::Rect& rect,
+                  const std::string& window_name):
+// Parent.
+axPanel(app, rect),
+_font(0),
+_child(nullptr),
+_child_menu(nullptr),
+_window_name(window_name),
+_menuMode(false)
+{
+    _abs_click_pos = ax::Point(0, 0);
+    _frame_status = 0;
+    _highlight = false;
+    
+    
+    ax::Button::Info menu_btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
+                                   ax::Color(1.0, 0.0, 0.0, 0.0),
+                                   ax::Color(0.95, 0.0, 0.0, 0.0),
+                                   ax::Color(0.5, 0.5, 0.5, 0.0),
+                                   ax::Color(0.0, 0.0, 0.0, 0.0),
+                                   ax::Color(0.0, 0.0, 0.0, 0.0),
+                                   0);
+    
+    //    _info_btn = new ax::Button(this, ax::Rect(50, 50, 48, 48),
+    //                               ax::Button::Events(),
+    //                               menu_btn_info,
+    //                               "resource/info.png", "",
+    //                               ax::Button::Flags::SINGLE_IMG);
+    
+    //    _info_btn->Hide();
+    
+    _menu_btn = new ax::Button(this, ax::Rect(10, 4, 20, 20),
+                               GetOnOpenMenu(),
+                               menu_btn_info,
+                               "resource/show6.png", "");
+    
+    ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
+                              ax::Color(1.0, 0.0, 0.0),
+                              ax::Color(0.95, 0.0, 0.0),
+                              ax::Color(0.5, 0.5, 0.5, 0.0),
+                              ax::Color(0.0, 0.0, 0.0, 0.0),
+                              ax::Color(0.9),
+                              0);
+    
+    
+    
+    _close_btn = new ax::Button(this, ax::Rect(rect.size.x - 25 - 5 - 1, 0, 23, 25),
+                                ax::Button::Events(GetOnButtonClick()),
+                                btn_info, "", "x");
+    
+    btn_info.hover = ax::Color(0.0, 0.0, 1.0);
+    btn_info.clicking = ax::Color(0.0, 0.0, 0.95);
+    _min_btn = new ax::Button(this, ax::Rect(rect.size.x - 25 - 5 - 1 - 25, 0, 23, 25),
+                              ax::Button::Events(GetOnMinimize()),
+                              btn_info, "", "_");
+}
 
 ax::Rect eos::Frame::GetChildRect() const
 {
@@ -215,8 +272,11 @@ void eos::Frame::OnMouseLeftDown(const ax::Point& pos)
         _click_pos = rel_pos;
         _highlight = true;
         
-        eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-        desktop->BringToFront(this);
+        
+        
+        std::cerr << "TODO : Launch desktop event. L 220 eosFrame.cpp" << std::endl;
+//        eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+//        desktop->BringToFront(this);
         
         
         Update();
@@ -418,67 +478,6 @@ void eos::Frame::OnPaint()
     // Frame contour.
     gc.SetColor(ax::Color(0.2, 0.4));
     gc.DrawRectangleContour(rect);
-    
-//    if(_highlight)
-//    {
-//        gc.SetColor(ax::Color(0.67, 0.67, 0.67, 0.4));
-//    }
-//    else
-//    {
-//        gc.SetColor(ax::Color(0.6, 0.6, 0.6, 0.4));
-//    }
-    
-    
-
-    
-//    if(_highlight)
-//    {
-//        gc.SetColor(ax::Color(0.85));
-//    }
-//    else
-//    {
-//        gc.SetColor(ax::Color(0.0));
-//    }
-//    
-//    ax::Rect contour_rect(5, 1, rect.size.x - 10, rect.size.y - 6);
-//    gc.DrawRectangleContour(contour_rect);
-//    
-//    //gc.SetColor(ax::Color(0.0, 1.0, 0.0));
-//    
-//    float a = 0.1;
-//    float da = 0.05;
-//    for(int i = 0; i < 5; i++)
-//    {
-//        gc.SetColor(ax::Color(0.0, a + da * i));
-//        std::vector<ax::Point> cont_pts(2);
-//        cont_pts[0] = ax::Point(i, 0);
-//        cont_pts[1] = ax::Point(i, rect.size.y - 5);
-//        
-//        gc.DrawLines(cont_pts);
-//        //gc.DrawRectangleContour(rect);
-//    }
-//
-//    for(int i = 0; i < 5; i++)
-//    {
-//        gc.SetColor(ax::Color(0.0, a + da * i));
-//        std::vector<ax::Point> cont_pts(2);
-//        cont_pts[0] = ax::Point(rect.size.x - i - 1, 0);
-//        cont_pts[1] = ax::Point(rect.size.x - i - 1, rect.size.y - 5);
-//        
-//        gc.DrawLines(cont_pts);
-//        //gc.DrawRectangleContour(rect);
-//    }
-//    
-//    for(int i = 0; i < 5; i++)
-//    {
-//        gc.SetColor(ax::Color(0.0, a + da * i));
-//        std::vector<ax::Point> cont_pts(2);
-//        cont_pts[0] = ax::Point(5, rect.size.y - i);
-//        cont_pts[1] = ax::Point(rect.size.x - 4, rect.size.y - i);
-//        
-//        gc.DrawLines(cont_pts);
-//        //gc.DrawRectangleContour(rect);
-//    }
 }
 
 

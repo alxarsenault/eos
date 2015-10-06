@@ -26,15 +26,14 @@ _system(system)
     
     _showView = false;
     
-    _terminal_app = new eos::AppLoader("./app/terminal.so",
-                                       "TerminalMode");
+    _terminal_app = new eos::AppLoader("./app/terminal.so", "TerminalMode");
     
 //    _bg_img = new ax::Image("resource/dark-blue-wallpaper.png");
 //    _bg_img = new ax::Image("resource/vintage-wall-pattern-and-wood-floors-abstract_108109.png");
 //    _bg_img = new ax::Image("resource/wallpaper2.png");
 //    _bg_img = new ax::Image("resource/tabletop-wallpaper.png");
     _bg_img = new ax::Image("resource/wallpaper-standard.png");
-
+    _img_test = new ax::Image("resource/1441953050_image.png");
     
     eos::Core::Manager* man = system->GetManager();
     
@@ -337,4 +336,6 @@ void eos::Desktop::OnPaint()
     
     gc.DrawImageResize(_bg_img, ax::Point(0, 0),
                        ax::Size(rect.size.x + 1, rect.size.y + 1));
+    
+    gc.DrawImage(_img_test, ax::Point(200, 200), 0.1);
 }

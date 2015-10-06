@@ -20,8 +20,7 @@ eos::AppLoader::Module::Module(const std::string& path)
 	}
 }
 
-eos::AppLoader::Module::Module(const std::string& path,
-                               const std::string& func_name)
+eos::AppLoader::Module::Module(const std::string& path, const std::string& func_name)
 {
     _binHandle = dlopen(path.c_str(), RTLD_NOW | RTLD_LAZY);//RTLD_LOCAL);
     

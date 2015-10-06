@@ -287,7 +287,7 @@ void eos::TextEditor::Logic::BackSpace()
 /*******************************************************************************
  * eos::TextEditor.
  ******************************************************************************/
-eos::TextEditor::TextEditor(axWindow* parent,
+eos::TextEditor::TextEditor(ax::Window* parent,
                             const ax::Rect& rect,
                             const eos::TextEditor::Info& info):
 // Parent.

@@ -77,6 +77,8 @@ namespace eos
         
         eos::Alert* _trace_viewer;
         
+        ax::Image* _img_test;
+        
         void ReposAllDesktopBuiltInApps();
         
         // Events.

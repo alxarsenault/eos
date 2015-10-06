@@ -4,6 +4,7 @@
 #include "axLib/axLib.h"
 #include "axLib/axScrollBar.h"
 #include "axOSTerminal.h"
+#include <map>
 
 namespace eos
 {
@@ -52,6 +53,8 @@ namespace eos
             ax::StringVector _past_command;
             ax::StringVector _terminal_output;
             std::string _current_command;
+            
+            std::map<char, ax::Color> _colors;
         };
         
         class Info
@@ -81,6 +84,7 @@ namespace eos
         };
         
         Terminal(ax::Window* parent, const ax::Rect& rect, const Info& info);
+        Terminal(ax::App* app, const ax::Rect& rect, const Info& info);
         
     private:
         Info _info;
@@ -88,6 +92,8 @@ namespace eos
         ax::Font _font;
         int _line_height, _start_line_index, _n_line_shown;
         std::vector<int> _next_pos_data;
+        
+        void InitTerminal();
         
         ax::os::Terminal* _terminal;
         axScrollBar* _scrollBar;
@@ -124,7 +130,6 @@ namespace eos
         virtual void OnMouseLeftDown(const ax::Point& mouse_pos);
         
         virtual void OnMouseLeftUp(const ax::Point& mouse_pos);
-        
         
         virtual void OnPaint();
 

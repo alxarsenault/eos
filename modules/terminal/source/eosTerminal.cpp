@@ -1,78 +1,5 @@
 #include "eosTerminal.h"
 
-//# Reset
-//Color_Off='\033[0m'       # Text Reset
-//
-//# Regular Colors
-//Black='\033[0;30m'        # Black
-//Red='\033[0;31m'          # Red
-//Green='\033[0;32m'        # Green
-//Yellow='\033[0;33m'       # Yellow
-//Blue='\033[0;34m'         # Blue
-//Purple='\033[0;35m'       # Purple
-//Cyan='\033[0;36m'         # Cyan
-//White='\033[0;37m'        # White
-//
-//# Bold
-//BBlack='\033[1;30m'       # Black
-//BRed='\033[1;31m'         # Red
-//BGreen='\033[1;32m'       # Green
-//BYellow='\033[1;33m'      # Yellow
-//BBlue='\033[1;34m'        # Blue
-//BPurple='\033[1;35m'      # Purple
-//BCyan='\033[1;36m'        # Cyan
-//BWhite='\033[1;37m'       # White
-//
-//# Underline
-//UBlack='\033[4;30m'       # Black
-//URed='\033[4;31m'         # Red
-//UGreen='\033[4;32m'       # Green
-//UYellow='\033[4;33m'      # Yellow
-//UBlue='\033[4;34m'        # Blue
-//UPurple='\033[4;35m'      # Purple
-//UCyan='\033[4;36m'        # Cyan
-//UWhite='\033[4;37m'       # White
-//
-//# Background
-//On_Black='\033[40m'       # Black
-//On_Red='\033[41m'         # Red
-//On_Green='\033[42m'       # Green
-//On_Yellow='\033[43m'      # Yellow
-//On_Blue='\033[44m'        # Blue
-//On_Purple='\033[45m'      # Purple
-//On_Cyan='\033[46m'        # Cyan
-//On_White='\033[47m'       # White
-//
-//# High Intensity
-//IBlack='\033[0;90m'       # Black
-//IRed='\033[0;91m'         # Red
-//IGreen='\033[0;92m'       # Green
-//IYellow='\033[0;93m'      # Yellow
-//IBlue='\033[0;94m'        # Blue
-//IPurple='\033[0;95m'      # Purple
-//ICyan='\033[0;96m'        # Cyan
-//IWhite='\033[0;97m'       # White
-//
-//# Bold High Intensity
-//BIBlack='\033[1;90m'      # Black
-//BIRed='\033[1;91m'        # Red
-//BIGreen='\033[1;92m'      # Green
-//BIYellow='\033[1;93m'     # Yellow
-//BIBlue='\033[1;94m'       # Blue
-//BIPurple='\033[1;95m'     # Purple
-//BICyan='\033[1;96m'       # Cyan
-//BIWhite='\033[1;97m'      # White
-//
-//# High Intensity backgrounds
-//On_IBlack='\033[0;100m'   # Black
-//On_IRed='\033[0;101m'     # Red
-//On_IGreen='\033[0;102m'   # Green
-//On_IYellow='\033[0;103m'  # Yellow
-//On_IBlue='\033[0;104m'    # Blue
-//On_IPurple='\033[0;105m'  # Purple
-//On_ICyan='\033[0;106m'    # Cyan
-//On_IWhite='\033[0;107m'   # White
-
 /*******************************************************************************
  * eos::Terminal::Logic.
  ******************************************************************************/
@@ -103,44 +30,142 @@ void eos::Terminal::Logic::AppendOutput(const std::string& out_str)
 {
     std::string str = out_str;
     
-    // Replace tab with spaces.
-    ax::Utils::String::ReplaceCharWithString(str, '\t', "    ");
-    
-    if(str.size())
+    if(str.size() == 0)
     {
-        for(auto& n : str)
-        {
-            if(n == '\n')
-            {
-                // Add new line.
-                _terminal_output.push_back("");
+        return;
+    }
 
-            }
-            else if(n == '\t')
+    for(int i = 0; i < str.size(); i++)
+    {
+        if(str[i] == '\n')
+        {
+            // Add new line.
+            _terminal_output.push_back("");
+            
+        }
+        else if(str[i] == '\t')
+        {
+            // Align tab space.
+            switch(_terminal_output.back().size() % 8)
             {
-                // Should never append.
+                case 0 : _terminal_output.back().append("        "); break;
+                case 1 : _terminal_output.back().append("       "); break;
+                case 2 : _terminal_output.back().append("      "); break;
+                case 3 : _terminal_output.back().append("     "); break;
+                case 4 : _terminal_output.back().append("    "); break;
+                case 5 : _terminal_output.back().append("   "); break;
+                case 6 : _terminal_output.back().append("  "); break;
+                case 7 : _terminal_output.back().append(" "); break;
             }
-            // Vertical tab.
-            else if(n == 13)
+        }
+        
+        // Vertical tab.
+        else if(str[i] == 13)
+        {
+            //                ax::Print("Vertical tab.");
+        }
+        else if(str[i] == '\033')
+        {
+            ax::Print("ESC");
+            if(i + 1 < str.size())
             {
-                
-            }
-            else
-            {
-                if(_terminal_output.size())
+                if(str[i+1] == '[')
                 {
-                    _terminal_output.back().push_back(n);
-                }
-                
-                // First char of output.
-                else
-                {
-                    _terminal_output.push_back(" ");
-                    _terminal_output[0] = n;
+                    bool go = true;
+                    int k = 2;
+                    
+                    ax::StringVector ansi_esc(1);
+                    
+                    while(go)
+                    {
+                        if(k < str.size())
+                        {
+                            char n = str[i+k];
+                            
+                            if(isdigit(n))
+                            {
+                                ansi_esc.back().push_back(n);
+                            }
+                            else if(n == ';')
+                            {
+                                ansi_esc.push_back("");
+                            }
+                            else
+                            {
+                                ansi_esc.push_back("");
+                                ansi_esc.back().push_back(n);
+                                go = false;
+                            }
+                            
+                            k++;
+                        }
+                    }
+                                        
+                    std::string op_code = ansi_esc.back();
+                    
+                    if(op_code == "H")
+                    {
+                        ax::Print("Cursor Position");
+                    }
+                    else if(op_code == "f")
+                    {
+                        ax::Print("Cursor Position Delta");
+                    }
+                    else if(op_code == "A")
+                    {
+                        ax::Print("Cursor Up");
+                    }
+                    else if(op_code == "B")
+                    {
+                        ax::Print("Cursor Down");
+                    }
+                    else if(op_code == "C")
+                    {
+                        ax::Print("Cursor Foward");
+                    }
+                    else if(op_code == "D")
+                    {
+                        ax::Print("Cursor Backward");
+                    }
+                    else if(op_code == "s")
+                    {
+                        ax::Print("Save Cursor Position");
+                    }
+                    else if(op_code == "u")
+                    {
+                        ax::Print("Restore Cursor Position");
+                    }
+                    else if(op_code == "2J")
+                    {
+                        ax::Print(" Erase Display");
+                    }
+                    else if(op_code == "k")
+                    {
+                        ax::Print("Erase Line");
+                    }
+                    else if(op_code == "m")
+                    {
+                        ax::Print("Set Graphics Mode");
+                    }
                 }
             }
         }
+        else
+        {
+            if(_terminal_output.size())
+            {
+                _terminal_output.back().push_back(str[i]);
+            }
+            
+            // First char of output.
+            else
+            {
+                _terminal_output.push_back(" ");
+                _terminal_output[0] = str[i];
+            }
+        }
     }
+    
 }
 
 void eos::Terminal::Logic::AddCharToCommand(const char& c)
@@ -294,7 +319,27 @@ _start_line_index(0)
 //    echo $LINES
     
     
-    _n_line_shown = rect.size.y / _line_height;
+    InitTerminal();
+}
+
+eos::Terminal::Terminal(ax::App* app,
+                        const ax::Rect& rect,
+                        const eos::Terminal::Info& info):
+axPanel(app, rect),
+_info(info),
+_font("resource/DejaVuSansMono.ttf"),
+_line_height(15),
+_start_line_index(0)
+{
+    InitTerminal();
+}
+    
+
+void eos::Terminal::InitTerminal()
+{
+    ax::Rect rect(GetRect());
+    
+    _n_line_shown = rect.size.y / _line_height - 1;
     
     axScrollBarInfo sb_info(ax::Color(0.36), // Normal.
                             ax::Color(0.38), // Hover.
@@ -366,9 +411,6 @@ void eos::Terminal::OnDownArrowDown()
 {
     _logic.MoveCursorDown();
     Update();
-//    _logic.MoveCursorDown();
-//    MoveToCursorPosition();
-//    Update();
 }
 
 void eos::Terminal::OnKeyDown(const char& key)
@@ -445,8 +487,11 @@ void eos::Terminal::OnPaint()
         
         for (int i = 0, x = line_pos.x; i < n.size(); i++)
         {
-//            if((int)n[i] == '\033')
-//            {
+            //if((int)n[i] == '\033')
+            //{
+            
+//                ax::Print("ANSI :", n[i+1]);
+//                // Process ANSI esc code.
 //                int k = i + 1;
 //                
 //                std::string color_str;
@@ -464,8 +509,9 @@ void eos::Terminal::OnPaint()
 //                    gc.SetColor(ax::Color(1.0, 0.0, 0.0));
 //                }
 //                
+//                
 //                continue;
-//            }
+            //}
             
             _font.SetChar(n[i]);
             ax::Point d = _font.GetDelta();

@@ -73,22 +73,31 @@ extern "C"
                                                 info);
 		frame->SetChildHandler(term);
         
-        TerminalMenu* menu = new TerminalMenu(frame, frame->GetChildRect());
-        frame->SetChildMenuHandler(menu);
+    TerminalMenu* menu = new TerminalMenu(frame, frame->GetChildRect());
+    frame->SetChildMenuHandler(menu);
 		
 		return frame;
 	}
 }
-//int main()
-//{
-//    ax::App app(ax::Size(600, 500));
-//    
-//    app.AddMainEntry([&app]()
-//                     {
-//                         new MainPanel(&app, ax::Rect(0, 0, 600, 500));
-//                     });
-//    
-//    app.MainLoop();
-//    
-//    return 0;
-//}
+
+
+int main()
+{
+    ax::App app(ax::Size(600, 500));
+    
+    app.AddMainEntry([&app]()
+                     {
+//                         eos::Frame* frame = new eos::Frame(&app, ax::Rect(0, 0, 600, 500), "Terminal");
+                         
+                         app.SetFrameSize(ax::Size(600, 500));
+                         
+                         eos::Terminal::Info term_info;
+                         eos::Terminal* term = new eos::Terminal(&app,
+                                                                 ax::Rect(0, 0, 600, 500),
+                                                                 term_info);
+                     });
+    
+    app.MainLoop();
+    
+    return 0;
+}

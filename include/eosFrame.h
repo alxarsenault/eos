@@ -55,6 +55,10 @@ namespace eos
 		Frame(ax::Window* parent,
 			  const ax::Rect& rect, 
 			  const std::string& window_name);
+        
+        Frame(ax::App* app,
+              const ax::Rect& rect,
+              const std::string& window_name);
 	
 		ax::Rect GetChildRect() const;
 

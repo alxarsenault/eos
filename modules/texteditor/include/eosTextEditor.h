@@ -101,7 +101,7 @@ namespace eos
             ax::Color cursor_color;
         };
         
-        TextEditor(axWindow* parent, const ax::Rect& rect, const Info& info);
+        TextEditor(ax::Window* parent, const ax::Rect& rect, const Info& info);
         
         
         void Resize(const ax::Size& size);

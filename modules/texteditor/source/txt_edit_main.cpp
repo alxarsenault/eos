@@ -11,7 +11,7 @@
 class TextEditorMenu : public axPanel
 {
 public:
-    TextEditorMenu(axWindow* parent, const ax::Rect& rect):
+    TextEditorMenu(ax::Window* parent, const ax::Rect& rect):
     // Parent.
     axPanel(parent, rect)
     {
@@ -54,7 +54,7 @@ private:
 class MainPanel : public axPanel
 {
 public:
-    MainPanel(axWindow* parent, const ax::Rect& rect):
+    MainPanel(ax::Window* parent, const ax::Rect& rect):
     // Parent.
     axPanel(parent, rect)
     {
