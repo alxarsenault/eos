@@ -66,7 +66,7 @@ void eos::Terminal::Logic::AppendOutput(const std::string& out_str)
         }
         else if(str[i] == '\033')
         {
-            ax::Print("ESC");
+//            ax::Print("ESC");
             if(i + 1 < str.size())
             {
                 if(str[i+1] == '[')
@@ -146,6 +146,8 @@ void eos::Terminal::Logic::AppendOutput(const std::string& out_str)
                     else if(op_code == "m")
                     {
                         ax::Print("Set Graphics Mode");
+                        CharIndex index(ansi_esc.size() - 1, ansi_esc.size() - 1);
+                        _colors[index] = ax::Color(1.0, 0.0, 0.0);
                     }
                 }
             }
@@ -512,6 +514,15 @@ void eos::Terminal::OnPaint()
 //                
 //                continue;
             //}
+            
+            
+            auto it = _logic.GetColorMap().find(Logic::CharIndex(0, 0));
+            
+            if(it != _logic.GetColorMap().end())
+            {
+                gc.SetColor(it->second);
+            }
+            
             
             _font.SetChar(n[i]);
             ax::Point d = _font.GetDelta();

@@ -47,6 +47,15 @@ namespace eos
             
             void ClearCommand();
             
+            
+            typedef std::pair<unsigned int, unsigned int> CharIndex;
+            typedef std::map<CharIndex, ax::Color> ColorMap;
+            
+            inline ColorMap& GetColorMap()
+            {
+                return _colors;
+            }
+            
         private:
             int _last_cmd_index;
             ax::Point _cursor_pos;
@@ -54,7 +63,7 @@ namespace eos
             ax::StringVector _terminal_output;
             std::string _current_command;
             
-            std::map<char, ax::Color> _colors;
+            ColorMap _colors;
         };
         
         class Info

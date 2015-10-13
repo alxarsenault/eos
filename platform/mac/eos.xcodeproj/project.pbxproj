@@ -21,7 +21,7 @@
 		7CE9A6151B96662A00E5D7B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */; };
 		7CE9A6171B96663500E5D7B5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE9A6161B96663500E5D7B5 /* OpenGL.framework */; };
 		7CE9A6191B96665600E5D7B5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9A6181B96665600E5D7B5 /* MainMenu.xib */; };
-		7CE9A6871B97378200E5D7B5 /* eosCoreManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6861B97378200E5D7B5 /* eosCoreManager.cpp */; };
+		7CE9A6871B97378200E5D7B5 /* eosCoreDesktopManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6861B97378200E5D7B5 /* eosCoreDesktopManager.cpp */; };
 		7CE9A6891B976E7100E5D7B5 /* eosDesktop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */; };
 		7CE9A6931B99D73000E5D7B5 /* eosAlert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */; };
 		7CE9A6A51B99E85D00E5D7B5 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9A6A41B99E85D00E5D7B5 /* Makefile */; };
@@ -54,8 +54,8 @@
 		7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7CE9A6161B96663500E5D7B5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7CE9A6181B96665600E5D7B5 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		7CE9A6851B97376F00E5D7B5 /* eosCoreManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eosCoreManager.h; path = ../../../include/eosCoreManager.h; sourceTree = "<group>"; };
-		7CE9A6861B97378200E5D7B5 /* eosCoreManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosCoreManager.cpp; path = ../../../source/eosCoreManager.cpp; sourceTree = "<group>"; };
+		7CE9A6851B97376F00E5D7B5 /* eosCoreDesktopManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eosCoreDesktopManager.h; path = ../../../include/eosCoreDesktopManager.h; sourceTree = "<group>"; };
+		7CE9A6861B97378200E5D7B5 /* eosCoreDesktopManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosCoreDesktopManager.cpp; path = ../../../source/eosCoreDesktopManager.cpp; sourceTree = "<group>"; };
 		7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDesktop.cpp; path = ../../../source/eosDesktop.cpp; sourceTree = "<group>"; };
 		7CE9A68A1B976E8700E5D7B5 /* eosDesktop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDesktop.h; path = ../../../include/eosDesktop.h; sourceTree = "<group>"; };
 		7CE9A6911B99D72300E5D7B5 /* eosAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosAlert.h; path = ../../../include/eosAlert.h; sourceTree = "<group>"; };
@@ -83,10 +83,12 @@
 				7CD2E3791BA1C7A600CEADC6 /* eosCoreTracer.cpp */,
 				7CD2E3771BA1B77800CEADC6 /* eosCoreUser.h */,
 				7CD2E3751BA1B76E00CEADC6 /* eosCoreUser.cpp */,
-				7CE9A6851B97376F00E5D7B5 /* eosCoreManager.h */,
-				7CE9A6861B97378200E5D7B5 /* eosCoreManager.cpp */,
+				7CE9A6851B97376F00E5D7B5 /* eosCoreDesktopManager.h */,
+				7CE9A6861B97378200E5D7B5 /* eosCoreDesktopManager.cpp */,
 				7CD2E3701BA1B00700CEADC6 /* eosCoreSystem.h */,
 				7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */,
+				7CE9A68A1B976E8700E5D7B5 /* eosDesktop.h */,
+				7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -142,8 +144,6 @@
 				7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */,
 				7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */,
 				7CE9A6911B99D72300E5D7B5 /* eosAlert.h */,
-				7CE9A68A1B976E8700E5D7B5 /* eosDesktop.h */,
-				7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */,
 				7CE9A6181B96665600E5D7B5 /* MainMenu.xib */,
 				7CE9A5EB1B965DC100E5D7B5 /* eosAppLoader.h */,
 				7CE9A5EE1B965DC100E5D7B5 /* eosFrame.h */,
@@ -248,7 +248,7 @@
 				7CE9A6031B965E1B00E5D7B5 /* eosAppLoader.cpp in Sources */,
 				7CE9A6931B99D73000E5D7B5 /* eosAlert.cpp in Sources */,
 				7CD0F52B1BA6580400935AD8 /* main.cpp in Sources */,
-				7CE9A6871B97378200E5D7B5 /* eosCoreManager.cpp in Sources */,
+				7CE9A6871B97378200E5D7B5 /* eosCoreDesktopManager.cpp in Sources */,
 				7CE9A6071B965E1B00E5D7B5 /* eosStatusBar.cpp in Sources */,
 				7CE9A6061B965E1B00E5D7B5 /* eosFrame.cpp in Sources */,
 				7CD2E3801BA23C5600CEADC6 /* eosAppViewer.cpp in Sources */,
