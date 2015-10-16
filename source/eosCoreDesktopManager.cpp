@@ -1,4 +1,5 @@
 #include "eosCoreDesktopManager.h"
+#include "eosDesktop.h"
 
 #include "axLib/axWindowManager.h"
 #include "axLib/axWindowTree.h"
@@ -8,12 +9,12 @@ namespace eos {
 		DesktopManager::DesktopManager()
 		{}
 		
-		void DesktopManager::SetDesktop(std::shared_ptr<Desktop> desktop)
+		void DesktopManager::SetDesktop(std::shared_ptr<eos::Desktop> desktop)
 		{
 			_desktop = desktop;
 		}
 		
-		std::shared_ptr<Desktop> DesktopManager::GetDesktop()
+		std::shared_ptr<eos::Desktop> DesktopManager::GetDesktop()
 		{
 			return _desktop;
 		}

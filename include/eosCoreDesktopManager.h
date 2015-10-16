@@ -4,10 +4,12 @@
 #include "axLib/axLib.h"
 #include "eosAppLoader.h"
 #include "eosFrame.h"
-#include "eosDesktop.h"
+
 
 namespace eos
 {
+	class Desktop;
+	
 	namespace Core {
 		class DesktopManager
 		{
@@ -18,18 +20,6 @@ namespace eos
 			
 			std::shared_ptr<Desktop> GetDesktop();
 			
-//			void MainLoop();
-			
-//			inline ax::App* GetMainApp()
-//			{
-//				return _axApp;
-//			}
-//			
-//			inline void AddMainEntry(std::function<void()> fct)
-//			{
-//				_axApp->AddMainEntry(fct);
-//			}
-//			
 //			inline void AddChild(ax::Window* child)
 //			{
 //				_childs.push_back(child);

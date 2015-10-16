@@ -8,10 +8,8 @@ namespace eos {
 		class User
 		{
 		public:
-			User(const int& user_id,
-				const std::string& first_name,
-				const std::string& last_name,
-				const int& profile_type);
+			User(const int& user_id, const std::string& first_name,
+				const std::string& last_name, const int& profile_type);
 			
 			std::string GetFirstName() const;
 			

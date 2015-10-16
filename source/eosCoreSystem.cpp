@@ -1,19 +1,19 @@
 #include "eosCoreSystem.h"
 #include "eosCoreUser.h"
-#include "eosCoreTracer.h"
+
 
 eos::Core::System::System()
 //_current_user(nullptr)
 {
-	using Desktop = std::shared_ptr<eos::Core::DesktopManager>;
-	_desktopManager = Desktop(new eos::Core::DesktopManager());
+	_desktopManager = std::shared_ptr<eos::Core::DesktopManager>(
+			new eos::Core::DesktopManager());
 	
-//	_tracer = new eos::Core::Tracer(_manager->GetMainApp()->GetEventManager());
+	_tracer = std::unique_ptr<Tracer>(new eos::Core::Tracer());
 	
 	// Open system database.
-	_db = new ax::Database("resource/system");
+	_db = std::unique_ptr<ax::Database>(new ax::Database("resources/system"));
 	
-//	_tracer->Write("Open system database.");
+	_tracer->Write("Open system database.");
 }
 
 bool eos::Core::System::LoginUser(const int& user_id)
@@ -25,20 +25,20 @@ bool eos::Core::System::LoginUser(const int& user_id)
 	
 	if(!users.size()) {
 		ax::Error("Can't login, users id", user_id, "doesn't exist.");
-//		_tracer->Write("Can't login, users id", user_id, "doesn't exist.");
+		_tracer->Write("Can't login, users id", user_id, "doesn't exist.");
 		return false;
 	}
 	
 	if(users.size() > 1)
 	{
 		ax::Error("Multiple users with the same id.");
-//		_tracer->Write("Multiple users with the same id.");
+		_tracer->Write("Multiple users with the same id.");
 		return false;
 	}
 	
 	if(_current_user) {
 		ax::Error("User", _current_user->GetFullName() ,"already login.");
-//		_tracer->Write("User", _current_user->GetFullName() ,"already login.");
+		_tracer->Write("User", _current_user->GetFullName() ,"already login.");
 		
 		return false;
 	}
@@ -49,7 +49,7 @@ bool eos::Core::System::LoginUser(const int& user_id)
 		new eos::Core::User(std::stoi(usr[0].second), usr[1].second,
 			usr[2].second, std::stoi(usr[3].second)));
 	
-//	_tracer->Write("Login user :", _current_user->GetFullName());
+	_tracer->Write("Login user :", _current_user->GetFullName());
 	
 	return true;
 }
@@ -82,10 +82,10 @@ const std::shared_ptr<eos::Core::User> eos::Core::System::GetUser() const
 	return _current_user;
 }
 
-//eos::Core::Tracer* eos::Core::System::GetTracer()
-//{
-//	return _tracer;
-//}
+eos::Core::Tracer* eos::Core::System::GetTracer()
+{
+	return _tracer.get();
+}
 
 std::shared_ptr<eos::Core::DesktopManager>
 	eos::Core::System::GetDesktopManager()

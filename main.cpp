@@ -18,12 +18,14 @@ int main()
 	#ifdef __linux__
 		ax::Size size(app->GetScreenSize());
 	#else
-		ax::Size size(ax::Size(1000, 700));
+		ax::Size size(ax::Size(1000, 700)); // Desktop.
+//		ax::Size size(ax::Size(500, 700)); // Tablet.
 		app.SetFrameSize(size);
 	#endif
-	
-		ax::Rect deskRect(ax::Point(0, 0), size);
-		std::shared_ptr<eos::Core::Desktop> desktop(new eos::Core::Desktop(deskRect));
+		
+		std::shared_ptr<eos::Desktop> desktop(
+				new eos::Desktop(ax::Rect(ax::Point(0, 0), size)));
+		
 		app.AddTopLevel(desktop);
 		
 		

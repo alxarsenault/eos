@@ -76,9 +76,9 @@
 			isa = PBXGroup;
 			children = (
 				7CB50AA91BC3168400166A5A /* eos */,
-				7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */,
 				7CB50AA51BC3165F00166A5A /* terminal_main.cpp */,
 				7CB50AA11BC3165300166A5A /* axOSTerminal.h */,
+				7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */,
 				7CB50AA21BC3165300166A5A /* eosTerminal.h */,
 				7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */,
 				7CB50A821BC3147B00166A5A /* Images.xcassets */,
