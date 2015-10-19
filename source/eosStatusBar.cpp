@@ -8,10 +8,10 @@ eos::StatusBar::StatusBar(const ax::Rect& rect)
 	
 	_user_name = "Alexandre";//_system->GetUser()->GetFullName();
 	
-	_clock = std::shared_ptr<eos::Clock>( new eos::Clock(
-			ax::Rect(rect.size.x - 140, 0, 140, 25)));
+	//_clock = std::shared_ptr<eos::Clock>( new eos::Clock(
+	//		ax::Rect(rect.size.x - 140, 0, 140, 25)));
 	
-	win->node.Add(_clock);
+	//win->node.Add(_clock);
 	
 	// Transparent button.
 	ax::Button::Info btn_info;

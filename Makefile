@@ -1,4 +1,5 @@
 UNAME := $(shell uname)
+
 ## MAC
 ifeq ($(UNAME), Darwin)
 CC = clang++
@@ -7,6 +8,14 @@ CC_LINK = -shared -undefined dynamic_lookup
 INCLUDE_SRC = -Iinclude -I/usr/local/include/freetype2/ -I/usr/local/include/
 LINKER_FLAG = -lpng -laxLibCore -lfreetype -laxExec
 
+else ifeq ($(UNAME), FreeBSD)
+CC = clang++
+CC_FLAGS = -std=c++11 -fPIC -DaxCoreX11 -DGL_GLEXT_PROTOTYPES=1 -fpermissive
+CC_LINK = -shared
+INCLUDE_SRC = -Iinclude/ -I/usr/local/include/freetype2/ -I/usr/local/include/
+
+INCLUDE_LINKER =  -L/usr/local/lib/  -Llib/
+LINKER_FLAG = -lpng -laxLibCore -lfreetype -lpng -lGL -leos
 else 
 #ifeq ($(UNAME), Linux)
 
@@ -28,7 +37,7 @@ OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 all: create_dir $(OBJ_FILES)
 	$(CC) $(CC_LINK) -o $(LIB_DIR)/libeos.so $(OBJ_FILES)
-	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) main.cpp  $(LINKER_FLAG) -o main
+	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) main.cpp  $(LINKER_FLAG) -o eos_main
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) -c -o $@ $<
@@ -46,5 +55,8 @@ app: $(MODULES_DIR)
 $(MODULES_DIR):
 	make -C modules/$@
 
+start:
+	cp lib/libeos.so /usr/local/lib/
+	startx $(shell pwd)/eos_main
 clean:
 	rm -f build/*.o lib/*.so

@@ -2,7 +2,7 @@
 #define __EOS_SYSTEM_H__
 
 #include "axLib/axLib.h"
-#include "axLib/axDatabase.h"
+//#include "axLib/axDatabase.h"
 #include "eosCoreTracer.h"
 #include "eosCoreDesktopManager.h"
 
@@ -34,7 +34,7 @@ namespace eos {
 			std::shared_ptr<DesktopManager> _desktopManager;
 //			Manager* _manager;
 			std::unique_ptr<Tracer> _tracer;
-			std::unique_ptr<ax::Database> _db;
+			//std::unique_ptr<ax::Database> _db;
 			std::shared_ptr<User> _current_user;
 		};
 	}

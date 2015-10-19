@@ -5,7 +5,6 @@
 #include "eosAppLoader.h"
 #include "eosFrame.h"
 
-
 namespace eos
 {
 	class Desktop;

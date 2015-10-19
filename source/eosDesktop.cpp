@@ -7,8 +7,6 @@
 #include "axLib/axWindowManager.h"
 #include "axLib/axOSFileSystem.h"
 
-
-
 const int eos::Desktop::_delta_icon = 84;
 
 eos::Desktop::Desktop(const ax::Rect& rect)
@@ -100,6 +98,8 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 //	_desktop_apps[DSKT_APP_VIEWER] = appViewer;
 
 	// Find interior rect.
+	
+	// Desktop icons.
 	int n_icon_per_row = (rect.size.x - 2 * 50) / _delta_icon;
 	int x_delta = (rect.size.x - 2 * 50) - n_icon_per_row * _delta_icon;
 	int n_icon_per_col = (rect.size.y - 2 * 50) / _delta_icon;
@@ -110,15 +110,15 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	
 	ax::Print(n_icon_per_row);
 	
-	
+	// Read desktop folder.
 	ax::os::Directory dir;
-	dir.Goto("/Users/alexarse/Desktop/");
+	dir.Goto("/home/eos/");
 	
 	int x = 0, y = 0;
 	for(auto& n : dir.GetContent()) {
 		std::string icon_path;
 		
-		ax::Print(n.ext);
+		//ax::Print(n.ext);
 		
 		if(n.type == ax::os::File::FOLDER) {
 			icon_path = "resources/1441952908_folder.png";

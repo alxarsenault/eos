@@ -26,7 +26,10 @@
 #include <pty.h>
 #include <utmp.h>
 #else
-#include <util.h>
+//#include <util.h>
+
+#include <libutil.h>
+
 #endif // __linux__
 
 ax::os::Terminal::Terminal()

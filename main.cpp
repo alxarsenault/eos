@@ -15,19 +15,19 @@ int main()
 	
 	app.AddMainEntry([&app, system]()
 	{
-	#ifdef __linux__
-		ax::Size size(app->GetScreenSize());
-	#else
-		ax::Size size(ax::Size(1000, 700)); // Desktop.
+	//#ifdef __linux__
+		ax::Size size(app.GetScreenSize());
+	//#else
+		//ax::Size size(ax::Size(1000, 700)); // Desktop.
 //		ax::Size size(ax::Size(500, 700)); // Tablet.
-		app.SetFrameSize(size);
-	#endif
+		//app.SetFrameSize(size);
+	//#endif
 		
 		std::shared_ptr<eos::Desktop> desktop(
 				new eos::Desktop(ax::Rect(ax::Point(0, 0), size)));
 		
 		app.AddTopLevel(desktop);
-		
+		system->GetDesktopManager()->SetDesktop(desktop);	
 		
 		
 		//ax::Window::Ptr desktop = system->GetDesktopManager()->GetWindow();
