@@ -39,13 +39,28 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 //	
 //	_terminal_app = new eos::AppLoader("./app/terminal.so", "TerminalMode");
 	
+	// Background image.
 	_bg_img = std::shared_ptr<ax::Image>(
 		new ax::Image("resources/wallpaper-standard.png"));
 	
+	// Add all icons to desktop.
+	// We want to keep the desktop icons at the end of the node children vector
+	// to make sure all desktop addons stay on top of icons.
+	InitDesktopIcon();
 	
+	// Create all desktop addons.
+	
+	// Create status bar.
 	win->node.Add(std::shared_ptr<eos::StatusBar>(
 			new eos::StatusBar(ax::Rect(0, 0, rect.size.x, 25))));
-			
+	
+	// Create dock.
+	ax::Rect dock_rect(100, rect.size.y - 64 - (2 * 5),
+			rect.size.x - 200, 64 + 2 * 5);
+	
+	win->node.Add(std::shared_ptr<eos::Dock>(
+			new eos::Dock(dock_rect)));
+	
 //	_img_test = new ax::Image("resource/1441953050_image.png");
 //	
 //	eos::Core::Manager* man = system->GetManager();
@@ -96,10 +111,13 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 //	appViewer->Hide();
 //	man->AddChild(appViewer);
 //	_desktop_apps[DSKT_APP_VIEWER] = appViewer;
+}
 
-	// Find interior rect.
-	
+void eos::Desktop::InitDesktopIcon()
+{
 	// Desktop icons.
+	ax::Rect rect(win->dimension.GetRect());
+	
 	int n_icon_per_row = (rect.size.x - 2 * 50) / _delta_icon;
 	int x_delta = (rect.size.x - 2 * 50) - n_icon_per_row * _delta_icon;
 	int n_icon_per_col = (rect.size.y - 2 * 50) / _delta_icon;
@@ -108,17 +126,14 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	
 	_grid_size = ax::Size(n_icon_per_row, 10);
 	
-	ax::Print(n_icon_per_row);
-	
 	// Read desktop folder.
 	ax::os::Directory dir;
-	dir.Goto("/home/eos/");
+	//	dir.Goto("/home/eos/");
+	dir.Goto("/Users/alexarse/Desktop/");
 	
 	int x = 0, y = 0;
 	for(auto& n : dir.GetContent()) {
 		std::string icon_path;
-		
-		//ax::Print(n.ext);
 		
 		if(n.type == ax::os::File::FOLDER) {
 			icon_path = "resources/1441952908_folder.png";
@@ -129,9 +144,9 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 		} else {
 			icon_path = "resources/1441952129_document.png";
 		}
-
+		
 		std::shared_ptr<eos::DesktopIcon> icon(new eos::DesktopIcon(
-			this, ax::Point(50, 50), icon_path, n.name));
+				this, ax::Point(50, 50), icon_path, n.name));
 		
 		if(x++ > _grid_size.x - 2) {
 			x = 0;

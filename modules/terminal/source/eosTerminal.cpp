@@ -1,5 +1,7 @@
 #include "eosTerminal.h"
 
+//http://ascii-table.com/ansi-escape-sequences.php
+
 /*******************************************************************************
  * eos::Terminal::Logic.
  ******************************************************************************/
@@ -7,9 +9,7 @@ eos::Terminal::Logic::Logic()
 	: _cursor_pos(0, 0)
 	, _current_command("")
 	, _last_cmd_index(0)
-{
-	
-}
+{}
 
 ax::StringVector& eos::Terminal::Logic::GetOutputData()
 {
@@ -30,13 +30,11 @@ void eos::Terminal::Logic::AppendOutput(const std::string& out_str)
 {
 	std::string str = out_str;
 	
-	if(str.size() == 0)
-	{
+	if(str.size() == 0) {
 		return;
 	}
 	
-	for(int i = 0; i < str.size(); i++)
-	{
+	for(int i = 0; i < str.size(); i++) {
 		if(str[i] == '\n') {
 			// Add new line.
 			_terminal_output.push_back("");
@@ -75,6 +73,11 @@ void eos::Terminal::Logic::AppendOutput(const std::string& out_str)
 								ansi_esc.back().push_back(n);
 							} else if(n == ';') {
 								ansi_esc.push_back("");
+							} else if(n == ' ') {
+								continue;
+							} else if(n == '=') {
+								ax::Print("=====");
+								continue;
 							} else {
 								ansi_esc.push_back("");
 								ansi_esc.back().push_back(n);
@@ -108,8 +111,51 @@ void eos::Terminal::Logic::AppendOutput(const std::string& out_str)
 						ax::Print("Erase Line");
 					} else if(op_code == "m") {
 						ax::Print("Set Graphics Mode");
-						CharIndex index(ansi_esc.size() - 1, ansi_esc.size() - 1);
-						_colors[index] = ax::Color(1.0f, 0.0f, 0.0f);
+						
+						unsigned int char_index = 0;
+						
+						if(_terminal_output.size() &&
+								_terminal_output.back().size()) {
+								char_index = (unsigned int)_terminal_output.back().size();
+						}
+						
+						i += k - 1;
+						
+						unsigned int line_index = (unsigned int)_terminal_output.size() - 1;
+						
+						if(str[i+1] == '\n' || str[i+1] == 13) {
+							ax::Print("Enter after", str[i+1], int(str[i+1]));
+							line_index += 1;
+							char_index = 0;
+						}
+						
+						CharIndex index(line_index, char_index);
+						
+						//ax::Print("INDEX :", index.first, index.second);
+						
+//						ax::Print("eSC");
+
+//						for(auto& n : ansi_esc) {
+//							for(auto& c : n) {
+//								ax::Print(n, " :", c, (int)c);
+//							}
+//						}
+						for(int att = 0; att < ansi_esc.size() - 1; att++) {
+		
+							try {
+								ax::Print("Att :", ansi_esc[att], (int)ansi_esc[att][0]);
+								switch(std::stoi(ansi_esc[att])) {
+									case 30: _colors[index] = ax::Color(0.0f, 0.0f, 0.0f); break;
+									case 31: _colors[index] = ax::Color(1.0f, 0.0f, 0.0f); break;
+									case 32: _colors[index] = ax::Color(0.0f, 1.0f, 0.0f); break;
+									}
+							} catch(std::invalid_argument e) {
+								ax::Print("Fuck up");
+							
+							}
+						}
+						
+						
 					}
 				}
 			}
@@ -302,7 +348,8 @@ void eos::Terminal::InitTerminal()
 //	_scrollBar = new axScrollBar(this, nullptr, sb_rect, sb_evts, sb_info);
 	
 	// Create ax::os::Terminal.
-	_terminal = std::shared_ptr<ax::os::Terminal>(new ax::os::Terminal());
+	_terminal = std::shared_ptr<ax::os::Terminal>(
+			new ax::os::Terminal(ax::App::GetInstance().GetEventManager()));
 	
 	_terminal->AddConnection(ax::os::Terminal::READ_CHILD_BEGIN,
 							 GetOnReadChildBegin());
@@ -421,53 +468,25 @@ void eos::Terminal::OnPaint(ax::GC gc)
 	
 	int start_i = 0;
 	
-	if(out.size() > _n_line_shown)
-	{
+	if(out.size() > _n_line_shown) {
 		start_i = (int)out.size() - _n_line_shown;
 	}
 	
-	for(int i = start_i; i < out.size(); i++)
-	{
+	// For each lines.
+	for(int i = start_i; i < out.size(); i++) {
 		const std::string& n = out[i];
 		
-		for (int i = 0, x = line_pos.x; i < n.size(); i++)
-		{
-			//if((int)n[i] == '\033')
-			//{
+		// For each char in line.
+		for (int ci = 0, x = line_pos.x; ci < n.size(); ci++) {
 			
-			//                ax::Print("ANSI :", n[i+1]);
-			//                // Process ANSI esc code.
-			//                int k = i + 1;
-			//
-			//                std::string color_str;
-			//                do
-			//                {
-			//                    color_str.push_back(n[k++]);
-			//                } while(n[k] != 'm');
-			//                color_str.push_back('m');
-			//
-			//                i += (k - i);
-			//
-			//                ax::Print("Color str:", color_str);
-			//                if(color_str == "[31m")
-			//                {
-			//                    gc.SetColor(ax::Color(1.0, 0.0, 0.0));
-			//                }
-			//
-			//
-			//                continue;
-			//}
+			// Look for color change.
+			auto it = _logic.GetColorMap().find(Logic::CharIndex(i, ci));
 			
-			
-			auto it = _logic.GetColorMap().find(Logic::CharIndex(0, 0));
-			
-			if(it != _logic.GetColorMap().end())
-			{
+			if(it != _logic.GetColorMap().end()) {
 				gc.SetColor(it->second);
 			}
 			
-			
-			_font.SetChar(n[i]);
+			_font.SetChar(n[ci]);
 			ax::Point d = _font.GetDelta();
 			
 			ax::Point txtPos(x + d.x, line_pos.y - d.y + f_size);

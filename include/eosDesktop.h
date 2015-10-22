@@ -7,6 +7,8 @@
 
 //#include "eosAppLoader.h"
 #include "eosStatusBar.h"
+#include "eosDock.h"
+
 //#include "eosFrame.h"
 //#include "eosDock.h"
 //
@@ -85,6 +87,8 @@ namespace eos {
 				const ax::Point& icon_pos);
 		
 		void SetIconOnGrid(ax::Window::Ptr icon);
+		
+		void InitDesktopIcon();
 		
 		bool _desktop_apps_status[DSKT_APP_COUNT];
 		ax::Window* _desktop_apps[DSKT_APP_COUNT];

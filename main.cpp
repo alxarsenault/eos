@@ -16,11 +16,11 @@ int main()
 	app.AddMainEntry([&app, system]()
 	{
 	//#ifdef __linux__
-		ax::Size size(app.GetScreenSize());
+//		ax::Size size(app.GetScreenSize());
 	//#else
-		//ax::Size size(ax::Size(1000, 700)); // Desktop.
+		ax::Size size(ax::Size(1000, 700)); // Desktop.
 //		ax::Size size(ax::Size(500, 700)); // Tablet.
-		//app.SetFrameSize(size);
+		app.SetFrameSize(size);
 	//#endif
 		
 		std::shared_ptr<eos::Desktop> desktop(

@@ -18,6 +18,7 @@ namespace eos {
 		std::shared_ptr<ax::Image> _img;
 		std::string _name;
 		
+		void OnMouseEnter(const ax::Point& mouse);
 		void OnMouseLeave(const ax::Point& mouse);
 		void OnPaint(ax::GC gc);
 	};

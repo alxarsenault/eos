@@ -154,9 +154,9 @@
 				7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */,
 				7CE9A6911B99D72300E5D7B5 /* eosAlert.h */,
 				7CE9A6181B96665600E5D7B5 /* MainMenu.xib */,
-				7CE9A5EB1B965DC100E5D7B5 /* eosAppLoader.h */,
 				7CE9A5EE1B965DC100E5D7B5 /* eosFrame.h */,
 				7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */,
+				7CE9A5EB1B965DC100E5D7B5 /* eosAppLoader.h */,
 				7CE9A5F61B965E1B00E5D7B5 /* eosAppLoader.cpp */,
 			);
 			name = Desktop;

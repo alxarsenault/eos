@@ -3,7 +3,7 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axScrollBar.h"
-#include "axOSTerminal.h"
+#include "axLib/axOSTerminal.h"
 #include <map>
 
 namespace eos {
