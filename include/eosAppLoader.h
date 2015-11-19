@@ -13,7 +13,7 @@ namespace eos {
 		class Module
 		{
 		public:
-			typedef std::function<ax::Window*(ax::Window*, ax::Rect)> EntryFunction;
+			typedef std::function<ax::Window::Backbone*(ax::Rect)> EntryFunction;
 
 			Module(const std::string& path);
 		
@@ -34,16 +34,16 @@ namespace eos {
 		
 		AppLoader(const std::string& path, const std::string& func_name);
 
-		ax::Window* Create(ax::Window* parent, const ax::Rect& rect);
+		ax::Window::Backbone* Create(const ax::Rect& rect);
 
 		void RemoveHandle();
 
-		ax::Window* GetHandle();
+		ax::Window::Backbone* GetHandle();
 
 	private:
 		std::string _path, _func_name;
 		Module* _module;
-		ax::Window* _handle;
+		ax::Window::Backbone* _handle;
 	};
 }
 

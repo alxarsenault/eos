@@ -50,34 +50,34 @@
 
 extern "C"
 {
-//	ax::Window* TerminalMode(ax::Window* parent, ax::Rect rect)
-//	{
-//		eos::Terminal::Info info(ax::Color(0.9f, 0.9f, 0.9f),
-//								 ax::Color(0.4f, 0.4f),
-//								 ax::Color(0.0f, 1.0f, 0.0f, 0.3f));
-//		
-//		return new eos::Terminal(parent, rect, info);
-//	}
-//	
-//	ax::Window* StartApplication(ax::Window* parent, ax::Rect rect)
-//	{
-//		ax::Size fixe_size(500, 500);
-//		eos::Frame* frame = new eos::Frame(parent,
-//										   ax::Rect(rect.position, fixe_size),
-//										   "Terminal");
-//		frame->AddProperty("Resizable");
-//		
-//		eos::Terminal::Info info;
-//		eos::Terminal* term = new eos::Terminal(frame,
-//												frame->GetChildRect(),
-//												info);
-//		frame->SetChildHandler(term);
-//		
+	ax::Window::Backbone* TerminalMode(ax::Rect rect)
+	{
+		eos::Terminal::Info info(ax::Color(0.9f, 0.9f, 0.9f),
+								 ax::Color(0.4f, 0.4f),
+								 ax::Color(0.0f, 1.0f, 0.0f, 0.3f));
+		
+		return new eos::Terminal(rect, info);
+//		return parent->node.Add(std::shared_ptr<eos::Terminal>(new eos::Terminal(rect, info)));
+	}
+	
+	ax::Window::Backbone* StartApplication(ax::Window* parent, ax::Rect rect)
+	{
+		ax::Size fixe_size(500, 500);
+		eos::Frame* frame = new eos::Frame(ax::Rect(rect.position, fixe_size),
+										   "Terminal");
+		frame->GetWindow()->property.AddProperty("Resizable");
+		
+		eos::Terminal::Info info;
+		std::shared_ptr<eos::Terminal> term(new eos::Terminal(frame->GetChildRect(), info));
+		
+		frame->GetWindow()->node.Add(term);
+		frame->SetChildHandler(term->GetWindow());
+		
 //		TerminalMenu* menu = new TerminalMenu(frame, frame->GetChildRect());
 //		frame->SetChildMenuHandler(menu);
-//		
-//		return frame;
-//	}
+		
+		return frame;
+	}
 }
 
 

@@ -30,18 +30,21 @@ namespace eos {
 		ax::Event::Timer* _timer_up;
 		ax::Event::Timer* _timer_down;
 		
+		ax::GL::Shader _shader;
+		std::shared_ptr<ax::Image> _bg_img;
+		
 		bool _isDrop;
 		std::map<std::string, AppLoader> _appLoaders;
 		std::vector<eos::DockIcon*> _app_icons;
 		
-		axEVENT_ACCESSOR(ax::Button::Msg, OnAppSelect);
-		void OnAppSelect(const ax::Button::Msg& msg);
+		axEVENT_ACCESSOR(ax::Event::StringMsg, OnAppSelect);
+		void OnAppSelect(const ax::Event::StringMsg& msg);
 		
-		//axEVENT_ACCESSOR(eos::Frame::Msg, OnWindowMinimize);
-		//void OnWindowMinimize(const eos::Frame::Msg& msg);
+		axEVENT_ACCESSOR(eos::Frame::Msg, OnWindowMinimize);
+		void OnWindowMinimize(const eos::Frame::Msg& msg);
 		
-		//axEVENT_ACCESSOR(eos::Frame::Msg, OnWindowClose);
-		//void OnWindowClose(const eos::Frame::Msg& msg);
+		axEVENT_ACCESSOR(eos::Frame::Msg, OnWindowClose);
+		void OnWindowClose(const eos::Frame::Msg& msg);
 		
 		axEVENT_ACCESSOR(ax::Event::Timer::Msg, OnAnimationTimerUp);
 		void OnAnimationTimerUp(const ax::Event::Timer::Msg& msg);

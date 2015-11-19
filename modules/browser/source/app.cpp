@@ -9,7 +9,7 @@
 
 extern "C"
 {
-	ax::Window* StartApplication(ax::Window* parent, ax::Rect rect)
+	ax::Window::Ptr StartApplication(ax::Window::Ptr parent, ax::Rect rect)
 	{
 		rect.size = ax::Size(500, 500);
 
@@ -19,6 +19,8 @@ extern "C"
 		eos::Browser* browser = new eos::Browser(frame, frame->GetChildRect());
 		
 		frame->SetChildHandler(browser);
+		
+		
 		return frame;
 	}
 }

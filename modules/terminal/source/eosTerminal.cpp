@@ -292,7 +292,7 @@ void eos::Terminal::Logic::ClearCommand()
 eos::Terminal::Terminal(const ax::Rect& rect,
 						const eos::Terminal::Info& info):
 _info(info),
-_font("resource/DejaVuSansMono.ttf"),
+_font("resources/DejaVuSansMono.ttf"),
 _line_height(15),
 _start_line_index(0)
 {

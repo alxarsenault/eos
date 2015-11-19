@@ -10,10 +10,15 @@ eos::DockIcon::DockIcon(const ax::Rect& rect, const std::string& img_path,
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &DockIcon::OnPaint);
 	win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &DockIcon::OnMouseEnter);
 	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &DockIcon::OnMouseLeave);
-	
+	win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &DockIcon::OnMouseLeftDown);
 	_img = std::shared_ptr<ax::Image>(new ax::Image(img_path));
 }
 
+void eos::DockIcon::OnMouseLeftDown(const ax::Point& mouse)
+{
+	// Dock.
+	win->node.GetParent()->PushEvent(320, new ax::Event::StringMsg(_name));
+}
 
 void eos::DockIcon::OnMouseLeave(const ax::Point& mouse)
 {

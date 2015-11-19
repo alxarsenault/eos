@@ -9,6 +9,8 @@
 #include "eosCoreSystem.h"
 #include "eosClock.h"
 
+#include "axLib/axGLShader.h"
+
 namespace eos {
 	/*
 	 * eos::StatusBar.
@@ -25,6 +27,8 @@ namespace eos {
 		
 		ax::Image* _setting_img;
 		ax::Font _font;
+		ax::GL::Shader _shader;
+		std::shared_ptr<ax::Image> _bg_img;
 		
 		void OnView(ax::Event::Msg* msg);
 		
