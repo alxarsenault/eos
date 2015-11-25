@@ -1,0 +1,25 @@
+// Draw window.
+var gc = GC();
+var rect = win.dimension.GetDrawingRect();
+
+gc.Color(Color(0.2, 0.2, 0.2));
+gc.Rectangle(rect);
+
+gc.Color(Color(0.8, 0.8, 0.8));
+gc.RectangleContour(rect, 1.0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

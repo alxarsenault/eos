@@ -70,23 +70,14 @@ eos::Dock::Dock(const ax::Rect& rect)
 		icon_pos = icon->dimension.GetRect().GetNextPosRight(10);
 	}
 
-	//	_appLoaders["calc"] =
-	// AppLoader("/home/pi/Projects/eos/app/calculator.so");
-	//	_appLoaders["browser"] =
-	// AppLoader("/home/pi/Projects/eos/app/browser.so");
-	//	_appLoaders["txtedit"] =
-	// AppLoader("/home/pi/Projects/eos/app/text_editor.so");
-	//  _appLoaders["term"] =
-	//  AppLoader("/home/pi/Projects/eos/app/terminal.so");
-
 	_appLoaders["calc"] = AppLoader("./app/calculator.so");
 	_appLoaders["browser"] = AppLoader("./app/browser.so");
 	_appLoaders["txtedit"] = AppLoader("./app/text_editor.so");
 	_appLoaders["term"] = AppLoader("./app/terminal.so");
-	_appLoaders["viewer"] = AppLoader("./app/image_viewer.so");
+	_appLoaders["viewer"] = AppLoader("./app/video.so");
 	_appLoaders["mail"] = AppLoader("./app/mail.so");
-	_appLoaders["calender"] = AppLoader("./app/mail.so");
-	_appLoaders["book"] = AppLoader("./app/mail.so");
+	_appLoaders["calender"] = AppLoader("./app/slideshow.so");
+	_appLoaders["book"] = AppLoader("./app/editor.so");
 	_appLoaders["settings"] = AppLoader("./app/mail.so");
 	_appLoaders["trash"] = AppLoader("./app/mail.so");
 

@@ -43,22 +43,26 @@ public:
 	//
 	void AddFrame(std::shared_ptr<ax::Window::Backbone> frame);
 	//
-	//		inline void BringToFront(eos::Frame* frame)
-	//		{
-	//			_system->GetManager()->BringToFront(frame);
-	//		}
+	//	void BringToFront(eos::Frame* frame)
+	//	{
+	////		system->GetManager()->BringToFront(frame);
+	//	}
 	//
 	//		inline std::vector<eos::Frame*> GetFrameVector()
 	//		{
 	//			return _system->GetManager()->GetFrameVector();
 	//		}
 
+	void BringToFront(ax::Window::Ptr frame);
+
 	void ShowView();
+	
+	void ShowDesktopChoice();
 
 	enum DesktopApps {
+		DSKT_APP_NOTIFY,
 		DSKT_APP_TERMINAL,
 		DSKT_APP_TRACE,
-		DSKT_APP_NOTIFY,
 		DSKT_APP_HOME,
 		DSKT_APP_VIEWER,
 		DSKT_APP_COUNT
@@ -68,6 +72,8 @@ public:
 
 private:
 	std::size_t _last_icon_index;
+	
+	int _nDesktopApp;
 	std::vector<DesktopIcon*> _icons;
 	bool _has_icon_dragging;
 	ax::Point _grid_index;
@@ -75,6 +81,13 @@ private:
 	ax::Point _interior_delta;
 	ax::Size _grid_size;
 	static const int _delta_icon;
+	
+	ax::Window::Ptr _cube_win;
+	float _cube_angle;
+	ax::Point _last_cube_mouse_pos;
+	int _cube_face_selected;
+	
+	ax::Window::Ptr _status_bar;
 
 	ax::Point BlockIconWithDesktopBorder(ax::Window::Ptr icon,
 		const ax::Point& click_pos, const ax::Point& mouse);
@@ -89,7 +102,7 @@ private:
 	bool _desktop_apps_status[DSKT_APP_COUNT];
 	ax::Window::Ptr _desktop_apps[DSKT_APP_COUNT];
 
-	//		bool _showView;
+	bool _showView;
 
 	//		eos::Core::System* _system;
 
@@ -97,6 +110,8 @@ private:
 	AppLoader* _terminal_app;
 
 	std::shared_ptr<ax::Image> _bg_img;
+	std::shared_ptr<ax::Image> _bg_img2;
+	ax::Image* _current_bg_img;
 	//		eos::Notification* _notification;
 
 	//		eos::Alert* _trace_viewer;
@@ -104,7 +119,10 @@ private:
 	//		ax::Image* _img_test;
 
 	void ReposAllDesktopBuiltInApps();
-
+	
+	void ShowIcons(const bool& show);
+	void ShowDesktopApps(const bool& show);
+	void ShowAppFrames(const bool& show);
 	// Events.
 
 	void OnMouseMotion(const ax::Point& mouse);
@@ -112,7 +130,8 @@ private:
 	void OnMouseLeftUp(const ax::Point& mouse);
 
 	void OnPaint(ax::GC gc);
-	//		void PaintView(ax::GC& gc);
+	void PaintView(ax::GC& gc);
+	void OnPaint3D(ax::GC gc);
 };
 }
 

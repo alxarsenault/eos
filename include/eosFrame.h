@@ -88,7 +88,10 @@ namespace eos
 		bool _highlight;
 		
 		ax::GL::Shader _shader;
-		std::shared_ptr<ax::Image> _bg_img;
+		ax::GL::Shader _shadow_shader;
+//		std::shared_ptr<ax::Image> _bg_img;
+		ax::Image* _bg_img;
+//		std::shared_ptr<ax::Image> _img_top_shadow;
 
         axEVENT_ACCESSOR(ax::Button::Msg, OnOpenMenu);
         void OnOpenMenu(const ax::Button::Msg& msg);
@@ -110,7 +113,12 @@ namespace eos
 		void OnMouseLeftDragging(const ax::Point& pos);
 
 		void OnPaint(ax::GC gc);
+		void OnPaintOverFrameBuffer(ax::GC gc);
         void DrawMenuMode(ax::GC& gc);
+		
+		void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius,
+							   const double& angle, const ax::Color& middle_color,
+							   const ax::Color& contour_color);
 
 	};
 }

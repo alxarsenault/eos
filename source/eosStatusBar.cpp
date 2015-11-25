@@ -99,7 +99,11 @@ eos::StatusBar::StatusBar(const ax::Rect& rect)
 
 void eos::StatusBar::OnView(ax::Event::Msg* msg)
 {
-	//	eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	//	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_NOTIFY);
+	desktop->ShowView();
 	//	desktop->ShowView();
 }
 
@@ -143,13 +147,16 @@ void eos::StatusBar::OnAppViewer(ax::Event::Msg* msg)
 
 void eos::StatusBar::OnSettings(ax::Event::Msg* msg)
 {
-	//	eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-	//	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_VIEWER);
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	desktop->ShowDesktopChoice();
 }
 
 void eos::StatusBar::OnPaint(ax::GC gc)
 {
-	ax::Rect rect(win->dimension.GetDrawingRect());
+//	ax::Rect rect(win->dimension.GetDrawingRect());
+	ax::Rect rect(ax::Point(-1, -1), win->dimension.GetSize());
 
 	if (_bg_img && _bg_img->IsImageReady()) {
 		_shader.Activate();
@@ -164,7 +171,7 @@ void eos::StatusBar::OnPaint(ax::GC gc)
 
 	gc.SetColor(ax::Color(0.4, 0.2));
 	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));
-	gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
+	gc.DrawRectangle(rect);
 
 	gc.SetColor(ax::Color(0.9));
 	gc.DrawString(_font, _user_name, ax::Point(rect.size.x - 280, 5));

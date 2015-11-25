@@ -18,7 +18,7 @@ int main()
 		//#else
 		// 1280 x 800
 		ax::Size size(ax::Size(1280, 800)); // Desktop.
-//		ax::Size size(ax::Size(700, 500)); // Tablet.
+		//ax::Size size(ax::Size(700, 500)); // Tablet.
 		app.SetFrameSize(size);
 		//#endif
 
