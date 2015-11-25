@@ -15,7 +15,7 @@ CC_LINK = -shared
 INCLUDE_SRC = -Iinclude/ -I/usr/local/include/freetype2/ -I/usr/local/include/
 
 INCLUDE_LINKER =  -L/usr/local/lib/  -Llib/
-LINKER_FLAG = -lpng -laxLibCore -lfreetype -lpng -lGL -leos
+LINKER_FLAG = -lpng -laxLibCore -lfreetype -lpng -lGL -leos -lutil
 else 
 #ifeq ($(UNAME), Linux)
 
