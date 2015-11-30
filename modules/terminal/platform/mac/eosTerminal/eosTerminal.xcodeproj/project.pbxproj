@@ -1,0 +1,337 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7CB50A831BC3147B00166A5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CB50A821BC3147B00166A5A /* Images.xcassets */; };
+		7CB50A9A1BC3151400166A5A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CB50A991BC3151400166A5A /* MainMenu.xib */; };
+		7CB50AA61BC3165F00166A5A /* axOSTerminal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */; };
+		7CB50AA71BC3165F00166A5A /* eosTerminal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */; };
+		7CB50AA81BC3165F00166A5A /* terminal_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AA51BC3165F00166A5A /* terminal_main.cpp */; };
+		7CB50AAC1BC316A900166A5A /* eosFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AAB1BC316A900166A5A /* eosFrame.cpp */; };
+		7CB50AAE1BC3180000166A5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB50AAD1BC3180000166A5A /* Cocoa.framework */; };
+		7CB50AB01BC3180500166A5A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB50AAF1BC3180500166A5A /* OpenGL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7CB50A791BC3147B00166A5A /* terminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = terminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CB50A7C1BC3147B00166A5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CB50A821BC3147B00166A5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7CB50A991BC3151400166A5A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		7CB50AA11BC3165300166A5A /* axOSTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = axOSTerminal.h; path = ../../../../include/axOSTerminal.h; sourceTree = "<group>"; };
+		7CB50AA21BC3165300166A5A /* eosTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosTerminal.h; path = ../../../../include/eosTerminal.h; sourceTree = "<group>"; };
+		7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = axOSTerminal.cpp; path = ../../../../source/axOSTerminal.cpp; sourceTree = "<group>"; };
+		7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosTerminal.cpp; path = ../../../../source/eosTerminal.cpp; sourceTree = "<group>"; };
+		7CB50AA51BC3165F00166A5A /* terminal_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = terminal_main.cpp; path = ../../../../source/terminal_main.cpp; sourceTree = "<group>"; };
+		7CB50AAA1BC3169500166A5A /* eosFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosFrame.h; path = ../../../../../../include/eosFrame.h; sourceTree = "<group>"; };
+		7CB50AAB1BC316A900166A5A /* eosFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosFrame.cpp; path = ../../../../../../source/eosFrame.cpp; sourceTree = "<group>"; };
+		7CB50AAD1BC3180000166A5A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		7CB50AAF1BC3180500166A5A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7CB50A761BC3147B00166A5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB50AB01BC3180500166A5A /* OpenGL.framework in Frameworks */,
+				7CB50AAE1BC3180000166A5A /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7CB50A5A1BC313C200166A5A = {
+			isa = PBXGroup;
+			children = (
+				7CB50AAF1BC3180500166A5A /* OpenGL.framework */,
+				7CB50AAD1BC3180000166A5A /* Cocoa.framework */,
+				7CB50A651BC313C300166A5A /* eosTerminal */,
+				7CB50A7A1BC3147B00166A5A /* terminal */,
+				7CB50A641BC313C300166A5A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7CB50A641BC313C300166A5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7CB50A791BC3147B00166A5A /* terminal.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7CB50A651BC313C300166A5A /* eosTerminal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = eosTerminal;
+			sourceTree = "<group>";
+		};
+		7CB50A7A1BC3147B00166A5A /* terminal */ = {
+			isa = PBXGroup;
+			children = (
+				7CB50AA91BC3168400166A5A /* eos */,
+				7CB50AA51BC3165F00166A5A /* terminal_main.cpp */,
+				7CB50AA11BC3165300166A5A /* axOSTerminal.h */,
+				7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */,
+				7CB50AA21BC3165300166A5A /* eosTerminal.h */,
+				7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */,
+				7CB50A821BC3147B00166A5A /* Images.xcassets */,
+				7CB50A991BC3151400166A5A /* MainMenu.xib */,
+				7CB50A7B1BC3147B00166A5A /* Supporting Files */,
+			);
+			path = terminal;
+			sourceTree = "<group>";
+		};
+		7CB50A7B1BC3147B00166A5A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7CB50A7C1BC3147B00166A5A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7CB50AA91BC3168400166A5A /* eos */ = {
+			isa = PBXGroup;
+			children = (
+				7CB50AAB1BC316A900166A5A /* eosFrame.cpp */,
+				7CB50AAA1BC3169500166A5A /* eosFrame.h */,
+			);
+			name = eos;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7CB50A781BC3147B00166A5A /* terminal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CB50A931BC3147B00166A5A /* Build configuration list for PBXNativeTarget "terminal" */;
+			buildPhases = (
+				7CB50A751BC3147B00166A5A /* Sources */,
+				7CB50A761BC3147B00166A5A /* Frameworks */,
+				7CB50A771BC3147B00166A5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = terminal;
+			productName = terminal;
+			productReference = 7CB50A791BC3147B00166A5A /* terminal.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7CB50A5B1BC313C200166A5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Alexandre Arsenault";
+				TargetAttributes = {
+					7CB50A781BC3147B00166A5A = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 7CB50A5E1BC313C200166A5A /* Build configuration list for PBXProject "eosTerminal" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7CB50A5A1BC313C200166A5A;
+			productRefGroup = 7CB50A641BC313C300166A5A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7CB50A781BC3147B00166A5A /* terminal */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7CB50A771BC3147B00166A5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB50A831BC3147B00166A5A /* Images.xcassets in Resources */,
+				7CB50A9A1BC3151400166A5A /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7CB50A751BC3147B00166A5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB50AA61BC3165F00166A5A /* axOSTerminal.cpp in Sources */,
+				7CB50AA71BC3165F00166A5A /* eosTerminal.cpp in Sources */,
+				7CB50AA81BC3165F00166A5A /* terminal_main.cpp in Sources */,
+				7CB50AAC1BC316A900166A5A /* eosFrame.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7CB50A681BC313C300166A5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include/,
+					/usr/local/include/freetype2/,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lpng",
+					"-lfreetype",
+					"-laxLibCore",
+				);
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7CB50A691BC313C300166A5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include/,
+					/usr/local/include/freetype2/,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"-lpng",
+					"-lfreetype",
+					"-laxLibCore",
+				);
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7CB50A941BC3147B00166A5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = terminal/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7CB50A951BC3147B00166A5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = terminal/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7CB50A5E1BC313C200166A5A /* Build configuration list for PBXProject "eosTerminal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB50A681BC313C300166A5A /* Debug */,
+				7CB50A691BC313C300166A5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CB50A931BC3147B00166A5A /* Build configuration list for PBXNativeTarget "terminal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB50A941BC3147B00166A5A /* Debug */,
+				7CB50A951BC3147B00166A5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7CB50A5B1BC313C200166A5A /* Project object */;
+}

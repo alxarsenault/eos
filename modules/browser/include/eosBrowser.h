@@ -11,23 +11,29 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axScrollBar.h"
+#include "axLib/axButton.h"
 
 #include "axLib/axOSFileSystem.h"
 
 namespace eos
 {
-    class FileBrowser : public axPanel
+    class FileBrowser : public ax::Window::Backbone
     {
     public:
-        FileBrowser(axWindow* parent, const ax::Rect& rect):
-        // Parent.
-        axPanel(parent, rect),
+        FileBrowser(const ax::Rect& rect):
         _font(0),
         _selected_index(-1),
         _file_start_index(0)
         {
-            _folder_img = new ax::Image("resource/1441961651_folder.png");//folder_blue_15x15.png");
-            _file_img = new ax::Image("resource/1441961890_text.png");//file_15x15.png");
+		
+			win = ax::Window::Create(rect);
+			
+			win->event.OnPaint = ax::WBind<ax::GC>(this, &FileBrowser::OnPaint);
+			win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &FileBrowser::OnMouseLeftDown);
+			win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &FileBrowser::OnMouseLeftUp);
+			
+            _folder_img = new ax::Image("resources/1441961651_folder.png");//folder_blue_15x15.png");
+            _file_img = new ax::Image("resources/1441961890_text.png");//file_15x15.png");
             
             
             //_dir.Goto("/Users/alexarse/Project/axFrameworks");
@@ -37,26 +43,30 @@ namespace eos
             const std::vector<ax::os::File> files = _dir.GetContent();
             
             
-            axScrollBarInfo scrollInfo(ax::Color(0.6), // Normal.
-                                       ax::Color(0.7), // Hover.
-                                       ax::Color(0.5), // Clicked.
-                                       ax::Color(0.0), // Slider contour.
-                                       ax::Color(0.2, 0.4), // Contour.
-                                       ax::Color(0.3), // Bg top.
-                                       ax::Color(0.45)); // Bg bottom.
-            
-            axScrollBarEvents scrollEvents;
+//            ax::ScrollBar::Info scrollInfo(ax::Color(0.6), // Normal.
+//                                       ax::Color(0.7), // Hover.
+//                                       ax::Color(0.5), // Clicked.
+//                                       ax::Color(0.0), // Slider contour.
+//                                       ax::Color(0.2, 0.4), // Contour.
+//                                       ax::Color(0.3), // Bg top.
+//                                       ax::Color(0.45)); // Bg bottom.
+			
+            ax::ScrollBar::Events scrollEvents;
             scrollEvents.value_change = GetOnScroll();
+			
+			
+	
+//            _scrollBar = new axScrollBar(this, nullptr,
+//                                         ax::Rect(rect.size.x - 10, 0, 10, rect.size.y),
+//                                         scrollEvents,
+//                                         scrollInfo);
+			
+//			win->node.Add
+			
             
-            _scrollBar = new axScrollBar(this, nullptr,
-                                         ax::Rect(rect.size.x - 10, 0, 10, rect.size.y),
-                                         scrollEvents,
-                                         scrollInfo);
-            
-            
-            int h_size = (int)_dir.GetContent().size() * 20;
-            _scrollBar->SetPanelSize(ax::Size(rect.size.x, h_size));
-            
+//            int h_size = (int)_dir.GetContent().size() * 20;
+//            _scrollBar->SetPanelSize(ax::Size(rect.size.x, h_size));
+			
         }
         
         void ResetParams()
@@ -66,7 +76,7 @@ namespace eos
             
             int h_size = (int)_dir.GetContent().size() * 20;
             
-            _scrollBar->SetPanelSize(ax::Size(GetSize().x, h_size));
+//            _scrollBar->SetPanelSize(ax::Size(GetSize().x, h_size));
         }
         
         std::string GetPath() const
@@ -83,7 +93,7 @@ namespace eos
 //            ax::Print("Should go back");
 //            
 //            ax::Print("File folder :", _dir.GetPath());
-            Update();
+            win->Update();
             
         }
         
@@ -95,19 +105,19 @@ namespace eos
         
         int _file_start_index;
         int _selected_index;
-        axScrollBar* _scrollBar;
+        std::shared_ptr<ax::ScrollBar> _scrollBar;
         
-        axEVENT_ACCESSOR(axScrollBarMsg, OnScroll)
-        void OnScroll(const axScrollBarMsg& msg)
+        axEVENT_ACCESSOR(ax::ScrollBar::Msg, OnScroll)
+        void OnScroll(const ax::ScrollBar::Msg& msg)
         {
-            ax::Size w_size(GetSize());
-            int n_shown = w_size.y / 20;
-            int diff = (int)_dir.GetContent().size() - n_shown;
-            
-            double scroll_ratio = msg.GetSender()->GetZeroToOneValue();
-            _file_start_index = scroll_ratio * diff;
-            
-            Update();
+//            ax::Size w_size(win->dimension.GetSize());
+//            int n_shown = w_size.y / 20;
+//            int diff = (int)_dir.GetContent().size() - n_shown;
+//            
+//            double scroll_ratio = msg.GetSender()->GetZeroToOneValue();
+//            _file_start_index = scroll_ratio * diff;
+//            
+//            Update();
         }
         
         void OnMouseLeftDown(const ax::Point& mouse_pos)
@@ -117,8 +127,8 @@ namespace eos
         
         void OnMouseLeftUp(const ax::Point& mouse_pos)
         {
-            ax::Point pos = mouse_pos - GetAbsoluteRect().position;
-            ax::Size w_size(GetSize());
+            ax::Point pos = mouse_pos - win->dimension.GetAbsoluteRect().position;
+            ax::Size w_size(win->dimension.GetSize());
             
             int n_shown = w_size.y / 20;
             
@@ -137,13 +147,12 @@ namespace eos
                 }
             }
             
-            Update();
+            win->Update();
         }
         
-        void OnPaint()
+        void OnPaint(ax::GC gc)
         {
-            ax::GC gc;
-            ax::Rect rect(GetDrawingRect());
+            ax::Rect rect(win->dimension.GetDrawingRect());
             
             gc.SetColor(ax::Color(0.95));
             gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
@@ -176,7 +185,7 @@ namespace eos
                 
                 if(_selected_index == i)
                 {
-                    gc.SetColor(ax::Color(0.2, 0.2, 0.8));
+                    gc.SetColor(ax::Color(0.2f, 0.2f, 0.8f));
                 }
                 else if(i % 2)
                 {
@@ -218,60 +227,73 @@ namespace eos
         }
     };
     
-    class Browser : public axPanel
+    class Browser : public ax::Window::Backbone
     {
     public:
-        Browser(axWindow* parent, const ax::Rect& rect):
-        // Parent.
-        axPanel(parent, rect),
+        Browser(const ax::Rect& rect):
         _font(0)
         {
-            
-            
-            
-            ax::Button::Info fbtn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
-                                       ax::Color(1.0, 0.0, 0.0),
-                                       ax::Color(0.95, 0.0, 0.0),
-                                       ax::Color(0.5, 0.5, 0.5, 0.0),
-                                       ax::Color(0.0, 0.0, 0.0, 0.0),
-                                       ax::Color(0.0, 0.0, 0.0),
+			win = ax::Window::Create(rect);
+			win->event.OnPaint = ax::WBind<ax::GC>(this, &Browser::OnPaint);
+			
+            ax::Button::Info fbtn_info(ax::Color(0.5f, 0.5f, 0.5f, 0.0f),
+                                       ax::Color(1.0f, 0.0f, 0.0f),
+                                       ax::Color(0.95f, 0.0f, 0.0f),
+                                       ax::Color(0.5f, 0.5f, 0.5f, 0.0f),
+                                       ax::Color(0.0f, 0.0f, 0.0f, 0.0f),
+                                       ax::Color(0.0f, 0.0f, 0.0f),
                                        0);
 
-            ax::Button* btn = new ax::Button(parent,
-                                             ax::Rect(40, 4, 20, 20),
-                                             GetOnButtonBack(),
-                                             fbtn_info, "resource/go10.png", "");
+//            win->node.Add(ax::Button::Ptr(new ax::Button(ax::Rect(40, 4, 20, 20),
+//                                             GetOnButtonBack(),
+//                                             fbtn_info, "resources/go10.png", "")));
+			
+            _file_browser = std::shared_ptr<eos::FileBrowser>(new eos::FileBrowser(ax::Rect(160, 0, rect.size.x - 160, rect.size.y)));
+			
+			win->node.Add(_file_browser);
             
-            _file_browser = new eos::FileBrowser(this,
-                                                 ax::Rect(160, 0, rect.size.x - 160, rect.size.y));
-            
-            ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5),
-                                      ax::Color(0.6, 0.6, 0.6),
-                                      ax::Color(0.4, 0.4, 0.4),
-                                      ax::Color(0.5, 0.5, 0.5),
-                                      ax::Color(0.0, 0.0, 0.0),
-                                      ax::Color(0.0, 0.0, 0.0),
+            ax::Button::Info btn_info(ax::Color(0.5f, 0.5f, 0.5f),
+                                      ax::Color(0.6f, 0.6f, 0.6f),
+                                      ax::Color(0.4f, 0.4f, 0.4f),
+                                      ax::Color(0.5f, 0.5f, 0.5f),
+                                      ax::Color(0.4f, 0.4f),
+                                      ax::Color(0.9f),
                                       0);
+            
+            ax::Point pos(0, 0);
+            ax::Point delta(0, 25);
+            
+            ax::StringVector folders = {"Computer", "Home", "Desktop"};
+            
+            for(auto& n : folders)
+            {
+                win->node.Add(ax::Button::Ptr(new ax::Button(
+                                                  ax::Rect(pos, ax::Size(158, 24)),
+                                                  ax::Button::Events(),
+                                                  btn_info,
+                                                  "", n)));
+                pos += delta;
+            }
             
             
         }
-        
+		
+		axEVENT_ACCESSOR(ax::Button::Msg, OnButtonBack);
         
     private:
         ax::Font _font;
-        eos::FileBrowser* _file_browser;
+        std::shared_ptr<eos::FileBrowser> _file_browser;
         
-        axEVENT_ACCESSOR(ax::Button::Msg, OnButtonBack);
+		
         void OnButtonBack(const ax::Button::Msg& msg)
         {
             ax::Print("Back");
             _file_browser->GoBack();
         }
         
-        void OnPaint()
+        void OnPaint(ax::GC gc)
         {
-            ax::GC gc;
-            ax::Rect rect(GetDrawingRect());
+            ax::Rect rect(win->dimension.GetDrawingRect());
             
 //            gc.SetColor(ax::Color(0.95));
 //            gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));

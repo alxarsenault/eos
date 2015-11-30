@@ -4,20 +4,23 @@
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
 #include "axLib/axScrollBar.h"
+#include "axLib/axGLShader.h"
 
 namespace eos
 {
     /***************************************************************************
      * eos::Home.
      **************************************************************************/
-    class AppViewer : public axPanel
+    class AppViewer : public ax::Window::Backbone
     {
     public:
-        AppViewer(axWindow* parent, const ax::Rect& rect);
+        AppViewer(const ax::Rect& rect);
         
     private:
+		ax::GL::Shader _shader;
+		std::shared_ptr<ax::Image> _bg_img;
 
-        void OnPaint();
+        void OnPaint(ax::GC gc);
     };
 }
 

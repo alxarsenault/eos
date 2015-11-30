@@ -3,10 +3,11 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
+#include "axLib/axGLShader.h"
 
 namespace eos
 {
-	class Frame : public axPanel
+	class Frame : public ax::Window::Backbone
 	{
 	public:
 		
@@ -52,15 +53,18 @@ namespace eos
 			Events(){}
 		};		
 
-		Frame(axWindow* parent, 
-			  const ax::Rect& rect, 
+		Frame(const ax::Rect& rect, 
 			  const std::string& window_name);
+        
+//        Frame(ax::App* app,
+//              const ax::Rect& rect,
+//              const std::string& window_name);
 	
 		ax::Rect GetChildRect() const;
 
-		void SetChildHandler(axWindow* child);
+		void SetChildHandler(ax::Window::Ptr child);
         
-        void SetChildMenuHandler(axWindow* menu);
+        void SetChildMenuHandler(ax::Window::Ptr menu);
    
 		// Property.
 		// Resizable
@@ -69,20 +73,25 @@ namespace eos
         static const int _title_bar_height;
         
         bool _menuMode;
-        
-//        ax::Button* _info_btn;
-        
-		axWindow* _child;
-        axWindow* _child_menu;
+		
+		ax::Window::Ptr _child;
+        ax::Window::Ptr _child_menu;
         
 		std::string _window_name;
-		ax::Button *_close_btn, *_min_btn;
-        ax::Button* _menu_btn;
+		ax::Button::Ptr _close_btn, _min_btn;
+        ax::Button::Ptr _menu_btn;
+		
 		ax::Size _click_size;
 		int _frame_status;
 		ax::Font _font;
 		ax::Point _click_pos, _abs_click_pos;;
 		bool _highlight;
+		
+		ax::GL::Shader _shader;
+		ax::GL::Shader _shadow_shader;
+//		std::shared_ptr<ax::Image> _bg_img;
+		ax::Image* _bg_img;
+//		std::shared_ptr<ax::Image> _img_top_shadow;
 
         axEVENT_ACCESSOR(ax::Button::Msg, OnOpenMenu);
         void OnOpenMenu(const ax::Button::Msg& msg);
@@ -93,7 +102,7 @@ namespace eos
 		axEVENT_ACCESSOR(ax::Button::Msg, OnMinimize);
 		void OnMinimize(const ax::Button::Msg& msg);
 
-		void OnMouseLeave();
+		void OnMouseLeave(const ax::Point& pos);
 
 		void OnMouseMotion(const ax::Point& pos);
 
@@ -103,10 +112,14 @@ namespace eos
 
 		void OnMouseLeftDragging(const ax::Point& pos);
 
-		void OnPaint();
+		void OnPaint(ax::GC gc);
+		void OnPaintOverFrameBuffer(ax::GC gc);
         void DrawMenuMode(ax::GC& gc);
-        
-        virtual void OnPaintStatic();
+		
+		void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius,
+							   const double& angle, const ax::Color& middle_color,
+							   const ax::Color& contour_color);
+
 	};
 }
 

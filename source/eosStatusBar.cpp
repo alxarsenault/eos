@@ -1,175 +1,182 @@
 #include "eosStatusBar.h"
 #include "eosDesktop.h"
 
-#include "eosCoreUser.h"
-
-Clock::Clock(axWindow* parent, const ax::Rect& rect):
-// Parent.
-axPanel(parent, rect),
-_font(0)
+eos::StatusBar::StatusBar(const ax::Rect& rect)
+	: _font(0)
 {
-    _timer_clock = new ax::Event::Timer(GetApp()->GetEventManager(),
-                                        GetOnTimerClock());
-    
-    _timer_clock->StartTimer(ax::Event::Timer::TimeMs(1000));
-    
+	_shader
+		= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+
+	_shader.CompileAndLink();
+
+	win = ax::Window::Create(rect);
+
+	win->event.OnMouseLeftDown
+		= ax::WFunc<ax::Point>([&](const ax::Point& pos) { win->Update(); });
+
+	win->event.OnBeforeDrawing = ax::WFunc<int>([&](const int& nothing) {
+		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
+			unsigned char* bg_data = nullptr;
+			ax::Rect d_rect = win->GetWindowPixelData(bg_data);
+			_bg_img = std::shared_ptr<ax::Image>(new ax::Image(
+				bg_data, d_rect.size, ax::Image::ColorType::RGBA));
+			delete bg_data;
+		}
+	});
+
+	win->event.OnPaint = ax::WBind<ax::GC>(this, &StatusBar::OnPaint);
+
+	_user_name = "Alexandre Arsenault"; //_system->GetUser()->GetFullName();
+
+	_clock = std::shared_ptr<eos::Clock>(
+		new eos::Clock(ax::Rect(rect.size.x - 140, 0, 140, 25)));
+
+	win->node.Add(_clock);
+
+	// Transparent button.
+	ax::Button::Info btn_info;
+	btn_info.normal = ax::Color(0.0, 0.0);
+	btn_info.hover = ax::Color(0.0, 0.0);
+	btn_info.clicking = ax::Color(0.0, 0.0);
+	btn_info.selected = ax::Color(0.0, 0.0);
+	btn_info.contour = ax::Color(0.0, 0.0);
+	btn_info.font_color = ax::Color(0.0, 0.0);
+	btn_info.round_corner_radius = 0;
+
+	// Volume.
+	win->node.Add(ax::Button::Ptr(new ax::Button(
+		ax::Rect(rect.size.x - 310, 3, 20, 20), ax::Button::Events(), btn_info,
+		"resources/volume51.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	// Home.
+	ax::Window::Ptr btn = win->node.Add(ax::Button::Ptr(new ax::Button(
+		ax::Rect(6, 3, 20, 20), ax::Event::Bind(this, &StatusBar::OnHome),
+		btn_info, "resources/home.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	ax::Rect btn_rect(
+		btn->dimension.GetRect().GetNextPosRight(5), ax::Size(20, 20));
+
+	// Notification.
+	btn = win->node.Add(ax::Button::Ptr(new ax::Button(btn_rect,
+		ax::Event::Bind(this, &StatusBar::OnNotificationMode), btn_info,
+		"resources/sort52.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	btn_rect.position = btn->dimension.GetRect().GetNextPosRight(5);
+
+	// View.
+	btn = win->node.Add(ax::Button::Ptr(new ax::Button(btn_rect,
+		ax::Event::Bind(this, &StatusBar::OnAppViewer), btn_info,
+		"resources/view.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	btn_rect.position = btn->dimension.GetRect().GetNextPosRight(5);
+
+	// Terminal.
+	btn = win->node.Add(ax::Button::Ptr(new ax::Button(btn_rect,
+		ax::Event::Bind(this, &StatusBar::OnTerminalMode), btn_info,
+		"resources/terminal_mode.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	btn_rect.position = btn->dimension.GetRect().GetNextPosRight(5);
+
+	// Settings.
+	btn = win->node.Add(ax::Button::Ptr(new ax::Button(btn_rect,
+		ax::Event::Bind(this, &StatusBar::OnSettings), btn_info,
+		"resources/setting.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	btn_rect.position = btn->dimension.GetRect().GetNextPosRight(5);
+
+	// Tracer.
+	btn = win->node.Add(ax::Button::Ptr(new ax::Button(btn_rect,
+		ax::Event::Bind(this, &StatusBar::OnTraceMode), btn_info,
+		"resources/list88.png", "", ax::Button::Flags::SINGLE_IMG)));
+
+	btn_rect.position = btn->dimension.GetRect().GetNextPosRight(5);
+
+	// View.
+	btn = win->node.Add(ax::Button::Ptr(new ax::Button(btn_rect,
+		ax::Event::Bind(this, &StatusBar::OnView), btn_info,
+		"resources/elipse.png", "", ax::Button::Flags::SINGLE_IMG)));
 }
 
-void Clock::OnTimerClock(const ax::Event::Timer::Msg& msg)
+void eos::StatusBar::OnView(ax::Event::Msg* msg)
 {
-    time_t t = time(0);   // get time now
-    struct tm * now = localtime( & t );
-    
-    int s = now->tm_sec;
-    std::string sec = s < 10 ? "0" + std::to_string(s) : std::to_string(s);
-    
-    int m = now->tm_min;
-    std::string min = m < 10 ? "0" + std::to_string(m) : std::to_string(m);
-    
-    std::string space(":");
-    
-    _clock_str = std::to_string(now->tm_hour) + space + min + space + sec;
-    
-    std::string slash("/");
-    
-    m = now->tm_mon + 1;
-    std::string month = m < 10 ? "0" + std::to_string(m) : std::to_string(m);
-    
-    int d = now->tm_mday;
-    std::string day = d < 10 ? "0" + std::to_string(d) : std::to_string(d);
-    
-    _date_str = day + slash + month + slash + std::to_string(now->tm_year + 1900);
-    
-    Update();
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	//	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_NOTIFY);
+	desktop->ShowView();
+	//	desktop->ShowView();
 }
 
-void Clock::OnPaint()
+void eos::StatusBar::OnNotificationMode(ax::Event::Msg* msg)
 {
-    ax::GC gc;
-    ax::Rect rect(GetDrawingRect());
-
-    gc.SetColor(ax::Color(1.0));
-    gc.DrawString(_font, _date_str, ax::Point(0, 5));
-    gc.DrawString(_font, _clock_str, ax::Point(75, 5));
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_NOTIFY);
 }
 
-
-
-eos::StatusBar::StatusBar(axWindow* parent,
-                          const ax::Rect& rect,
-                          eos::Core::System* system):
-// Parent.
-axPanel(parent, rect),
-_font(0),
-_system(system)
+void eos::StatusBar::OnTerminalMode(ax::Event::Msg* msg)
 {
-    _user_name = _system->GetUser()->GetFullName();
-    
-    Clock* clock = new Clock(this, ax::Rect(rect.size.x - 140, 0, 140, 25));
-    
-    
-    
-    ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
-                              ax::Color(1.0, 0.0, 0.0, 0.0),
-                              ax::Color(0.95, 0.0, 0.0, 0.0),
-                              ax::Color(0.5, 0.5, 0.5, 0.0),
-                              ax::Color(0.0, 0.0, 0.0, 0.0),
-                              ax::Color(0.0, 0.0, 0.0, 0.0),
-                              0);
-    
-    ax::Button* volume = new ax::Button(this, ax::Rect(rect.size.x - 310, 3, 20, 20),
-                                      ax::Button::Events(),
-                                      btn_info, "resource/volume51.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    
-    
-    
-    ax::Button* view = new ax::Button(this, ax::Rect(6, 3, 20, 20),
-                                      ax::Button::Events(GetOnHome()),
-                                      btn_info, "resource/home.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    ax::Button* btn = new ax::Button(this, ax::Rect(view->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                     ax::Button::Events(GetOnNotificationMode()),
-                                     btn_info, "resource/sort52.png", "",
-                                     ax::Button::Flags::SINGLE_IMG);
-    
-    ax::Button* btn2 = new ax::Button(this, ax::Rect(btn->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                      ax::Button::Events(GetOnAppViewer()),
-                                      btn_info, "resource/view.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    ax::Button* btn3 = new ax::Button(this, ax::Rect(btn2->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                      ax::Button::Events(GetOnTerminalMode()),
-                                      btn_info, "resource/terminal_mode.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    ax::Button* btn4 = new ax::Button(this, ax::Rect(btn3->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                      ax::Button::Events(),
-                                      btn_info, "resource/setting.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    ax::Button* btn5 = new ax::Button(this, ax::Rect(btn4->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                      ax::Button::Events(GetOnTraceMode()),
-                                      btn_info, "resource/list88.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    ax::Button* btn6 = new ax::Button(this, ax::Rect(btn5->GetRect().GetNextPosRight(10), ax::Size(20, 20)),
-                                      ax::Button::Events(GetOnView()),
-                                      btn_info, "resource/elipse.png", "",
-                                      ax::Button::Flags::SINGLE_IMG);
-    
-    
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TERMINAL);
 }
 
-void eos::StatusBar::OnView(const ax::Button::Msg& msg)
+void eos::StatusBar::OnTraceMode(ax::Event::Msg* msg)
 {
-    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ShowView();
+	//	eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
+	//	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TRACE);
 }
 
-void eos::StatusBar::OnNotificationMode(const ax::Button::Msg& msg)
+void eos::StatusBar::OnHome(ax::Event::Msg* msg)
 {
-    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_NOTIFY);
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_HOME);
 }
 
-void eos::StatusBar::OnTerminalMode(const ax::Button::Msg& msg)
+void eos::StatusBar::OnAppViewer(ax::Event::Msg* msg)
 {
-    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TERMINAL);
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_VIEWER);
 }
 
-void eos::StatusBar::OnTraceMode(const ax::Button::Msg& msg)
+void eos::StatusBar::OnSettings(ax::Event::Msg* msg)
 {
-    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_TRACE);
+	std::shared_ptr<eos::Desktop> desktop
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	desktop->ShowDesktopChoice();
 }
 
-void eos::StatusBar::OnHome(const ax::Button::Msg& msg)
+void eos::StatusBar::OnPaint(ax::GC gc)
 {
-    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_HOME);
-}
+//	ax::Rect rect(win->dimension.GetDrawingRect());
+	ax::Rect rect(ax::Point(-1, -1), win->dimension.GetSize());
 
-void eos::StatusBar::OnAppViewer(const ax::Button::Msg& msg)
-{
-    eos::Desktop* desktop = static_cast<eos::Desktop*>(GetParent());
-    desktop->ToggleDesktopApp(eos::Desktop::DesktopApps::DSKT_APP_VIEWER);
-}
+	if (_bg_img && _bg_img->IsImageReady()) {
+		_shader.Activate();
+		GLuint id = _shader.GetProgramId();
+		GLint loc = glGetUniformLocation(id, "singleStepOffset");
+		if (loc != -1) {
+			glUniform1f(loc, 1.0 / float(rect.size.x));
+		}
+		gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
+		glUseProgram(0);
+	}
 
-void eos::StatusBar::OnPaint()
-{
-    ax::GC gc;
-    ax::Rect rect(GetDrawingRect());
-    
-    gc.SetColor(ax::Color(0.4, 0.4));
-    gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));
-    
-    gc.SetColor(ax::Color(0.9));
-    gc.DrawString(_font, _user_name, ax::Point(rect.size.x - 280, 5));
-    
-    gc.SetColor(ax::Color(0.4, 0.5));
-    gc.DrawLine(ax::Point(0, rect.size.y), ax::Point(rect.size.x, rect.size.y));
+	gc.SetColor(ax::Color(0.4, 0.2));
+	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));
+	gc.DrawRectangle(rect);
+
+	gc.SetColor(ax::Color(0.9));
+	gc.DrawString(_font, _user_name, ax::Point(rect.size.x - 280, 5));
+
+	//	gc.SetColor(ax::Color(0.4, 0.5));
+	//	gc.DrawLine(ax::Point(0, rect.size.y), ax::Point(rect.size.x,
+	// rect.size.y));
 }

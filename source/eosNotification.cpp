@@ -1,16 +1,16 @@
 #include "eosNotification.h"
 #include "eosDesktop.h"
 
-eos::Notification::Notification(axWindow* parent, const ax::Rect& rect):
-// Parent.
-axPanel(parent, rect)
+eos::Notification::Notification(const ax::Rect& rect)
 {
+	win = ax::Window::Create(rect);
+	
+	win->event.OnPaint = ax::WBind<ax::GC>(this, &Notification::OnPaint);
 }
 
-void eos::Notification::OnPaint()
+void eos::Notification::OnPaint(ax::GC gc)
 {
-    ax::GC gc;
-    ax::Rect rect(GetDrawingRect());
+    ax::Rect rect(win->dimension.GetDrawingRect());
     
     gc.SetColor(ax::Color(0.4, 0.4));
     gc.DrawRectangle(ax::Rect(0, 0, rect.size.x, rect.size.y));

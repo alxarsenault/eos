@@ -3,20 +3,23 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
+#include "axLib/axGLShader.h"
 
 namespace eos
 {
     /***************************************************************************
      * eos::Home.
      **************************************************************************/
-    class Home : public axPanel
+    class Home : public ax::Window::Backbone
     {
     public:
-        Home(axWindow* parent, const ax::Rect& rect);
+        Home(const ax::Rect& rect);
         
     private:
+		ax::GL::Shader _shader;
+		std::shared_ptr<ax::Image> _bg_img;
 
-        void OnPaint();
+        void OnPaint(ax::GC gc);
     };
 }
 

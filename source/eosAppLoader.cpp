@@ -4,42 +4,33 @@
 
 eos::AppLoader::Module::Module(const std::string& path)
 {
-    _binHandle = dlopen(path.c_str(), RTLD_NOW | RTLD_LAZY);//RTLD_LOCAL);
-
-    
-    
-	if(_binHandle != nullptr)
-	{
-		_fctHandle = reinterpret_cast<axWindow*(*)(axWindow*, ax::Rect)>
+	_binHandle = dlopen(path.c_str(), RTLD_NOW | RTLD_LAZY);//RTLD_LOCAL);
+	
+	if(_binHandle != nullptr) {
+		_fctHandle = reinterpret_cast<ax::Window::Backbone*(*)(ax::Rect)>
 			(dlsym(_binHandle, "StartApplication"));
-	}
-	else
-	{
+	} else {
 		ax::Error("Failed to load library :", path);
-        ax::Error(dlerror());
+		ax::Error(dlerror());
 	}
 }
 
-eos::AppLoader::Module::Module(const std::string& path,
-                               const std::string& func_name)
+eos::AppLoader::Module::Module(const std::string& path, const std::string& func_name)
 {
-    _binHandle = dlopen(path.c_str(), RTLD_NOW | RTLD_LAZY);//RTLD_LOCAL);
-    
-    if(_binHandle != nullptr)
-    {
-        _fctHandle = reinterpret_cast<axWindow*(*)(axWindow*, ax::Rect)>
-        (dlsym(_binHandle, func_name.c_str()));
-    }
-    else
-    {
-        ax::Error("Failed to load library :", path);
-        ax::Error(dlerror());
-    }
+	_binHandle = dlopen(path.c_str(), RTLD_NOW | RTLD_LAZY);//RTLD_LOCAL);
+	
+	if(_binHandle != nullptr) {
+		_fctHandle = reinterpret_cast<ax::Window::Backbone*(*)(ax::Rect)>
+		(dlsym(_binHandle, func_name.c_str()));
+	} else {
+		ax::Error("Failed to load library :", path);
+		ax::Error(dlerror());
+	}
 }
 
 eos::AppLoader::Module::~Module()
 {
-	dlclose(_binHandle);    
+	dlclose(_binHandle);
 }
 
 eos::AppLoader::Module::EntryFunction eos::AppLoader::Module::GetFunctionHandle()
@@ -49,56 +40,43 @@ eos::AppLoader::Module::EntryFunction eos::AppLoader::Module::GetFunctionHandle(
 
 
 
-eos::AppLoader::AppLoader():
-_path(""),
-_func_name(""),
-_module(nullptr),
-_handle(nullptr)
+eos::AppLoader::AppLoader()
+	: _path("")
+	, _func_name("")
+	, _module(nullptr)
+	, _handle(nullptr)
+{}
+
+eos::AppLoader::AppLoader(const std::string& path)
+	: _path(path)
+	, _func_name("")
+	, _module(nullptr)
+	, _handle(nullptr)
+{}
+
+eos::AppLoader::AppLoader(const std::string& path, const std::string& func_name)
+	: _path(path)
+	, _func_name(func_name)
+	, _module(nullptr)
+	, _handle(nullptr)
+{}
+
+ax::Window::Backbone* eos::AppLoader::Create(const ax::Rect& rect)
 {
-
-}
-
-eos::AppLoader::AppLoader(const std::string& path):
-_path(path),
-_func_name(""),
-_module(nullptr),
-_handle(nullptr)
-{
-
-}
-
-eos::AppLoader::AppLoader(const std::string& path,
-                          const std::string& func_name):
-_path(path),
-_func_name(func_name),
-_module(nullptr),
-_handle(nullptr)
-{
-    
-}
-
-axWindow* eos::AppLoader::Create(axWindow* parent, const ax::Rect& rect)
-{
-	if(_module == nullptr)
-	{
-        if(_func_name.empty())
-        {
-            _module = new Module(_path);
-        }
-        else
-        {
-             _module = new Module(_path, _func_name);
-        }
-		
+	if(_module == nullptr) {
+		if(_func_name.empty()) {
+			_module = new Module(_path);
+		} else {
+			_module = new Module(_path, _func_name);
+		}
 	}
-		
+	
 	Module::EntryFunction fct = _module->GetFunctionHandle();
 	
-	if(fct)
-	{
-		return _handle = fct(parent, rect);
+	if(fct) {
+		return _handle = fct(rect);
 	}
-			
+	
 	return nullptr;
 }
 
@@ -107,7 +85,7 @@ void eos::AppLoader::RemoveHandle()
 	_handle = nullptr;
 }
 
-axWindow* eos::AppLoader::GetHandle()
+ax::Window::Backbone* eos::AppLoader::GetHandle()
 {
 	return _handle;
 }

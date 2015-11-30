@@ -3,19 +3,21 @@
 
 #include "axLib/axLib.h"
 
-namespace eos
-{
+namespace eos {
+	/*
+	 * eos::AppLoader.
+	 */
 	class AppLoader
 	{
 	public:
 		class Module
 		{
 		public:
-			typedef std::function<axWindow*(axWindow*, ax::Rect)> EntryFunction;
+			typedef std::function<ax::Window::Backbone*(ax::Rect)> EntryFunction;
 
 			Module(const std::string& path);
-            
-            Module(const std::string& path, const std::string& func_name);
+		
+			Module(const std::string& path, const std::string& func_name);
 			
 			~Module();
 
@@ -29,19 +31,19 @@ namespace eos
 		AppLoader();
 
 		AppLoader(const std::string& path);
-        
-        AppLoader(const std::string& path, const std::string& func_name);
+		
+		AppLoader(const std::string& path, const std::string& func_name);
 
-		axWindow* Create(axWindow* parent, const ax::Rect& rect);
+		ax::Window::Backbone* Create(const ax::Rect& rect);
 
 		void RemoveHandle();
 
-		axWindow* GetHandle();
+		ax::Window::Backbone* GetHandle();
 
 	private:
 		std::string _path, _func_name;
 		Module* _module;
-		axWindow* _handle;
+		ax::Window::Backbone* _handle;
 	};
 }
 
