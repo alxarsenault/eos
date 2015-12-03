@@ -1,11 +1,6 @@
 #include "eosDock.h"
 #include "eosDockIcon.h"
-
-//#include "eosFrame.h"
-//
 #include "axLib/axWindowManager.h"
-//#include "eosDesktop.h"
-//#include "eosAlert.h"
 
 eos::Dock::Dock(const ax::Rect& rect)
 	: _anim_percent(1.0)
@@ -88,10 +83,10 @@ eos::Dock::Dock(const ax::Rect& rect)
 		n->GetWindow()->Hide();
 	}
 
-	_shader
-		= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
-
-	_shader.CompileAndLink();
+	//_shader
+	//	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+	//
+	//_shader.CompileAndLink();
 }
 
 void eos::Dock::OnAnimationTimerUp(const ax::Event::Timer::Msg& msg)
@@ -277,46 +272,65 @@ void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius,
 {
 	const int& nSegments = 20;
 
-	glBegin(GL_TRIANGLE_FAN);
+	//glBegin(GL_TRIANGLE_FAN);
 
-	gc.SetColor(middle_color);
-	glVertex2d(pos.x, pos.y - 1);
+	//gc.SetColor(middle_color);
+	//glVertex2d(pos.x, pos.y - 1);
 
-	gc.SetColor(contour_color);
-	for (int i = 0; i <= nSegments; i++) {
-		// Get the current angle.
-		double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
-
-		double x = radius * cosf(theta + angle);
-		double y = radius * sinf(theta + angle);
-
-		glVertex2d(x + pos.x, y + pos.y - 1);
-	}
-	glEnd();
+	//gc.SetColor(contour_color);
+	//for (int i = 0; i <= nSegments; i++) {
+	//	// Get the current angle.
+	//	double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
+	//
+	//	double x = radius * cosf(theta + angle);
+	//	double y = radius * sinf(theta + angle);
+	//
+	//	glVertex2d(x + pos.x, y + pos.y - 1);
+	//}
+	//glEnd();
 }
 
-void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rectangle,
+void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rect,
 	const ax::Color& c1, const ax::Color& c2)
 {
-	ax::FloatRect rect(rectangle.position.x, rectangle.position.y,
-		rectangle.size.x, rectangle.size.y);
+	//ax::FloatRect rect(rectangle.position.x, rectangle.position.y,
+	//	rectangle.size.x, rectangle.size.y);
 
-	glBegin(GL_QUADS);
-	{
-		gc.SetColor(c1);
-		glVertex3f(rect.position.x, rect.position.y, 0); // Bottom left.
+	
 
-		glVertex3f(
-			rect.position.x + rect.size.x, rect.position.y, 0); // Bottom Right.
+	ax::Utils::RectPoints<ax::FloatPoint> r_points;// = RectToFloatRect(rect);
+	r_points.bottom_left = ax::FloatPoint(rect.position.x, rect.position.y); 
+	r_points.top_left = ax::FloatPoint(rect.position.x, rect.position.y + rect.size.y);	
+	r_points.top_right = ax::FloatPoint(rect.position.x + rect.size.x, rect.position.y + rect.size.y); 
+	r_points.bottom_right = ax::FloatPoint(rect.position.x + rect.size.x, rect.position.y);
 
-		gc.SetColor(c2);
-		glVertex3f(rect.position.x + rect.size.x, rect.position.y + rect.size.y,
-			0); // Top Right.
+	ax::Color colors[4] = {c2, c1, c1, c2};
 
-		glVertex3f(
-			rect.position.x, rect.position.y + rect.size.y, 0); // Top Left
-	}
-	glEnd();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, &r_points);
+	glColorPointer(4, GL_FLOAT, 0, colors);
+
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	
+	//glBegin(GL_QUADS);
+	//{
+	//	gc.SetColor(c1);
+	//	glVertex3f(rect.position.x, rect.position.y, 0); // Bottom left.
+
+	//	glVertex3f(
+	//		rect.position.x + rect.size.x, rect.position.y, 0); // Bottom Right.
+
+	//	gc.SetColor(c2);
+	//	glVertex3f(rect.position.x + rect.size.x, rect.position.y + rect.size.y,
+	//		0); // Top Right.
+
+	//	glVertex3f(
+	//		rect.position.x, rect.position.y + rect.size.y, 0); // Top Left
+	//}
+	//glEnd();
 }
 
 void DrawRoundedRectangle(ax::GC gc, const ax::Rect& rect, const int& radius,
@@ -366,20 +380,20 @@ void DrawRoundedRectangle(ax::GC gc, const ax::Rect& rect, const int& radius,
 			float(c1.GetAlpha() + (c2.GetAlpha() - c1.GetAlpha()) * cc_ratio));
 
 		// Left rectangle.
-		glBegin(GL_LINES);
-		gc.SetColor(c1);
-		glVertex3f(lrect.position.x, y, 0.0f); // Left.
-		gc.SetColor(cc);
-		glVertex3f(lrect.position.x + lrect.size.x, y, 0.0f); // Right.
-		glEnd();
+		//glBegin(GL_LINES);
+		//gc.SetColor(c1);
+		//glVertex3f(lrect.position.x, y, 0.0f); // Left.
+		//gc.SetColor(cc);
+		//glVertex3f(lrect.position.x + lrect.size.x, y, 0.0f); // Right.
+		//glEnd();
 
 		// Right rectangle.
-		glBegin(GL_LINES);
-		gc.SetColor(cc);
-		glVertex3f(rrect.position.x, y, 0.0f); // Left.
-		gc.SetColor(c1);
-		glVertex3f(rrect.position.x + rrect.size.x, y, 0.0f); // Right.
-		glEnd();
+		//glBegin(GL_LINES);
+		//gc.SetColor(cc);
+		//glVertex3f(rrect.position.x, y, 0.0f); // Left.
+		//gc.SetColor(c1);
+		//glVertex3f(rrect.position.x + rrect.size.x, y, 0.0f); // Right.
+		//glEnd();
 	}
 
 	// Top left.
@@ -440,11 +454,11 @@ void eos::Dock::OnPaint(ax::GC gc)
 		else { // Static up position.
 			ax::Rect dock_rect(0, 0, _up_rect.size.x, _up_rect.size.y);
 
-			if (_bg_img && _bg_img->IsImageReady()) {
-				_shader.Activate();
-				gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
-				glUseProgram(0);
-			}
+			//if (_bg_img && _bg_img->IsImageReady()) {
+			//	_shader.Activate();
+			//	gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
+			//	glUseProgram(0);
+			//}
 
 			DrawRoundedRectangle(gc, dock_rect, 25, dock_contour, dock_color);
 		}

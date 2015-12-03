@@ -30,7 +30,7 @@ namespace eos {
 		ax::Event::Timer* _timer_up;
 		ax::Event::Timer* _timer_down;
 		
-		ax::GL::Shader _shader;
+		//ax::GL::Shader _shader;
 		std::shared_ptr<ax::Image> _bg_img;
 		
 		bool _isDrop;

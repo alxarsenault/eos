@@ -3,10 +3,10 @@
 
 eos::AppViewer::AppViewer(const ax::Rect& rect)
 {
-	_shader
-	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+	//_shader
+	//= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
 	
-	_shader.CompileAndLink();
+	//_shader.CompileAndLink();
 	
 	win = ax::Window::Create(rect);
 	
@@ -77,17 +77,17 @@ void eos::AppViewer::OnPaint(ax::GC gc)
 {
 	const ax::Rect& rect(win->dimension.GetDrawingRect());
 	
-	if (_bg_img && _bg_img->IsImageReady()) {
-		_shader.Activate();
-		GLuint id = _shader.GetProgramId();
-		GLint loc = glGetUniformLocation(id, "singleStepOffset");
-		if (loc != -1) {
-			glUniform1f(loc, 1.0 / float(rect.size.y));
-		}
-		
-		gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
-		glUseProgram(0);
-	}
+	//if (_bg_img && _bg_img->IsImageReady()) {
+	//	_shader.Activate();
+	//	GLuint id = _shader.GetProgramId();
+	//	GLint loc = glGetUniformLocation(id, "singleStepOffset");
+	//	if (loc != -1) {
+	//		glUniform1f(loc, 1.0 / float(rect.size.y));
+	//	}
+	//	
+	//	gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
+	//	glUseProgram(0);
+	//}
 	
 	gc.SetColor(ax::Color(0.6, 0.2));
 	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));

@@ -3,7 +3,7 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
-#include "axLib/axGLShader.h"
+//#include "axLib/axGLShader.h"
 
 namespace eos
 {
@@ -87,9 +87,9 @@ namespace eos
 		ax::Point _click_pos, _abs_click_pos;;
 		bool _highlight;
 		
-		ax::GL::Shader _shader;
-		ax::GL::Shader _shadow_shader;
-//		std::shared_ptr<ax::Image> _bg_img;
+		//ax::GL::Shader _shader;
+		//ax::GL::Shader _shadow_shader;
+
 		ax::Image* _bg_img;
 //		std::shared_ptr<ax::Image> _img_top_shadow;
 
