@@ -169,9 +169,15 @@ void eos::StatusBar::OnPaint(ax::GC gc)
 	//	glUseProgram(0);
 	//}
 	
-	//gc.SetColor(ax::Color(255, 0, 0));
-	gc.SetColor(ax::Color(0.4, 0.2));
+	std::shared_ptr<eos::Desktop> dsk
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
 	
+	if(dsk->GetPlatformType() == eos::PlatformType::EOS_TABLET) {
+		gc.SetColor(ax::Color(0.4)); 
+	} else {
+		gc.SetColor(ax::Color(0.4, 0.2));
+	}
 	
 	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));
 	gc.DrawRectangle(rect);

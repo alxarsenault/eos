@@ -18,6 +18,8 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 //_terminal(nullptr),
 //_system(system)
 {
+	_platform_type = eos::PlatformType::EOS_TABLET;
+
 	_cube_angle = 0.0;
 	win = ax::Window::Create(rect);
 

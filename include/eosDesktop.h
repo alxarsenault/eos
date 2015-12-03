@@ -21,6 +21,12 @@
 //#include "eosCoreSystem.h"
 
 namespace eos {
+
+enum PlatformType {
+	EOS_DESKTOP,
+	EOS_TABLET
+};
+
 class DesktopIcon;
 
 class Desktop : public ax::Window::Backbone {
@@ -35,6 +41,9 @@ public:
 
 	void HandleDraggingReleaseIcon(ax::Window::Ptr icon,
 		const ax::Point& click_pos, const ax::Point& mouse);
+
+
+	PlatformType GetPlatformType() const { return _platform_type; }
 
 	//		inline eos::Core::Manager* GetWindowManager()
 	//		{
@@ -72,7 +81,8 @@ public:
 
 private:
 	std::size_t _last_icon_index;
-	
+	PlatformType _platform_type;
+
 	int _nDesktopApp;
 	std::vector<DesktopIcon*> _icons;
 	bool _has_icon_dragging;
