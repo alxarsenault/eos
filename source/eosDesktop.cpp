@@ -2,6 +2,7 @@
 #include "eosCoreTracer.h"
 #include "eosDesktopIcon.h"
 #include "eosStatusBar.h"
+#include "eosAlert.h"
 
 #include "axLib/axWindowTree.h"
 #include "axLib/axWindowManager.h"
@@ -109,6 +110,13 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 		_nDesktopApp++;
 	}
 
+	ax::Window::Ptr alert(win->node.Add(std::shared_ptr<eos::Alert>(
+		new eos::Alert(ax::Rect(0, 24, 30, rect.size.y)))));
+
+	alert->Hide();
+	_desktop_apps[DSKT_APP_HOME] = alert;
+	_nDesktopApp++;
+
 	//	eos::Alert* trace = new eos::Alert(this,
 	//									   ax::Rect(rect.size.x - 350, 24, 350,
 	// 100),
@@ -156,69 +164,69 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 
 		_cube_win->Update();
 	});
-	
+
 	_cube_win->event.OnLeftArrowDown = ax::WFunc<char>([&](const char& c) {
-		
+
 		_cube_angle -= 5.0;
-		
+
 		if (_cube_angle < 0.0) {
 			_cube_angle += 360.0;
 		}
-		
+
 		if (_cube_angle > 360.0 * 0.25 * 0.5) {
 			_cube_face_selected = 1;
 		}
 		else {
 			_cube_face_selected = 0;
 		}
-		
+
 		_cube_win->Update();
 	});
 
-//	_cube_win->event.OnMouseLeftDown
-//		= ax::WFunc<ax::Point>([&](const ax::Point& pos) {
-//			_cube_win->event.GrabMouse();
-//			_last_cube_mouse_pos = pos;
-//		});
-//
-//	_cube_win->event.OnMouseLeftUp
-//		= ax::WFunc<ax::Point>([&](const ax::Point& pos) {
-//
-//			if (_cube_win->event.IsGrabbed()) {
-//				_cube_win->event.UnGrabMouse();
-//				_last_cube_mouse_pos = pos;
-//			}
-//		});
-//
-//	_cube_win->event.OnMouseLeftDragging
-//		= ax::WFunc<ax::Point>([&](const ax::Point& pos) {
-//
-//			double r = pos.x / double(_last_cube_mouse_pos.x);
-//
-//			if (r > 1.0) {
-//				_cube_angle -= r * 5.0;
-//				if (_cube_angle < 0.0) {
-//					_cube_angle += 360.0;
-//				}
-//			}
-//			else {
-//				_cube_angle += r * 5.0;
-//
-//				if (_cube_angle > 360.0) {
-//					_cube_angle -= 360.0;
-//				}
-//			}
-//
-//			if (_cube_angle > 360.0 * 0.25 * 0.5) {
-//				_cube_face_selected = 1;
-//			}
-//			else {
-//				_cube_face_selected = 0;
-//			}
-//
-//			_last_cube_mouse_pos = pos;
-//			_cube_win->Update();
-//		});
+	//	_cube_win->event.OnMouseLeftDown
+	//		= ax::WFunc<ax::Point>([&](const ax::Point& pos) {
+	//			_cube_win->event.GrabMouse();
+	//			_last_cube_mouse_pos = pos;
+	//		});
+	//
+	//	_cube_win->event.OnMouseLeftUp
+	//		= ax::WFunc<ax::Point>([&](const ax::Point& pos) {
+	//
+	//			if (_cube_win->event.IsGrabbed()) {
+	//				_cube_win->event.UnGrabMouse();
+	//				_last_cube_mouse_pos = pos;
+	//			}
+	//		});
+	//
+	//	_cube_win->event.OnMouseLeftDragging
+	//		= ax::WFunc<ax::Point>([&](const ax::Point& pos) {
+	//
+	//			double r = pos.x / double(_last_cube_mouse_pos.x);
+	//
+	//			if (r > 1.0) {
+	//				_cube_angle -= r * 5.0;
+	//				if (_cube_angle < 0.0) {
+	//					_cube_angle += 360.0;
+	//				}
+	//			}
+	//			else {
+	//				_cube_angle += r * 5.0;
+	//
+	//				if (_cube_angle > 360.0) {
+	//					_cube_angle -= 360.0;
+	//				}
+	//			}
+	//
+	//			if (_cube_angle > 360.0 * 0.25 * 0.5) {
+	//				_cube_face_selected = 1;
+	//			}
+	//			else {
+	//				_cube_face_selected = 0;
+	//			}
+	//
+	//			_last_cube_mouse_pos = pos;
+	//			_cube_win->Update();
+	//		});
 
 	win->node.Add(_cube_win);
 
@@ -232,7 +240,9 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	ax::Rect dock_rect(
 		100, rect.size.y - 64 - (2 * 5), rect.size.x - 200, 64 + 2 * 5);
 
-	win->node.Add(std::shared_ptr<eos::Dock>(new eos::Dock(dock_rect)));
+	ax::Window::Ptr dock
+		= win->node.Add(std::shared_ptr<eos::Dock>(new eos::Dock(dock_rect)));
+	dock->AddConnection(8012, GetOnFrameFullScreen());
 }
 
 void eos::Desktop::AddFrame(std::shared_ptr<ax::Window::Backbone> frame)
@@ -294,6 +304,12 @@ void eos::Desktop::BringToFront(ax::Window::Ptr frame)
 	}
 }
 
+// void eos::Desktop::FullScreenFrame(ax::Window::Ptr frame)
+//{
+//	BringToFront(frame);
+//	frame->dimension.SetSize(win->dimension.GetSize() - ax::Size(0, 25));
+//}
+
 void eos::Desktop::ShowIcons(const bool& show)
 {
 	auto& children = win->node.GetChildren();
@@ -326,6 +342,15 @@ void eos::Desktop::ShowDesktopApps(const bool& show)
 			}
 		}
 	}
+}
+
+void eos::Desktop::OnFrameFullScreen(const eos::Frame::Msg& msg)
+{
+	BringToFront(msg.GetSender()->GetWindow());
+	msg.GetSender()->SetFullScreen(
+		ax::Rect(ax::Point(0, 25), win->dimension.GetSize() - ax::Size(0, 25)));
+	//	frame->dimension.SetSize(win->dimension.GetSize() - ax::Size(0, 25));
+	//	frame->dimension.SetPosition(ax::Point(0, 25));
 }
 
 void eos::Desktop::ShowAppFrames(const bool& show)
@@ -456,7 +481,7 @@ void eos::Desktop::ShowDesktopChoice()
 		ShowIcons(true);
 		ShowDesktopApps(true);
 		ShowAppFrames(true);
-		
+
 		_cube_win->event.UnGrabKey();
 	}
 	else {
@@ -786,7 +811,7 @@ void eos::Desktop::PaintView(ax::GC& gc)
 	gc.DrawImageResize(_current_bg_img, ax::Point(0, 0),
 		ax::Size(rect.size.x + 1, rect.size.y + 1));
 
-	gc.SetColor(ax::Color(0.05, 0.95));
+	gc.SetColor(ax::Color(0.15, 0.8));
 	gc.DrawRectangle(ax::Rect(ax::Point(0, 0), rect.size + ax::Size(1, 1)));
 
 	ax::Point img_pos(50, 50);
@@ -1071,7 +1096,7 @@ void eos::Desktop::OnPaint(ax::GC gc)
 		gc.DrawImageResize(_current_bg_img, ax::Point(0, 0),
 			ax::Size(rect.size.x + 1, rect.size.y + 1));
 
-		gc.SetColor(ax::Color(0.05, 0.95));
+		gc.SetColor(ax::Color(0.15, 0.8));
 		gc.DrawRectangle(ax::Rect(ax::Point(0, 0), rect.size + ax::Size(1, 1)));
 		return;
 	}

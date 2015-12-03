@@ -28,7 +28,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &Dock::OnPaint);
 	win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &Dock::OnMouseEnter);
 	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &Dock::OnMouseLeave);
-	
+
 	win->event.OnBeforeDrawing = ax::WFunc<int>([&](const int& nothing) {
 		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
 			unsigned char* bg_data = nullptr;
@@ -38,7 +38,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 			delete bg_data;
 		}
 	});
-	
+
 	win->AddConnection(320, GetOnAppSelect());
 
 	ax::Size icon_size(64, 64);
@@ -206,14 +206,18 @@ void eos::Dock::OnAppSelect(const ax::Event::StringMsg& msg)
 			frame->GetWindow()->AddConnection(
 				eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
 
-			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
+			frame->GetWindow()->AddConnection(
+				eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
+
+			frame->GetWindow()->AddConnection(
+				eos::Frame::Events::CLOSE, GetOnWindowClose());
 
 			std::shared_ptr<eos::Desktop> desktop
 				= std::static_pointer_cast<eos::Desktop>(
 					ax::App::GetInstance().GetTopLevel()->backbone);
 
 			desktop->AddFrame(frame);
-//			desktop->GetWindow()->node.Add(frame);
+			//			desktop->GetWindow()->node.Add(frame);
 			//			eos::Frame* osframe = static_cast<eos::Frame*>(frame);
 			//			static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
 		}
@@ -245,30 +249,36 @@ void eos::Dock::OnWindowMinimize(const eos::Frame::Msg& msg)
 	}
 }
 
+void eos::Dock::OnWindowFullScreen(const eos::Frame::Msg& msg)
+{
+	ax::Print("FULL SCREEN");
+	win->PushEvent(8012, new eos::Frame::Msg(msg));
+}
+
 void eos::Dock::OnWindowClose(const eos::Frame::Msg& msg)
 {
-	//ax::Print("Window close.");
-//	eos::Frame* frame = msg.GetSender();
-//
-//	if(frame != nullptr)
-//	{
-//		for(auto& n : _appLoaders)
-//		{
-//			ax::Window* handle = n.second.GetHandle();
-//
-//			if(handle != nullptr)
-//			{
-//				if(handle->GetId() == frame->GetId())
-//				{
-//					//ax::Print("Before remove handle.");
-//					_appLoaders[n.first].RemoveHandle();
-//					frame->DeleteWindow();
-//					//ax::Print("Delete before return.");
-//					return;
-//				}
-//			}
-//		}
-//	}
+	// ax::Print("Window close.");
+	//	eos::Frame* frame = msg.GetSender();
+	//
+	//	if(frame != nullptr)
+	//	{
+	//		for(auto& n : _appLoaders)
+	//		{
+	//			ax::Window* handle = n.second.GetHandle();
+	//
+	//			if(handle != nullptr)
+	//			{
+	//				if(handle->GetId() == frame->GetId())
+	//				{
+	//					//ax::Print("Before remove handle.");
+	//					_appLoaders[n.first].RemoveHandle();
+	//					frame->DeleteWindow();
+	//					//ax::Print("Delete before return.");
+	//					return;
+	//				}
+	//			}
+	//		}
+	//	}
 }
 
 void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius,

@@ -31,6 +31,10 @@ public:
 		if (!_imgs_path.empty()) {
 			_current_slide_img = new ax::Image(_imgs_path[0]);
 		}
+		
+		win->event.OnResize = ax::WFunc<ax::Size>([&](const ax::Size& size) {
+			win->Update();
+		});
 	}
 
 private:
@@ -73,6 +77,7 @@ ax::Window::Backbone* StartApplication(ax::Window* parent, ax::Rect rect)
 	return frame;
 }
 }
+
 
 int main()
 {

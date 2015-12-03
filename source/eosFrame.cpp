@@ -35,6 +35,7 @@ eos::Frame::Frame(const ax::Rect& rect, const std::string& window_name)
 	, _child_menu(nullptr)
 	, _window_name(window_name)
 	, _menuMode(false)
+	, _isFullScreen(false)
 {
 	_bg_img = nullptr;
 	_abs_click_pos = ax::Point(0, 0);
@@ -62,6 +63,7 @@ eos::Frame::Frame(const ax::Rect& rect, const std::string& window_name)
 				rect.position, ax::Size(rect.size.x, _title_bar_height));
 			win->GetWindowPixelData(bg_data, topRect);
 
+			// @TODO Leak sometimes.
 			if (_bg_img) {
 				delete _bg_img;
 			}
@@ -123,56 +125,45 @@ eos::Frame::Frame(const ax::Rect& rect, const std::string& window_name)
 			ax::Button::Events(GetOnMinimize()), btn_info, "", "_"));
 
 	win->node.Add(_min_btn);
+
+	win->node.Add(
+		_fscreen_btn = ax::Button::Ptr(
+			new ax::Button(ax::Rect(rect.size.x - 50 - 5 - 1 - 25, 0, 23, 25),
+				ax::Button::Events(GetOnFullScreen()), btn_info, "", "~")));
 }
 
-// eos::Frame::Frame(
-//	ax::App* app, const ax::Rect& rect, const std::string& window_name)
-//	: // Parent.
-//	axPanel(app, rect)
-//	, _font(0)
-//	, _child(nullptr)
-//	, _child_menu(nullptr)
-//	, _window_name(window_name)
-//	, _menuMode(false)
-//{
-//	_abs_click_pos = ax::Point(0, 0);
-//	_frame_status = 0;
-//	_highlight = false;
+void eos::Frame::SetFullScreen(const ax::Rect& rect)
+{
+	_isFullScreen = true;
+
+	win->dimension.SetRect(rect);
+
+	_close_btn->GetWindow()->Hide();
+	_min_btn->GetWindow()->Hide();
+	_fscreen_btn->GetWindow()->Hide();
+	_menu_btn->GetWindow()->Hide();
+
+//	_close_btn->GetWindow()->dimension.SetPosition(
+//		ax::Point(rect.size.x - 25 - 5 - 1, 0));
 //
-//	ax::Button::Info menu_btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
-//		ax::Color(1.0, 0.0, 0.0, 0.0), ax::Color(0.95, 0.0, 0.0, 0.0),
-//		ax::Color(0.5, 0.5, 0.5, 0.0), ax::Color(0.0, 0.0, 0.0, 0.0),
-//		ax::Color(0.0, 0.0, 0.0, 0.0), 0);
+//	_min_btn->GetWindow()->dimension.SetPosition(
+//		ax::Point(rect.size.x - 25 - 5 - 1 - 25, 0));
 //
-//	//    _info_btn = new ax::Button(this, ax::Rect(50, 50, 48, 48),
-//	//                               ax::Button::Events(),
-//	//                               menu_btn_info,
-//	//                               "resource/info.png", "",
-//	//                               ax::Button::Flags::SINGLE_IMG);
-//
-//	//    _info_btn->Hide();
-//
-//	_menu_btn = new ax::Button(this, ax::Rect(10, 4, 20, 20), GetOnOpenMenu(),
-//		menu_btn_info, "resource/show6.png", "");
-//
-//	ax::Button::Info btn_info(ax::Color(0.5, 0.5, 0.5, 0.0),
-//		ax::Color(1.0, 0.0, 0.0), ax::Color(0.95, 0.0, 0.0),
-//		ax::Color(0.5, 0.5, 0.5, 0.0), ax::Color(0.0, 0.0, 0.0, 0.0),
-//		ax::Color(0.9), 0);
-//
-//	_close_btn
-//		= new ax::Button(this, ax::Rect(rect.size.x - 25 - 5 - 1, 0, 23, 25),
-//			ax::Button::Events(GetOnButtonClick()), btn_info, "", "x");
-//
-//	btn_info.hover = ax::Color(0.0, 0.0, 1.0);
-//	btn_info.clicking = ax::Color(0.0, 0.0, 0.95);
-//	_min_btn = new ax::Button(this,
-//		ax::Rect(rect.size.x - 25 - 5 - 1 - 25, 0, 23, 25),
-//		ax::Button::Events(GetOnMinimize()), btn_info, "", "_");
-//}
+//	_fscreen_btn->GetWindow()->dimension.SetPosition(
+//		ax::Point(rect.size.x - 50 - 5 - 1 - 25, 0));
+
+	_child->dimension.SetRect(GetChildRect());
+	_child->event.OnResize(rect.size);
+}
 
 ax::Rect eos::Frame::GetChildRect() const
 {
+	if(_isFullScreen) {
+		ax::Rect rect(win->dimension.GetRect());
+//		int s_w = 4;
+		return ax::Rect(0, 0, rect.size.x, rect.size.y);
+	}
+	
 	ax::Rect rect(win->dimension.GetRect());
 	int s_w = 4;
 	return ax::Rect(s_w + 1, _title_bar_height, rect.size.x - 2 * s_w - 1,
@@ -215,6 +206,11 @@ void eos::Frame::OnOpenMenu(const ax::Button::Msg& msg)
 	}
 
 	win->Update();
+}
+
+void eos::Frame::OnFullScreen(const ax::Button::Msg& msg)
+{
+	win->PushEvent(Frame::Events::FULL_SCREEN, new Frame::Msg(this));
 }
 
 void eos::Frame::OnButtonClick(const ax::Button::Msg& msg)
@@ -428,8 +424,8 @@ void DrawQuad(const std::vector<ax::Point>& ipoints, ax::Color* colors)
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void eos::Frame::DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius,
-	const double& angle, const ax::Color& middle_color,
+void eos::Frame::DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos,
+	const int& radius, const double& angle, const ax::Color& middle_color,
 	const ax::Color& contour_color)
 {
 	const int& nSegments = 20;
@@ -476,44 +472,44 @@ void eos::Frame::OnPaintOverFrameBuffer(ax::GC gc)
 
 	gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 1.0f));
 
-//	const int top_width = 15;
+	//	const int top_width = 15;
 	const int width = 25;
 	ax::Color c0(0.0, 0.01);
 	ax::Color c1(0.00, 0.10);
-//	ax::Color c1(0.3, 0.25);
+	//	ax::Color c1(0.3, 0.25);
 
 	ax::Color t_colors[4] = { c1, c0, c0, c1 };
 	ax::Color l_colors[4] = { c0, c0, c1, c1 };
 	const ax::Size& ws(win->dimension.GetDrawingRect().size);
 
 	ax::Point in_t_left(0, 0);
-//	ax::Point out_t_left(-width, -top_width);
+	//	ax::Point out_t_left(-width, -top_width);
 	ax::Point out_t_left(0, -width);
-	
+
 	ax::Point in_t_right(ws.x, 0);
-//	ax::Point out_t_right(ws.x + width, -top_width);
+	//	ax::Point out_t_right(ws.x + width, -top_width);
 	ax::Point out_t_right(ws.x, -width);
 
 	ax::Point in_b_left(0, ws.y);
-//	ax::Point out_b_left(-width, ws.y + width);
+	//	ax::Point out_b_left(-width, ws.y + width);
 	ax::Point out_b_left(0, ws.y + width);
 
-
 	ax::Point in_b_right(ws.x, ws.y);
-//	ax::Point out_b_right(ws.x + width, ws.y + width);
+	//	ax::Point out_b_right(ws.x + width, ws.y + width);
 	ax::Point out_b_right(ws.x, ws.y + width);
 
 	std::vector<ax::Point> top_quad
 		= { in_t_left, out_t_left, out_t_right, in_t_right };
 
-	std::vector<ax::Point> left_quad
-		= { ax::Point(-width, ws.y), ax::Point(-width, 0), ax::Point(0, 0), ax::Point(0, ws.y) };
+	std::vector<ax::Point> left_quad = { ax::Point(-width, ws.y),
+		ax::Point(-width, 0), ax::Point(0, 0), ax::Point(0, ws.y) };
 
-	std::vector<ax::Point> right_quad
-		= { in_b_right, in_t_right, ax::Point(ws.x + width, 0), ax::Point(ws.x + width, ws.y) };
+	std::vector<ax::Point> right_quad = { in_b_right, in_t_right,
+		ax::Point(ws.x + width, 0), ax::Point(ws.x + width, ws.y) };
 
 	std::vector<ax::Point> bottom_quad
-		= { ax::Point(0, ws.y + width), ax::Point(0, ws.y), ax::Point(ws.x, ws.y), ax::Point(ws.x, ws.y + width) };
+		= { ax::Point(0, ws.y + width), ax::Point(0, ws.y),
+			ax::Point(ws.x, ws.y), ax::Point(ws.x, ws.y + width) };
 
 	ax::Color r_colors[4] = { c1, c1, c0, c0 };
 	ax::Color b_colors[4] = { c0, c1, c1, c0 };
@@ -532,14 +528,17 @@ void eos::Frame::OnPaintOverFrameBuffer(ax::GC gc)
 	// Top left.
 	DrawQuarterCircle(gc, ax::FloatPoint(0.0, 1.0), width, M_PI, c1, c0);
 	// Top right.
-	DrawQuarterCircle(gc, ax::FloatPoint(ws.x, 1.0), width, 3.0 * M_PI * 0.5, c1, c0);
+	DrawQuarterCircle(
+		gc, ax::FloatPoint(ws.x, 1.0), width, 3.0 * M_PI * 0.5, c1, c0);
 	DrawQuarterCircle(gc, ax::FloatPoint(ws.x, ws.y + 1), width, 0.0, c1, c0);
-	DrawQuarterCircle(gc, ax::FloatPoint(0, ws.y + 1), -width, 3.0 * M_PI * 0.5, c1, c0);
-	
+	DrawQuarterCircle(
+		gc, ax::FloatPoint(0, ws.y + 1), -width, 3.0 * M_PI * 0.5, c1, c0);
+
 	// Top right.
-//	DrawQuarterCircle(gc, ax::FloatPoint(frect.position.x + frect.size.x - r,
-//							  frect.position.y + r - 1),
-//		r, 3.0 * M_PI * 0.5, lc1, c1);
+	//	DrawQuarterCircle(gc, ax::FloatPoint(frect.position.x + frect.size.x -
+	// r,
+	//							  frect.position.y + r - 1),
+	//		r, 3.0 * M_PI * 0.5, lc1, c1);
 
 	//	{
 	//		_shadow_shader.Activate();
@@ -616,33 +615,33 @@ void eos::Frame::OnPaint(ax::GC gc)
 	//	ax::Rect rect(r.position + ax::Point(5, 0), r.size - ax::Size(10, 5));
 	ax::Rect rect(r.position, r.size);
 
-	// Title bar.
 	ax::Rect topRect(rect.position, ax::Size(rect.size.x, _title_bar_height));
 
-	if (_bg_img && _bg_img->IsImageReady()) {
-		_shader.Activate();
-		GLuint id = _shader.GetProgramId();
-		GLint loc = glGetUniformLocation(id, "singleStepOffset");
-		if (loc != -1) {
-			glUniform1f(loc, 1.0 / float(rect.size.x));
+	if (!_isFullScreen) {
+		// Title bar.
+		if (_bg_img && _bg_img->IsImageReady()) {
+			_shader.Activate();
+			GLuint id = _shader.GetProgramId();
+			GLint loc = glGetUniformLocation(id, "singleStepOffset");
+			if (loc != -1) {
+				glUniform1f(loc, 1.0 / float(rect.size.x));
+			}
+
+			gc.DrawImage(_bg_img, rect.position, 0.2);
+			glUseProgram(0);
 		}
-
-		gc.DrawImage(_bg_img, rect.position, 0.2);
-		glUseProgram(0);
+		gc.DrawRectangleColorFade(
+			topRect, ax::Color(0.4, 0.4), ax::Color(0.42, 0.42));
+	
+		// Frame title.
+		gc.SetColor(ax::Color(0.9));
+		gc.DrawStringAlignedCenter(_font, _window_name,
+			ax::Rect(rect.position, ax::Size(rect.size.x, _title_bar_height)));
 	}
-
-	gc.DrawRectangleColorFade(
-		topRect, ax::Color(0.4, 0.4), ax::Color(0.42, 0.42));
-
-	// Frame title.
-	gc.SetColor(ax::Color(0.9));
-	gc.DrawStringAlignedCenter(_font, _window_name,
-		ax::Rect(rect.position, ax::Size(rect.size.x, _title_bar_height)));
-
 	// Frame contour.
 	ax::Rect bottomRect(topRect.GetNextPosDown(0),
 		ax::Size(rect.size.x, rect.size.y - _title_bar_height));
-
+	
 	gc.DrawRectangleColorFade(
 		bottomRect, ax::Color(0.42, 0.42), ax::Color(0.44, 0.44));
 

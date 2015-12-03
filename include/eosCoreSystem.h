@@ -32,7 +32,6 @@ namespace eos {
 			
 		private:
 			std::shared_ptr<DesktopManager> _desktopManager;
-//			Manager* _manager;
 			std::unique_ptr<Tracer> _tracer;
 			//std::unique_ptr<ax::Database> _db;
 			std::shared_ptr<User> _current_user;

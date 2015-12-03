@@ -47,6 +47,7 @@ namespace eos
 				MINIMIZE,
 				CLOSE,
 				MOVE,
+				FULL_SCREEN,
 				RESIZE
 			};
 
@@ -55,6 +56,8 @@ namespace eos
 
 		Frame(const ax::Rect& rect, 
 			  const std::string& window_name);
+		
+		void SetFullScreen(const ax::Rect& rect);
         
 //        Frame(ax::App* app,
 //              const ax::Rect& rect,
@@ -73,12 +76,13 @@ namespace eos
         static const int _title_bar_height;
         
         bool _menuMode;
+		bool _isFullScreen;
 		
 		ax::Window::Ptr _child;
         ax::Window::Ptr _child_menu;
         
 		std::string _window_name;
-		ax::Button::Ptr _close_btn, _min_btn;
+		ax::Button::Ptr _close_btn, _min_btn, _fscreen_btn;
         ax::Button::Ptr _menu_btn;
 		
 		ax::Size _click_size;
@@ -101,6 +105,9 @@ namespace eos
 	
 		axEVENT_ACCESSOR(ax::Button::Msg, OnMinimize);
 		void OnMinimize(const ax::Button::Msg& msg);
+		
+		axEVENT_ACCESSOR(ax::Button::Msg, OnFullScreen);
+		void OnFullScreen(const ax::Button::Msg& msg);
 
 		void OnMouseLeave(const ax::Point& pos);
 

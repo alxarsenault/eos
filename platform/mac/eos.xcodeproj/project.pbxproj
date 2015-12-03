@@ -10,6 +10,7 @@
 		7C5BD7CD1BCF517700789D37 /* eosDesktopIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5BD7CC1BCF517700789D37 /* eosDesktopIcon.cpp */; };
 		7C5BD7D11BCF699C00789D37 /* eosClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5BD7D01BCF699C00789D37 /* eosClock.cpp */; };
 		7C5BD7D41BCFED2300789D37 /* eosDockIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5BD7D31BCFED2300789D37 /* eosDockIcon.cpp */; };
+		7C8DEDA11C0801C200C722A2 /* WindowServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */; };
 		7CD0F52B1BA6580400935AD8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F52A1BA6580400935AD8 /* main.cpp */; };
 		7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */; };
 		7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */; };
@@ -37,6 +38,8 @@
 		7C5BD7D01BCF699C00789D37 /* eosClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosClock.cpp; path = ../../../source/eosClock.cpp; sourceTree = "<group>"; };
 		7C5BD7D21BCFED1900789D37 /* eosDockIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDockIcon.h; path = ../../../include/eosDockIcon.h; sourceTree = "<group>"; };
 		7C5BD7D31BCFED2300789D37 /* eosDockIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDockIcon.cpp; path = ../../../source/eosDockIcon.cpp; sourceTree = "<group>"; };
+		7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowServer.cpp; path = ../../../WindowServer.cpp; sourceTree = "<group>"; };
+		7C8DEDA01C0801C200C722A2 /* WindowServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WindowServer.hpp; path = ../../../WindowServer.hpp; sourceTree = "<group>"; };
 		7CD0F52A1BA6580400935AD8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../main.cpp; sourceTree = "<group>"; };
 		7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosNotification.cpp; path = ../../../source/eosNotification.cpp; sourceTree = "<group>"; };
 		7CD0F66A1B9A4FA900EC4D1A /* eosNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosNotification.h; path = ../../../include/eosNotification.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				7CD0F52A1BA6580400935AD8 /* main.cpp */,
+				7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */,
+				7C8DEDA01C0801C200C722A2 /* WindowServer.hpp */,
 				7CE9A6161B96663500E5D7B5 /* OpenGL.framework */,
 				7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */,
 				7CE9A5E81B965D9E00E5D7B5 /* Desktop */,
@@ -234,6 +239,7 @@
 				7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */,
 				7CE9A6A51B99E85D00E5D7B5 /* Makefile in Sources */,
 				7CE9A6891B976E7100E5D7B5 /* eosDesktop.cpp in Sources */,
+				7C8DEDA11C0801C200C722A2 /* WindowServer.cpp in Sources */,
 				7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */,
 				7CE9A6051B965E1B00E5D7B5 /* eosDock.cpp in Sources */,
 				7CD2E37D1BA22D4000CEADC6 /* eosHome.cpp in Sources */,
@@ -308,6 +314,8 @@
 					"-lopencv_imgproc",
 					"-lopencv_videoio",
 					"-lopencv_core",
+					"-lboost_container",
+					"-lboost_system",
 				);
 				SDKROOT = macosx;
 			};
@@ -361,6 +369,8 @@
 					"-lopencv_imgproc",
 					"-lopencv_videoio",
 					"-lopencv_core",
+					"-lboost_container",
+					"-lboost_system",
 				);
 				SDKROOT = macosx;
 			};

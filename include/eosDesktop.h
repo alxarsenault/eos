@@ -18,8 +18,6 @@
 #include "eosHome.h"
 #include "eosAppViewer.h"
 
-//#include "eosCoreSystem.h"
-
 namespace eos {
 class DesktopIcon;
 
@@ -36,27 +34,12 @@ public:
 	void HandleDraggingReleaseIcon(ax::Window::Ptr icon,
 		const ax::Point& click_pos, const ax::Point& mouse);
 
-	//		inline eos::Core::Manager* GetWindowManager()
-	//		{
-	//			return _system->GetManager();
-	//		}
-	//
 	void AddFrame(std::shared_ptr<ax::Window::Backbone> frame);
-	//
-	//	void BringToFront(eos::Frame* frame)
-	//	{
-	////		system->GetManager()->BringToFront(frame);
-	//	}
-	//
-	//		inline std::vector<eos::Frame*> GetFrameVector()
-	//		{
-	//			return _system->GetManager()->GetFrameVector();
-	//		}
 
 	void BringToFront(ax::Window::Ptr frame);
 
 	void ShowView();
-	
+
 	void ShowDesktopChoice();
 
 	enum DesktopApps {
@@ -72,7 +55,7 @@ public:
 
 private:
 	std::size_t _last_icon_index;
-	
+
 	int _nDesktopApp;
 	std::vector<DesktopIcon*> _icons;
 	bool _has_icon_dragging;
@@ -81,12 +64,14 @@ private:
 	ax::Point _interior_delta;
 	ax::Size _grid_size;
 	static const int _delta_icon;
-	
+
+	// Change desktop icon.
 	ax::Window::Ptr _cube_win;
 	float _cube_angle;
 	ax::Point _last_cube_mouse_pos;
 	int _cube_face_selected;
 	
+	// Status bar.
 	ax::Window::Ptr _status_bar;
 
 	ax::Point BlockIconWithDesktopBorder(ax::Window::Ptr icon,
@@ -112,19 +97,18 @@ private:
 	std::shared_ptr<ax::Image> _bg_img;
 	std::shared_ptr<ax::Image> _bg_img2;
 	ax::Image* _current_bg_img;
-	//		eos::Notification* _notification;
 
-	//		eos::Alert* _trace_viewer;
-
-	//		ax::Image* _img_test;
+	axEVENT_ACCESSOR(eos::Frame::Msg, OnFrameFullScreen);
+	void OnFrameFullScreen(const eos::Frame::Msg& msg);
 
 	void ReposAllDesktopBuiltInApps();
-	
+
 	void ShowIcons(const bool& show);
 	void ShowDesktopApps(const bool& show);
 	void ShowAppFrames(const bool& show);
-	// Events.
-
+	
+	// ax::Window::Events.
+	
 	void OnMouseMotion(const ax::Point& mouse);
 	void OnMouseLeftDown(const ax::Point& mouse);
 	void OnMouseLeftUp(const ax::Point& mouse);

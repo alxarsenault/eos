@@ -46,6 +46,9 @@ namespace eos {
 		axEVENT_ACCESSOR(eos::Frame::Msg, OnWindowClose);
 		void OnWindowClose(const eos::Frame::Msg& msg);
 		
+		axEVENT_ACCESSOR(eos::Frame::Msg, OnWindowFullScreen);
+		void OnWindowFullScreen(const eos::Frame::Msg& msg);
+		
 		axEVENT_ACCESSOR(ax::Event::Timer::Msg, OnAnimationTimerUp);
 		void OnAnimationTimerUp(const ax::Event::Timer::Msg& msg);
 		

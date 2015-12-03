@@ -18,14 +18,10 @@ namespace eos {
 		std::shared_ptr<ax::Event::Timer> _timer_clock;
 		std::string _clock_str, _date_str;
 		
-		//    axEVENT_ACCESSOR(ax::Event::Timer::Msg, OnTimerClock);
-		//    void OnTimerClock(const ax::Event::Timer::Msg& msg);
-		
 		void OnTimerClock(ax::Event::Msg* msg);
 		
 		void OnPaint(ax::GC gc);
 	};
 }
-
 
 #endif // __EOS_CLOCK_H__

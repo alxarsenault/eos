@@ -22,9 +22,7 @@ namespace eos {
 			void Write(T t, P ...p)
 			{
 				_fstream << GetTimeStamp() << " - " << t << ' ';
-				{
-					Print(p...);
-				}
+				Print(p...);
 			}
 			
 		private:
@@ -35,9 +33,7 @@ namespace eos {
 			void Print(T t, P ...p)
 			{
 				_fstream << t << ' ';
-				{
-					Print(p...);
-				}
+				Print(p...);
 			}
 			
 			void Print();
