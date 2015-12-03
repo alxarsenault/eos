@@ -3,7 +3,7 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
-#include "axLib/axGLShader.h"
+//#include "axLib/axGLShader.h"
 
 namespace eos
 {
@@ -16,7 +16,7 @@ namespace eos
         Home(const ax::Rect& rect);
         
     private:
-		ax::GL::Shader _shader;
+		//ax::GL::Shader _shader;
 		std::shared_ptr<ax::Image> _bg_img;
 
         void OnPaint(ax::GC gc);

@@ -42,13 +42,13 @@ eos::Frame::Frame(const ax::Rect& rect, const std::string& window_name)
 	_frame_status = 0;
 	_highlight = false;
 
-	_shader
-		= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
-	_shader.CompileAndLink();
+	//_shader
+	//	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+	//_shader.CompileAndLink();
 
-	_shadow_shader = ax::GL::Shader(
-		"shadow_vertex_shader.glsl", "shadow_fragments_shader.glsl");
-	_shadow_shader.CompileAndLink();
+	//_shadow_shader = ax::GL::Shader(
+	//	"shadow_vertex_shader.glsl", "shadow_fragments_shader.glsl");
+	//_shadow_shader.CompileAndLink();
 
 	win = ax::Window::Create(rect);
 
@@ -75,8 +75,9 @@ eos::Frame::Frame(const ax::Rect& rect, const std::string& window_name)
 		}
 	});
 
-	win->event.OnPaintOverFrameBuffer
-		= ax::WBind<ax::GC>(this, &Frame::OnPaintOverFrameBuffer);
+	//win->event.OnPaintOverFrameBuffer
+	//	= ax::WBind<ax::GC>(this, &Frame::OnPaintOverFrameBuffer);
+	
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &Frame::OnPaint);
 	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &Frame::OnMouseLeave);
 	win->event.OnMouseMotion
@@ -282,7 +283,7 @@ void eos::Frame::OnMouseLeftDown(const ax::Point& pos)
 		_click_pos = rel_pos;
 		_highlight = true;
 
-		std::cerr << "TODO : Launch desktop event. L 220 eosFrame.cpp"
+		std::cerr << "TODO : Launch desktop event. L 290 eosFrame.cpp"
 				  << std::endl;
 
 		std::static_pointer_cast<eos::Desktop>(
@@ -415,11 +416,8 @@ void DrawQuad(const std::vector<ax::Point>& ipoints, ax::Color* colors)
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, &points);
 	glColorPointer(4, GL_FLOAT, 0, colors);
-	//	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0,  &points);
-	//	glEnableVertexAttribArray(0);
-	glDrawArrays(GL_QUADS, 0, 4);
-	//	glDisableVertexAttribArray(0);
-
+	//glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4); 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -430,22 +428,22 @@ void eos::Frame::DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos,
 {
 	const int& nSegments = 20;
 
-	glBegin(GL_TRIANGLE_FAN);
+	//glBegin(GL_TRIANGLE_FAN);
 
-	gc.SetColor(middle_color);
-	glVertex2d(pos.x, pos.y - 1);
+	//gc.SetColor(middle_color);
+	//glVertex2d(pos.x, pos.y - 1);
 
-	gc.SetColor(contour_color);
-	for (int i = 0; i <= nSegments; i++) {
+	//gc.SetColor(contour_color);
+	//for (int i = 0; i <= nSegments; i++) {
 		// Get the current angle.
-		double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
+	//	double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
 
-		double x = radius * cosf(theta + angle);
-		double y = radius * sinf(theta + angle);
+	//	double x = radius * cosf(theta + angle);
+	//	double y = radius * sinf(theta + angle);
 
-		glVertex2d(x + pos.x, y + pos.y - 1);
-	}
-	glEnd();
+	//	glVertex2d(x + pos.x, y + pos.y - 1);
+	//}
+	//glEnd();
 }
 
 void eos::Frame::OnPaintOverFrameBuffer(ax::GC gc)
@@ -617,27 +615,39 @@ void eos::Frame::OnPaint(ax::GC gc)
 
 	ax::Rect topRect(rect.position, ax::Size(rect.size.x, _title_bar_height));
 
-	if (!_isFullScreen) {
-		// Title bar.
-		if (_bg_img && _bg_img->IsImageReady()) {
-			_shader.Activate();
-			GLuint id = _shader.GetProgramId();
-			GLint loc = glGetUniformLocation(id, "singleStepOffset");
-			if (loc != -1) {
-				glUniform1f(loc, 1.0 / float(rect.size.x));
-			}
+//	if (!_isFullScreen) {
+//		// Title bar.
+//		if (_bg_img && _bg_img->IsImageReady()) {
+//			_shader.Activate();
+//			GLuint id = _shader.GetProgramId();
+//			GLint loc = glGetUniformLocation(id, "singleStepOffset");
+//			if (loc != -1) {
+//				glUniform1f(loc, 1.0 / float(rect.size.x));
+//			}
+//
+//			gc.DrawImage(_bg_img, rect.position, 0.2);
+//			glUseProgram(0);
+//		}
+//		gc.DrawRectangleColorFade(
+//			topRect, ax::Color(0.4, 0.4), ax::Color(0.42, 0.42));
+//	
+//		// Frame title.
+//		gc.SetColor(ax::Color(0.9));
+//		gc.DrawStringAlignedCenter(_font, _window_name,
+//			ax::Rect(rect.position, ax::Size(rect.size.x, _title_bar_height)));
+//	}
 
-			gc.DrawImage(_bg_img, rect.position, 0.2);
-			glUseProgram(0);
-		}
-		gc.DrawRectangleColorFade(
-			topRect, ax::Color(0.4, 0.4), ax::Color(0.42, 0.42));
-	
-		// Frame title.
-		gc.SetColor(ax::Color(0.9));
-		gc.DrawStringAlignedCenter(_font, _window_name,
-			ax::Rect(rect.position, ax::Size(rect.size.x, _title_bar_height)));
-	}
+	gc.DrawRectangleColorFade(
+		topRect, ax::Color(0.4, 0.4), ax::Color(0.42, 0.42));
+
+	// Frame title.
+	gc.SetColor(ax::Color(0.9));
+	gc.DrawStringAlignedCenter(_font, _window_name,
+		ax::Rect(rect.position, ax::Size(rect.size.x, _title_bar_height)));
+	//--------------------------------------------------------------------------
+
+
+
 	// Frame contour.
 	ax::Rect bottomRect(topRect.GetNextPosDown(0),
 		ax::Size(rect.size.x, rect.size.y - _title_bar_height));

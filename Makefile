@@ -25,7 +25,8 @@ CC_LINK = -shared
 INCLUDE_SRC = -Iinclude/ -I/usr/include/freetype2/ -I/usr/local/include/ -I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I /opt/vc/include/interface/vmcs_host/linux -I/usr/include/
 
 INCLUDE_LINKER =  -L/usr/local/lib/ -L/opt/vc/lib/ -L/usr/lib/arm-linux-gnueabihf/ -Llib/
-LINKER_FLAG = -lpng -laxLibCore -lfreetype -lEGL -lGLESv1_CM -lpthread -lopenmaxil -lbcm_host -ldl -lutil -lsqlite3 -leos
+#-lGLESv1_CM
+LINKER_FLAG = -lpng -laxLibCore -lfreetype -lEGL -lGLESv2 -lpthread -lopenmaxil -lbcm_host -ldl -lutil -lsqlite3 -leos
 endif
 
 OBJ_DIR = build
@@ -37,7 +38,7 @@ OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 all: create_dir $(OBJ_FILES)
 	$(CC) $(CC_LINK) -o $(LIB_DIR)/libeos.so $(OBJ_FILES)
-	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) main.cpp  $(LINKER_FLAG) -o eos_main
+	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) $(INCLUDE_LINKER) -lxdo `Magick++-config --cppflags --cxxflags --ldflags --libs` main.cpp  $(LINKER_FLAG) -o eos_main
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CC_FLAGS) $(INCLUDE_SRC) -c -o $@ $<

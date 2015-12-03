@@ -17,7 +17,7 @@ else
 #ifeq ($(UNAME), Linux)
 
 CC = g++-4.9
-CC_FLAGS = -std=c++14 -DANDROID -DGL_GLEXT_PROTOTYPES=1 -fpermissive -fPIC
+CC_FLAGS = -std=c++14 -DANDROID -DGL_GLEXT_PROTOTYPES=1 -fpermissive -fPIC `Magick++-config --cppflags --cxxflags`
 CC_LINK = -shared
 INCLUDE_SRC = -Iinclude/ -I../../include/ -I/usr/include/freetype2/ -I/usr/local/include/ -I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I /opt/vc/include/interface/vmcs_host/linux -I/usr/include/
 

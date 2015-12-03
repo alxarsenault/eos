@@ -19,6 +19,8 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 //_terminal(nullptr),
 //_system(system)
 {
+	_platform_type = eos::PlatformType::EOS_TABLET;
+
 	_cube_angle = 0.0;
 	win = ax::Window::Create(rect);
 
@@ -30,7 +32,7 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	win->event.OnMouseLeftUp
 		= ax::WBind<ax::Point>(this, &Desktop::OnMouseLeftUp);
 
-	win->event.GrabGlobalKey();
+	//win->event.GrabGlobalKey();
 	win->event.OnUpArrowDown = ax::WFunc<char>([&](const char& c) {
 
 		if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
@@ -83,7 +85,8 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	InitDesktopIcon();
 	std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
 	_last_icon_index = children.size() - 1;
-
+	
+	ax::Print("After init icon.");
 	// All app frames should be added after all icons and before all desktop
 	// apps.
 
@@ -125,11 +128,14 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	//	man->AddChild(trace);
 	//	_desktop_apps[DSKT_APP_TRACE] = trace;
 
-	ax::Window::Ptr home(win->node.Add(std::shared_ptr<eos::Home>(
-		new eos::Home(ax::Rect(0, 24, 30, rect.size.y)))));
-	home->Hide();
-	_desktop_apps[DSKT_APP_HOME] = home;
-	_nDesktopApp++;
+	//ax::Window::Ptr home(win->node.Add(std::shared_ptr<eos::Home>(
+	//	new eos::Home(ax::Rect(0, 24, 30, rect.size.y)))));
+//	ax::Print("after home ptr.");
+	//home->Hide();
+	//_desktop_apps[DSKT_APP_HOME] = home;
+	//_nDesktopApp++;
+	
+//	ax::Print("After home.");
 
 	ax::Window::Ptr appViewer(win->node.Add(std::shared_ptr<eos::AppViewer>(
 		new eos::AppViewer(ax::Rect(0, 24, 300, rect.size.y)))));
@@ -138,14 +144,14 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 
 	_desktop_apps[DSKT_APP_VIEWER] = appViewer;
 	_nDesktopApp++;
-
+	
 	// Cube to change desktop.
 	// This should always be the last child of desktop window.
 	_cube_face_selected = 1;
 
 	_cube_win = ax::Window::Create(
 		ax::Rect(ax::Point(100, 100), rect.size - ax::Size(200, 200)));
-	_cube_win->event.OnPaint3D = ax::WBind<ax::GC>(this, &Desktop::OnPaint3D);
+	//_cube_win->event.OnPaint3D = ax::WBind<ax::GC>(this, &Desktop::OnPaint3D);
 
 	_cube_win->event.OnRightArrowDown = ax::WFunc<char>([&](const char& c) {
 
@@ -235,7 +241,8 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	// Create status bar (should be at index : _last_icon_index + 1).
 	_status_bar = win->node.Add(std::shared_ptr<eos::StatusBar>(
 		new eos::StatusBar(ax::Rect(0, 0, rect.size.x, 25))));
-
+	
+	ax::Print("After status bar."); 
 	// Create dock.
 	ax::Rect dock_rect(
 		100, rect.size.y - 64 - (2 * 5), rect.size.x - 200, 64 + 2 * 5);
@@ -403,8 +410,9 @@ void eos::Desktop::InitDesktopIcon()
 	// Read desktop folder.
 	ax::os::Directory dir;
 	//	dir.Goto("/home/eos/");
-	dir.Goto("/Users/alexarse/Project/eos/platform/mac/desktop/");
-
+	//dir.Goto("/Users/alexarse/Project/eos/platform/mac/desktop/");
+	dir.Goto("/home/pi/Projects");
+	ax::Print("Folder test.");
 	int x = 0, y = 0;
 	for (auto& n : dir.GetContent()) {
 		std::string icon_path;
@@ -651,157 +659,110 @@ void eos::Desktop::OnMouseLeftUp(const ax::Point& mouse)
 
 void eos::Desktop::OnPaint3D(ax::GC gc)
 {
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_PROJECTION); // To operate on the Projection matrix
-	glLoadIdentity(); // Reset
-	ax::Rect rect(win->dimension.GetDrawingRect());
-	double asp_ratio = rect.size.x / (double)rect.size.y;
+	//glEnable(GL_CULL_FACE);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glMatrixMode(GL_PROJECTION); // To operate on the Projection matrix
+	//glLoadIdentity(); // Reset
+	//ax::Rect rect(win->dimension.GetDrawingRect());
+	//double asp_ratio = rect.size.x / (double)rect.size.y;
 
-	gluPerspective(45.0f, asp_ratio, 0.1f, 100.0f);
+	//gluPerspective(45.0f, asp_ratio, 0.1f, 100.0f);
 
-	glMatrixMode(GL_MODELVIEW); // To operate on model-view matrix
+	//glMatrixMode(GL_MODELVIEW); // To operate on model-view matrix
 
 	// Render a color-cube consisting of 6 quads with different colors
-	glLoadIdentity(); // Reset the model-view matrix
-	glTranslatef(0.0f, 0.0f, -4.0f); // Move right and into the screen
-	glRotated(_cube_angle, 0, 1.0, 0.0);
+	//glLoadIdentity(); // Reset the model-view matrix
+	//glTranslatef(0.0f, 0.0f, -4.0f); // Move right and into the screen
+	//glRotated(_cube_angle, 0, 1.0, 0.0);
 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 
-	//	glBegin(GL_QUADS);                // Begin drawing the color cube with 6
-	// quads
-	//	// Top face (y = 1.0f)
-	//	glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	//	glVertex3f( 1.0f, 1.0f, -1.0f);
-	//	glVertex3f(-1.0f, 1.0f, -1.0f);
-	//	glVertex3f(-1.0f, 1.0f,  1.0f);
-	//	glVertex3f( 1.0f, 1.0f,  1.0f);
-	// 	glEnd();
+	//if (_cube_face_selected == 0) {
+	//	glColor4f(1.0f, 0.0f, 0.0f, 0.5f); // Red
+	//	glLineWidth(4.0);
 
-	// 	glBegin(GL_QUADS);
-	//	glEnable(GL_TEXTURE_2D);
-	//	glBindTexture(GL_TEXTURE_2D, _bg_img->GetTexture());
-	//	// Bottom face (y = -1.0f)
-	//	glColor3f(1.0f, 0.5f, 0.0f);     // Orange
-	//	glTexCoord2d(1.0, 0.0);
-	//	glVertex3f( 1.0f, -1.0f,  1.0f);
-	//
-	//	glTexCoord2d(0.0, 0.0);
-	//	glVertex3f(-1.0f, -1.0f,  1.0f);
-	//
-	//	glTexCoord2d(0.0, 1.0);
-	//	glVertex3f(-1.0f, -1.0f, -1.0f);
-	//
-	//	glTexCoord2d(1.0, 1.0);
-	//	glVertex3f( 1.0f, -1.0f, -1.0f);
-	//	glDisable(GL_TEXTURE_2D);
+	//	glBegin(GL_LINES);
+	//	{
+	//		glVertex3f(1.0f, 1.0f, 1.0f);
+	//		glVertex3f(-1.0f, 1.0f, 1.0f);
+
+	//		glVertex3f(-1.0f, 1.0f, 1.0f);
+	//		glVertex3f(-1.0f, -1.0f, 1.0f);
+
+	//		glVertex3f(-1.0f, -1.0f, 1.0f);
+	//		glVertex3f(1.0f, -1.0f, 1.0f);
+
+	//		glVertex3f(1.0f, -1.0f, 1.0f);
+	//		glVertex3f(1.0f, 1.0f, 1.0f);
+	//	}
 	//	glEnd();
 
-	if (_cube_face_selected == 0) {
-		glColor4f(1.0f, 0.0f, 0.0f, 0.5f); // Red
-		glLineWidth(4.0);
+	//	glLineWidth(1.0);
+	//}
 
-		glBegin(GL_LINES);
-		{
-			glVertex3f(1.0f, 1.0f, 1.0f);
-			glVertex3f(-1.0f, 1.0f, 1.0f);
+	//if (_cube_face_selected == 1) {
+	//	glColor4f(1.0f, 0.0f, 0.0f, 0.5f); // Red
+	//	glLineWidth(4.0);
 
-			glVertex3f(-1.0f, 1.0f, 1.0f);
-			glVertex3f(-1.0f, -1.0f, 1.0f);
+	//	glBegin(GL_LINES);
+	//	{
+	//		glVertex3f(-1.0f, 1.0f, 1.0f);
+	//		glVertex3f(-1.0f, 1.0f, -1.0f);
 
-			glVertex3f(-1.0f, -1.0f, 1.0f);
-			glVertex3f(1.0f, -1.0f, 1.0f);
+	//		glVertex3f(-1.0f, 1.0f, -1.0f);
+	//		glVertex3f(-1.0f, -1.0f, -1.0f);
 
-			glVertex3f(1.0f, -1.0f, 1.0f);
-			glVertex3f(1.0f, 1.0f, 1.0f);
-		}
-		glEnd();
+	//		glVertex3f(-1.0f, -1.0f, -1.0f);
+	//		glVertex3f(-1.0f, -1.0f, 1.0f);
 
-		glLineWidth(1.0);
-	}
+	//		glVertex3f(-1.0f, -1.0f, 1.0f);
+	//		glVertex3f(-1.0f, 1.0f, 1.0f);
+	//	}
+	//	glEnd();
 
-	if (_cube_face_selected == 1) {
-		glColor4f(1.0f, 0.0f, 0.0f, 0.5f); // Red
-		glLineWidth(4.0);
-
-		glBegin(GL_LINES);
-		{
-			glVertex3f(-1.0f, 1.0f, 1.0f);
-			glVertex3f(-1.0f, 1.0f, -1.0f);
-
-			glVertex3f(-1.0f, 1.0f, -1.0f);
-			glVertex3f(-1.0f, -1.0f, -1.0f);
-
-			glVertex3f(-1.0f, -1.0f, -1.0f);
-			glVertex3f(-1.0f, -1.0f, 1.0f);
-
-			glVertex3f(-1.0f, -1.0f, 1.0f);
-			glVertex3f(-1.0f, 1.0f, 1.0f);
-		}
-		glEnd();
-
-		glLineWidth(1.0);
-	}
+	//	glLineWidth(1.0);
+	//}
 
 	// Front face  (z = 1.0f)
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _bg_img->GetTexture());
-	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.0f, 0.0f); // Red
-	glTexCoord2d(1.0, 0.0);
-	glVertex3f(1.0f, 1.0f, 1.0f);
+	//glEnable(GL_TEXTURE_2D);
+	//glBindTexture(GL_TEXTURE_2D, _bg_img->GetTexture());
+	//glBegin(GL_QUADS);
+	//glColor3f(1.0f, 0.0f, 0.0f); // Red
+	//glTexCoord2d(1.0, 0.0);
+	//glVertex3f(1.0f, 1.0f, 1.0f);
 
-	glTexCoord2d(0.0, 0.0);
-	glVertex3f(-1.0f, 1.0f, 1.0f);
+	//glTexCoord2d(0.0, 0.0);
+	//glVertex3f(-1.0f, 1.0f, 1.0f);
 
-	glTexCoord2d(0.0, 1.0);
-	glVertex3f(-1.0f, -1.0f, 1.0f);
-	glTexCoord2d(1.0, 1.0);
-	glVertex3f(1.0f, -1.0f, 1.0f);
-	glDisable(GL_TEXTURE_2D);
-	glEnd();
+	//glTexCoord2d(0.0, 1.0);
+	//glVertex3f(-1.0f, -1.0f, 1.0f);
+	//glTexCoord2d(1.0, 1.0);
+	//glVertex3f(1.0f, -1.0f, 1.0f);
+	//glDisable(GL_TEXTURE_2D);
+	//glEnd();
 
-	//	// Back face (z = -1.0f)
-	//	glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
-	//	glVertex3f( 1.0f, -1.0f, -1.0f);
-	//	glVertex3f(-1.0f, -1.0f, -1.0f);
-	//	glVertex3f(-1.0f,  1.0f, -1.0f);
-	//	glVertex3f( 1.0f,  1.0f, -1.0f);
-	// 	glEnd();  // End of drawing color-cube
-	//
-
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _bg_img2->GetTexture());
-	glBegin(GL_QUADS);
+	//glEnable(GL_TEXTURE_2D);
+	//glBindTexture(GL_TEXTURE_2D, _bg_img2->GetTexture());
+	//glBegin(GL_QUADS);
 	// Left face (x = -1.0f)
-	glColor3f(0.0f, 0.0f, 1.0f); // Blue
+	//glColor3f(0.0f, 0.0f, 1.0f); // Blue
 
-	glTexCoord2d(1.0, 0.0);
-	glVertex3f(-1.0f, 1.0f, 1.0f);
+	//glTexCoord2d(1.0, 0.0);
+	//glVertex3f(-1.0f, 1.0f, 1.0f);
 
-	glTexCoord2d(0.0, 0.0);
-	glVertex3f(-1.0f, 1.0f, -1.0f);
+	//glTexCoord2d(0.0, 0.0);
+	//glVertex3f(-1.0f, 1.0f, -1.0f);
 
-	glTexCoord2d(0.0, 1.0);
-	glVertex3f(-1.0f, -1.0f, -1.0f);
+	//glTexCoord2d(0.0, 1.0);
+	//glVertex3f(-1.0f, -1.0f, -1.0f);
 
-	glTexCoord2d(1.0, 1.0);
-	glVertex3f(-1.0f, -1.0f, 1.0f);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-	//
-	// 	glBegin(GL_QUADS);
-	//	// Right face (x = 1.0f)
-	//	glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
-	//	glVertex3f(1.0f,  1.0f, -1.0f);
-	//	glVertex3f(1.0f,  1.0f,  1.0f);
-	//	glVertex3f(1.0f, -1.0f,  1.0f);
-	//	glVertex3f(1.0f, -1.0f, -1.0f);
-	//	glEnd();  // End of drawing color-cube
+	//glTexCoord2d(1.0, 1.0);
+	//glVertex3f(-1.0f, -1.0f, 1.0f);
+	//glEnd();
+	//glDisable(GL_TEXTURE_2D);
 
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 }
 
 void eos::Desktop::PaintView(ax::GC& gc)

@@ -4,10 +4,10 @@
 eos::StatusBar::StatusBar(const ax::Rect& rect)
 	: _font(0)
 {
-	_shader
-		= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+	//_shader
+	//	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
 
-	_shader.CompileAndLink();
+	//_shader.CompileAndLink();
 
 	win = ax::Window::Create(rect);
 
@@ -158,18 +158,27 @@ void eos::StatusBar::OnPaint(ax::GC gc)
 //	ax::Rect rect(win->dimension.GetDrawingRect());
 	ax::Rect rect(ax::Point(-1, -1), win->dimension.GetSize());
 
-	if (_bg_img && _bg_img->IsImageReady()) {
-		_shader.Activate();
-		GLuint id = _shader.GetProgramId();
-		GLint loc = glGetUniformLocation(id, "singleStepOffset");
-		if (loc != -1) {
-			glUniform1f(loc, 1.0 / float(rect.size.x));
-		}
-		gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
-		glUseProgram(0);
+	//if (_bg_img && _bg_img->IsImageReady()) {
+	//	_shader.Activate();
+	//	GLuint id = _shader.GetProgramId();
+	//	GLint loc = glGetUniformLocation(id, "singleStepOffset");
+	//	if (loc != -1) {
+	//		glUniform1f(loc, 1.0 / float(rect.size.x));
+	//	}
+	//	gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
+	//	glUseProgram(0);
+	//}
+	
+	std::shared_ptr<eos::Desktop> dsk
+		= std::static_pointer_cast<eos::Desktop>(
+			ax::App::GetInstance().GetTopLevel()->backbone);
+	
+	if(dsk->GetPlatformType() == eos::PlatformType::EOS_TABLET) {
+		gc.SetColor(ax::Color(0.4)); 
+	} else {
+		gc.SetColor(ax::Color(0.4, 0.2));
 	}
-
-	gc.SetColor(ax::Color(0.4, 0.2));
+	
 	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));
 	gc.DrawRectangle(rect);
 

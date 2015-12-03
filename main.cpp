@@ -1,7 +1,9 @@
 #include "axLib/axLib.h"
+#include "axLib/axGLShader.h"
 
 #include "eosCoreSystem.h"
 #include "eosDesktop.h"
+
 #include "WindowServer.hpp"
 
 #include <sys/types.h>
@@ -59,7 +61,7 @@ int main()
 {
 	SharedMemory<char> shared_buffer(key_t(8322),
 		std::size_t(sizeof(char) * 300 * 300 * 4));
-	
+
 	ax::App& app(ax::App::GetInstance());
 	
 	// Server obj.
@@ -105,26 +107,33 @@ int main()
 
 	// System.
 	std::shared_ptr<eos::Core::System> system(new eos::Core::System());
+	ax::GL::Shader shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+
+	shader.CompileAndLink();
 
 	// This will eventually not be there.
 	system->LoginUser(1);
 
-	app.AddMainEntry([&app, system]() {
+	app.AddMainEntry([&app, system, &shader]() {
+
+		shader.Activate();
 		//#ifdef __linux__
-		//		ax::Size size(app.GetScreenSize());
+		ax::Size size(app.GetScreenSize());
 		//#else
 		// 1280 x 800
-		ax::Size size(ax::Size(1280, 800)); // Desktop.
+		//ax::Size size(ax::Size(1280, 800)); // Desktop.
 		//ax::Size size(ax::Size(700, 500)); // Tablet.
 		app.SetFrameSize(size);
 		//#endif
 
 		std::shared_ptr<eos::Desktop> desktop(
 			new eos::Desktop(ax::Rect(ax::Point(0, 0), size)));
-
+	
+		ax::Print("Pass desktop.");
 		app.AddTopLevel(desktop);
 		system->GetDesktopManager()->SetDesktop(desktop);
-
+		
+		
 		// Test frame.
 //		desktop->GetWindow()->node.Add(std::shared_ptr<eos::Frame>(
 //			new eos::Frame(ax::Rect(100, 100, 500, 500), "Test")));
