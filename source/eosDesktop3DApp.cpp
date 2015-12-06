@@ -70,79 +70,79 @@ namespace eos
 	
 	void Desktop3DApp::OnPaint3D(ax::GC gc)
 	{
-		glUseProgram(0);
-		
-		GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat mat_shininess[] = { 50.0 };
-		
-		GLfloat light_position[] = { 0.0, 0.0, 0.0, 0.0 };
-		
-		glClear(GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClearDepth(1.0f);
-		glShadeModel(GL_SMOOTH);
-		
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-		
-		glEnable(GL_COLOR_MATERIAL);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		glDepthFunc(GL_LEQUAL);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		// glEnable(GL_MULTISAMPLE_ARB);
-		
-		glEnable(GL_LINE_SMOOTH);
-		glEnable(GL_POLYGON_SMOOTH);
-		
-		glMatrixMode(GL_PROJECTION); // To operate on the Projection matrix
-		glLoadIdentity(); // Reset
-		ax::Rect rect(win->dimension.GetDrawingRect());
-		double asp_ratio = rect.size.x / (double)rect.size.y;
-		
-		gluPerspective(45.0f, asp_ratio, 0.1f, 100.0f);
-		//			gluPerspective(50.0, 1.0, 3.0, 7.0);
-		
-		glMatrixMode(GL_MODELVIEW); // To operate on model-view matrix
-		
-		// Render a color-cube consisting of 6 quads with different colors
-		glLoadIdentity(); // Reset the model-view matrix
-		
-		gluLookAt(-12.0, -12.0, -12.0, 12.0, 12.0, 12.0, 0.0, 0.0, 1.0);
-		
-		float angle = 270;
-		
-		glTranslatef(-3.5f, -0.5f, -0.8f);
-		glTranslatef(0.0f, 0.0f, -0.8f);
-		glRotated(angle, 0, 0.0, 1.0);
-		DrawCube();
-		
-		glTranslatef(0.0f, 2.0f, -2.0f);
-		DrawCube();
-		
-		glTranslatef(2.0f, 2.0f, 0.0f);
-		DrawCube();
-		
-		glTranslatef(0.0f, -2.0f, 2.0f);
-		DrawCube();
-		
-		glTranslatef(2.0f, 2.0f, 0.0f);
-		DrawCube();
-		
-		// Top.
-		glTranslatef(-2.0f, -2.0f, 0.0f);
-		glTranslatef(-2.0f, 2.0f, -4.0f);
-		DrawCube();
-		
-		glDisable(GL_LIGHTING);
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_LINE_SMOOTH);
-		glDisable(GL_POLYGON_SMOOTH);
-		
-		gc.shader_fb.Activate();
+//		glUseProgram(0);
+//		
+//		GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+//		GLfloat mat_shininess[] = { 50.0 };
+//		
+//		GLfloat light_position[] = { 0.0, 0.0, 0.0, 0.0 };
+//		
+//		glClear(GL_DEPTH_BUFFER_BIT);
+//		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//		glClearDepth(1.0f);
+//		glShadeModel(GL_SMOOTH);
+//		
+//		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+//		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+//		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+//		
+//		glEnable(GL_COLOR_MATERIAL);
+//		glEnable(GL_LIGHTING);
+//		glEnable(GL_LIGHT0);
+//		glEnable(GL_DEPTH_TEST);
+//		glEnable(GL_CULL_FACE);
+//		glDepthFunc(GL_LEQUAL);
+//		glEnable(GL_BLEND);
+//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//		// glEnable(GL_MULTISAMPLE_ARB);
+//		
+//		glEnable(GL_LINE_SMOOTH);
+//		glEnable(GL_POLYGON_SMOOTH);
+//		
+//		glMatrixMode(GL_PROJECTION); // To operate on the Projection matrix
+//		glLoadIdentity(); // Reset
+//		ax::Rect rect(win->dimension.GetDrawingRect());
+//		double asp_ratio = rect.size.x / (double)rect.size.y;
+//		
+//		gluPerspective(45.0f, asp_ratio, 0.1f, 100.0f);
+//		//			gluPerspective(50.0, 1.0, 3.0, 7.0);
+//		
+//		glMatrixMode(GL_MODELVIEW); // To operate on model-view matrix
+//		
+//		// Render a color-cube consisting of 6 quads with different colors
+//		glLoadIdentity(); // Reset the model-view matrix
+//		
+//		gluLookAt(-12.0, -12.0, -12.0, 12.0, 12.0, 12.0, 0.0, 0.0, 1.0);
+//		
+//		float angle = 270;
+//		
+//		glTranslatef(-3.5f, -0.5f, -0.8f);
+//		glTranslatef(0.0f, 0.0f, -0.8f);
+//		glRotated(angle, 0, 0.0, 1.0);
+//		DrawCube();
+//		
+//		glTranslatef(0.0f, 2.0f, -2.0f);
+//		DrawCube();
+//		
+//		glTranslatef(2.0f, 2.0f, 0.0f);
+//		DrawCube();
+//		
+//		glTranslatef(0.0f, -2.0f, 2.0f);
+//		DrawCube();
+//		
+//		glTranslatef(2.0f, 2.0f, 0.0f);
+//		DrawCube();
+//		
+//		// Top.
+//		glTranslatef(-2.0f, -2.0f, 0.0f);
+//		glTranslatef(-2.0f, 2.0f, -4.0f);
+//		DrawCube();
+//		
+//		glDisable(GL_LIGHTING);
+//		glDisable(GL_CULL_FACE);
+//		glDisable(GL_LINE_SMOOTH);
+//		glDisable(GL_POLYGON_SMOOTH);
+//		
+//		gc.shader_fb.Activate();
 	}
 }

@@ -7,7 +7,7 @@
 
 #include "eosSystemAppManager.h"
 
-#include "WindowServer.hpp"
+//#include "WindowServer.hpp"
 
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
@@ -225,7 +225,7 @@ namespace sys {
 
 		// System.
 		std::shared_ptr<eos::Core::System> system(new eos::Core::System());
-		ax::GL::Shader shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+		//ax::GL::Shader shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
 
 		// This will eventually not be there.
 		system->LoginUser(1);
