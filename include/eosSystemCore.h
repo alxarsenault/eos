@@ -2,8 +2,8 @@
 #define __EOS_APP_MANAGER_H__
 
 #include <axLib/axLib.h>
-//#include "eosAppLoader.h"
-//#include "eosFrame.h"
+#include <axLib/axWindowServerManager.h>
+#include <axLib/axWindowServerFrame.h>
 
 namespace eos {
 
@@ -44,6 +44,9 @@ namespace sys {
 		std::shared_ptr<Desktop> _desktop;
 		
 		std::shared_ptr<AppManager> _appManager;
+		
+		std::unique_ptr<ax::wm::Manager> _window_server;
+		//
 		
 		void SetupMainApp(); /// Setup ax::App::AddMainEntry.
 	};

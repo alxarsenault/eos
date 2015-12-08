@@ -24,6 +24,8 @@ namespace sys {
 		
 		void CloseFullScreenApp(const std::string& app_name);
 		
+		axEVENT_ACCESSOR(ax::Event::SimpleMsg<std::shared_ptr<ax::Window::Backbone>>, OnServerFrameCreation);
+		
 	private:
 		std::map<std::string, eos::AppLoader> _appLoaders;
 		
@@ -34,6 +36,8 @@ namespace sys {
 		void OnWindowMinimize(const eos::Frame::Msg& msg);
 		void OnWindowClose(const eos::Frame::Msg& msg);
 		void OnWindowFullScreen(const eos::Frame::Msg& msg);
+		
+		void OnServerFrameCreation(const ax::Event::SimpleMsg<std::shared_ptr<ax::Window::Backbone>>& msg);
 	};
 }
 }
