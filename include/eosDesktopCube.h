@@ -1,29 +1,30 @@
-#ifndef __EOS_DOCK_ICON_H__
-#define __EOS_DOCK_ICON_H__
+#ifndef __EOS_DESKTOP_CUBE_H__
+#define __EOS_DESKTOP_CUBE_H__
 
 #include "axLib/axLib.h"
 #include "axLib/axTimer.h"
 
 namespace eos {
-	/*
-	 * eos::DockIcon.
-	 */
-	class DockIcon : public ax::Window::Backbone
+	class DesktopCube : public ax::Window::Backbone
 	{
 	public:
-		DockIcon(const ax::Rect& rect, const std::string& img_path,
-			const std::string& name);
-				
+		DesktopCube(const ax::Rect& rect);
+		
+		void SetBackgroundImages(const std::vector<ax::Image::Ptr> & images);
+		
+		int GetFaceSelected() const;
+		
 	private:
-		std::shared_ptr<ax::Image> _img;
-		std::string _name;
+		float _cube_angle;
+		int _cube_face_selected;
 		
+		std::vector<ax::Image::Ptr> _bg_imgs;
+	
+		void OnPaint3D(ax::GC gc);
 		
-		void OnMouseLeftDown(const ax::Point& mouse);
-		void OnMouseEnter(const ax::Point& mouse);
-		void OnMouseLeave(const ax::Point& mouse);
-		void OnPaint(ax::GC gc);
+		void OnLeftArrowDown(const char& c);
+		void OnRightArrowDown(const char& c);
 	};
 }
 
-#endif //__EOS_DOCK_ICON_H__
+#endif //__EOS_DESKTOP_CUBE_H__

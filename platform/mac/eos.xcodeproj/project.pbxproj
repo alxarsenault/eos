@@ -11,10 +11,10 @@
 		7C5BD7D11BCF699C00789D37 /* eosClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5BD7D01BCF699C00789D37 /* eosClock.cpp */; };
 		7C5BD7D41BCFED2300789D37 /* eosDockIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5BD7D31BCFED2300789D37 /* eosDockIcon.cpp */; };
 		7C625F091C20EB9400DCA413 /* eosSystemAppManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F081C20EB9400DCA413 /* eosSystemAppManager.cpp */; };
-		7C7C4BEA1C1B856E0018D23A /* eosSystemProxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7C4BE91C1B856E0018D23A /* eosSystemProxy.cpp */; };
-		7C7C4BED1C1B9A670018D23A /* eosDesktopExplorer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7C4BEC1C1B9A670018D23A /* eosDesktopExplorer.cpp */; };
-		7C7C4BF01C1BA2DC0018D23A /* eosDesktopCube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7C4BEF1C1BA2DC0018D23A /* eosDesktopCube.cpp */; };
-		7C7C4BF31C1BAAC60018D23A /* eosDesktop3DApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7C4BF21C1BAAC60018D23A /* eosDesktop3DApp.cpp */; };
+		7C625F131C21E92A00DCA413 /* eosDesktop3DApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F0F1C21E92A00DCA413 /* eosDesktop3DApp.cpp */; };
+		7C625F141C21E92A00DCA413 /* eosDesktopCube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F101C21E92A00DCA413 /* eosDesktopCube.cpp */; };
+		7C625F151C21E92A00DCA413 /* eosDesktopExplorer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F111C21E92A00DCA413 /* eosDesktopExplorer.cpp */; };
+		7C625F161C21E92A00DCA413 /* eosSystemProxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F121C21E92A00DCA413 /* eosSystemProxy.cpp */; };
 		7C8DEDA11C0801C200C722A2 /* WindowServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */; };
 		7CD0F52B1BA6580400935AD8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F52A1BA6580400935AD8 /* main.cpp */; };
 		7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */; };
@@ -45,15 +45,15 @@
 		7C5BD7D31BCFED2300789D37 /* eosDockIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDockIcon.cpp; path = ../../../source/eosDockIcon.cpp; sourceTree = "<group>"; };
 		7C625F071C20EB8000DCA413 /* eosSystemAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosSystemAppManager.h; path = ../../../include/eosSystemAppManager.h; sourceTree = "<group>"; };
 		7C625F081C20EB9400DCA413 /* eosSystemAppManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosSystemAppManager.cpp; path = ../../../source/eosSystemAppManager.cpp; sourceTree = "<group>"; };
-		7C7C4BE51C1A81680018D23A /* eosPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eosPlatform.h; sourceTree = "<group>"; };
-		7C7C4BE81C1B85600018D23A /* eosSystemProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eosSystemProxy.h; sourceTree = "<group>"; };
-		7C7C4BE91C1B856E0018D23A /* eosSystemProxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eosSystemProxy.cpp; sourceTree = "<group>"; };
-		7C7C4BEB1C1B9A5A0018D23A /* eosDesktopExplorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eosDesktopExplorer.h; sourceTree = "<group>"; };
-		7C7C4BEC1C1B9A670018D23A /* eosDesktopExplorer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eosDesktopExplorer.cpp; sourceTree = "<group>"; };
-		7C7C4BEE1C1BA2D10018D23A /* eosDesktopCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eosDesktopCube.h; sourceTree = "<group>"; };
-		7C7C4BEF1C1BA2DC0018D23A /* eosDesktopCube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eosDesktopCube.cpp; sourceTree = "<group>"; };
-		7C7C4BF11C1BAABB0018D23A /* eosDesktop3DApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eosDesktop3DApp.h; sourceTree = "<group>"; };
-		7C7C4BF21C1BAAC60018D23A /* eosDesktop3DApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eosDesktop3DApp.cpp; sourceTree = "<group>"; };
+		7C625F0A1C21E90200DCA413 /* eosDesktop3DApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDesktop3DApp.h; path = ../../../include/eosDesktop3DApp.h; sourceTree = "<group>"; };
+		7C625F0B1C21E90200DCA413 /* eosDesktopCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDesktopCube.h; path = ../../../include/eosDesktopCube.h; sourceTree = "<group>"; };
+		7C625F0C1C21E90200DCA413 /* eosDesktopExplorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosDesktopExplorer.h; path = ../../../include/eosDesktopExplorer.h; sourceTree = "<group>"; };
+		7C625F0D1C21E91200DCA413 /* eosPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosPlatform.h; path = ../../../include/eosPlatform.h; sourceTree = "<group>"; };
+		7C625F0E1C21E91200DCA413 /* eosSystemProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosSystemProxy.h; path = ../../../include/eosSystemProxy.h; sourceTree = "<group>"; };
+		7C625F0F1C21E92A00DCA413 /* eosDesktop3DApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDesktop3DApp.cpp; path = ../../../source/eosDesktop3DApp.cpp; sourceTree = "<group>"; };
+		7C625F101C21E92A00DCA413 /* eosDesktopCube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDesktopCube.cpp; path = ../../../source/eosDesktopCube.cpp; sourceTree = "<group>"; };
+		7C625F111C21E92A00DCA413 /* eosDesktopExplorer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosDesktopExplorer.cpp; path = ../../../source/eosDesktopExplorer.cpp; sourceTree = "<group>"; };
+		7C625F121C21E92A00DCA413 /* eosSystemProxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosSystemProxy.cpp; path = ../../../source/eosSystemProxy.cpp; sourceTree = "<group>"; };
 		7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowServer.cpp; path = ../../../WindowServer.cpp; sourceTree = "<group>"; };
 		7C8DEDA01C0801C200C722A2 /* WindowServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WindowServer.hpp; path = ../../../WindowServer.hpp; sourceTree = "<group>"; };
 		7CD0F52A1BA6580400935AD8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../main.cpp; sourceTree = "<group>"; };
@@ -130,19 +130,19 @@
 		7C7C4BE71C1B852D0018D23A /* System */ = {
 			isa = PBXGroup;
 			children = (
+				7C625F121C21E92A00DCA413 /* eosSystemProxy.cpp */,
+				7C625F0D1C21E91200DCA413 /* eosPlatform.h */,
+				7C625F0E1C21E91200DCA413 /* eosSystemProxy.h */,
 				7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */,
 				7CD2E3701BA1B00700CEADC6 /* eosCoreSystem.h */,
 				7CD2E3791BA1C7A600CEADC6 /* eosCoreTracer.cpp */,
 				7CD2E37B1BA1C7B200CEADC6 /* eosCoreTracer.h */,
 				7CD2E3751BA1B76E00CEADC6 /* eosCoreUser.cpp */,
 				7CD2E3771BA1B77800CEADC6 /* eosCoreUser.h */,
-				7C7C4BE51C1A81680018D23A /* eosPlatform.h */,
 				7C625F081C20EB9400DCA413 /* eosSystemAppManager.cpp */,
 				7C625F071C20EB8000DCA413 /* eosSystemAppManager.h */,
 				7CE9A6861B97378200E5D7B5 /* eosSystemCore.cpp */,
 				7CE9A6851B97376F00E5D7B5 /* eosSystemCore.h */,
-				7C7C4BE91C1B856E0018D23A /* eosSystemProxy.cpp */,
-				7C7C4BE81C1B85600018D23A /* eosSystemProxy.h */,
 			);
 			name = System;
 			sourceTree = "<group>";
@@ -191,16 +191,16 @@
 		7CE9A5E81B965D9E00E5D7B5 /* Desktop */ = {
 			isa = PBXGroup;
 			children = (
+				7C625F0F1C21E92A00DCA413 /* eosDesktop3DApp.cpp */,
+				7C625F101C21E92A00DCA413 /* eosDesktopCube.cpp */,
+				7C625F111C21E92A00DCA413 /* eosDesktopExplorer.cpp */,
+				7C625F0A1C21E90200DCA413 /* eosDesktop3DApp.h */,
+				7C625F0B1C21E90200DCA413 /* eosDesktopCube.h */,
+				7C625F0C1C21E90200DCA413 /* eosDesktopExplorer.h */,
 				7CE9A5F61B965E1B00E5D7B5 /* eosAppLoader.cpp */,
 				7CE9A5EB1B965DC100E5D7B5 /* eosAppLoader.h */,
 				7CE9A6881B976E7100E5D7B5 /* eosDesktop.cpp */,
 				7CE9A68A1B976E8700E5D7B5 /* eosDesktop.h */,
-				7C7C4BEC1C1B9A670018D23A /* eosDesktopExplorer.cpp */,
-				7C7C4BEB1C1B9A5A0018D23A /* eosDesktopExplorer.h */,
-				7C7C4BF21C1BAAC60018D23A /* eosDesktop3DApp.cpp */,
-				7C7C4BF11C1BAABB0018D23A /* eosDesktop3DApp.h */,
-				7C7C4BEF1C1BA2DC0018D23A /* eosDesktopCube.cpp */,
-				7C7C4BEE1C1BA2D10018D23A /* eosDesktopCube.h */,
 				7C5BD7CC1BCF517700789D37 /* eosDesktopIcon.cpp */,
 				7C5BD7CE1BCF519200789D37 /* eosDesktopIcon.h */,
 				7CE9A5F91B965E1B00E5D7B5 /* eosFrame.cpp */,
@@ -280,14 +280,13 @@
 			files = (
 				7C5BD7D11BCF699C00789D37 /* eosClock.cpp in Sources */,
 				7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */,
-				7C7C4BF31C1BAAC60018D23A /* eosDesktop3DApp.cpp in Sources */,
+				7C625F151C21E92A00DCA413 /* eosDesktopExplorer.cpp in Sources */,
 				7CE9A6A51B99E85D00E5D7B5 /* Makefile in Sources */,
 				7CE9A6891B976E7100E5D7B5 /* eosDesktop.cpp in Sources */,
 				7C8DEDA11C0801C200C722A2 /* WindowServer.cpp in Sources */,
 				7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */,
 				7CE9A6051B965E1B00E5D7B5 /* eosDock.cpp in Sources */,
 				7C625F091C20EB9400DCA413 /* eosSystemAppManager.cpp in Sources */,
-				7C7C4BED1C1B9A670018D23A /* eosDesktopExplorer.cpp in Sources */,
 				7CD2E37D1BA22D4000CEADC6 /* eosHome.cpp in Sources */,
 				7CE9A6031B965E1B00E5D7B5 /* eosAppLoader.cpp in Sources */,
 				7CE9A6931B99D73000E5D7B5 /* eosAlert.cpp in Sources */,
@@ -296,12 +295,13 @@
 				7CE9A6871B97378200E5D7B5 /* eosSystemCore.cpp in Sources */,
 				7CE9A6071B965E1B00E5D7B5 /* eosStatusBar.cpp in Sources */,
 				7CE9A6061B965E1B00E5D7B5 /* eosFrame.cpp in Sources */,
+				7C625F161C21E92A00DCA413 /* eosSystemProxy.cpp in Sources */,
+				7C625F131C21E92A00DCA413 /* eosDesktop3DApp.cpp in Sources */,
 				7CD2E3801BA23C5600CEADC6 /* eosAppViewer.cpp in Sources */,
 				7C5BD7CD1BCF517700789D37 /* eosDesktopIcon.cpp in Sources */,
-				7C7C4BEA1C1B856E0018D23A /* eosSystemProxy.cpp in Sources */,
 				7CD2E37A1BA1C7A600CEADC6 /* eosCoreTracer.cpp in Sources */,
 				7CD2E3761BA1B76E00CEADC6 /* eosCoreUser.cpp in Sources */,
-				7C7C4BF01C1BA2DC0018D23A /* eosDesktopCube.cpp in Sources */,
+				7C625F141C21E92A00DCA413 /* eosDesktopCube.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

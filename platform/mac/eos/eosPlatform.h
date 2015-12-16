@@ -1,9 +1,0 @@
-#ifndef __EOS_PLATFORM_H__
-#define __EOS_PLATFORM_H__
-
-#define OES_DESKTOP 1000
-#define EOS_TABLET 2000
-
-#define EOS_PLATFORM_TYPE OES_DESKTOP
-
-#endif // __EOS_PLATFORM_H__

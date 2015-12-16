@@ -1,29 +1,32 @@
-#ifndef __EOS_DOCK_ICON_H__
-#define __EOS_DOCK_ICON_H__
+#ifndef __EOS_SYSTEM_PROXY_H_
+#define __EOS_SYSTEM_PROXY_H_
 
-#include "axLib/axLib.h"
-#include "axLib/axTimer.h"
+#include "eosSystemCore.h"
 
 namespace eos {
-	/*
-	 * eos::DockIcon.
-	 */
-	class DockIcon : public ax::Window::Backbone
-	{
+namespace sys {
+	class proxy {
 	public:
-		DockIcon(const ax::Rect& rect, const std::string& img_path,
-			const std::string& name);
-				
-	private:
-		std::shared_ptr<ax::Image> _img;
-		std::string _name;
+		static std::shared_ptr<eos::Desktop> GetDesktop();
 		
+		static void AddFrame(std::shared_ptr<ax::Window::Backbone> frame);
 		
-		void OnMouseLeftDown(const ax::Point& mouse);
-		void OnMouseEnter(const ax::Point& mouse);
-		void OnMouseLeave(const ax::Point& mouse);
-		void OnPaint(ax::GC gc);
+		static void BringToFront(ax::Window::Ptr frame);
+		
+		static void FullScreenFrame(ax::Window::Ptr frame);
+		
+		static void LaunchApplication(const std::string& app_name);
+		
+		static void RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame);
+		
+		static void UnFullScreenFrame(const std::string& app_name);
+//		static void RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame);
+		
+//		static void CloseFrame(const ax::Event::Id& id, ax::Event::Function fct);
+		
+		static void ConnectToAppManager(const ax::Event::Id& id, ax::Event::Function fct);
 	};
 }
+}
 
-#endif //__EOS_DOCK_ICON_H__
+#endif // __EOS_SYSTEM_PROXY_H_
