@@ -22,25 +22,25 @@ namespace sys {
 	Core::Core()
 	{
 		SetupMainApp();
-		
-		_appManager = std::shared_ptr<AppManager>(new AppManager());
+
+		_appManager = std::shared_ptr<AppManager>(new AppManager(ax::App::GetInstance().GetEventManager()));
 	}
-	
+
 	int Core::MainLoop()
 	{
 		ax::App& app(ax::App::GetInstance());
 		app.MainLoop();
-		
+
 		return 0;
 	}
-	
+
 	void Core::AddFrame(std::shared_ptr<ax::Window::Backbone> frame)
 	{
 		std::vector<ax::Window::Ptr>& children(_desktop->GetWindow()->node.GetChildren());
-		
+
 		unsigned int fdesk_app = _desktop->_desktop_apps[eos::Desktop::DesktopApps::DSKT_APP_NOTIFY]->GetId();
 		std::size_t fdesk_app_index = 0;
-		
+
 		// Find first desktop app index.
 		for (std::size_t i = _desktop->_last_icon_index; i < children.size(); i++) {
 			if (children[i]->GetId() == fdesk_app) {
@@ -48,28 +48,28 @@ namespace sys {
 				break;
 			}
 		}
-		
+
 		// Add frame on top of all frames.
 		ax::Window::Ptr child = frame->GetWindow();
 		child->node.SetParent(_desktop->GetWindow().get());
 		children.insert(children.begin() + fdesk_app_index, child);
 		child->backbone = frame;
-		
+
 		_desktop->GetWindow()->Update();
-		
-//		_desktop->AddFrame(frame);
+
+		//		_desktop->AddFrame(frame);
 	}
-	
+
 	void Core::BringToFront(ax::Window::Ptr frame)
 	{
 		ax::Print("eos::sys::Core::BringToFront");
-		
+
 		if (frame != nullptr) {
 			std::vector<ax::Window::Ptr>& children(_desktop->GetWindow()->node.GetChildren());
-			
+
 			unsigned int frame_id = frame->GetId();
 			std::size_t frame_index = 0;
-			
+
 			// Find frame index.
 			for (std::size_t i = _desktop->_last_icon_index; i < children.size(); i++) {
 				if (children[i]->GetId() == frame_id) {
@@ -77,13 +77,13 @@ namespace sys {
 					break;
 				}
 			}
-			
+
 			// Remove frame from child vector.
 			children.erase(children.begin() + frame_index);
-			
+
 			unsigned int fdesk_app = _desktop->_desktop_apps[eos::Desktop::DSKT_APP_NOTIFY]->GetId();
 			std::size_t fdesk_app_index = 0;
-			
+
 			// Find first desktop app index.
 			for (std::size_t i = _desktop->_last_icon_index; i < children.size(); i++) {
 				if (children[i]->GetId() == fdesk_app) {
@@ -91,22 +91,24 @@ namespace sys {
 					break;
 				}
 			}
-			
+
 			// Add frame on top of all frames.
 			children.insert(children.begin() + fdesk_app_index, frame);
 		}
-		
-//		ax::Print("Frame is in front.");
+
+		//		ax::Print("Frame is in front.");
 		_desktop->GetWindow()->Update();
 	}
-	
+
 	void Core::FullScreenFrame(ax::Window::Ptr frame)
 	{
-//		_instance->BringToFront(msg.GetSender()->GetWindow());
-//		eos::sys::proxy::BringToFront(msg.GetSender()->GetWindow());
-//		msg.GetSender()->SetFullScreen(ax::Rect(ax::Point(0, 25), win->dimension.GetSize() - ax::Size(0, 25)));
+		//		_instance->BringToFront(msg.GetSender()->GetWindow());
+		//		eos::sys::proxy::BringToFront(msg.GetSender()->GetWindow());
+		//		msg.GetSender()->SetFullScreen(ax::Rect(ax::Point(0, 25), win->dimension.GetSize() -
+		//ax::Size(0,
+		// 25)));
 	}
-	
+
 	std::shared_ptr<AppManager> Core::GetAppManager()
 	{
 		return _appManager;
@@ -122,14 +124,13 @@ namespace sys {
 		ax::App& app(ax::App::GetInstance());
 
 		ax::GC gc;
-		gc.shader_normal = ax::GL::Shader(
-			"resources/vertex_shader.glsl", "resources/fragments_shader.glsl");
+		gc.shader_normal = ax::GL::Shader("resources/vertex_shader.glsl", "resources/fragments_shader.glsl");
 
-		gc.shader_fb = ax::GL::Shader("resources/fb_vertex_shader.glsl",
-			"resources/fb_fragments_shader.glsl");
+		gc.shader_fb
+			= ax::GL::Shader("resources/fb_vertex_shader.glsl", "resources/fb_fragments_shader.glsl");
 
-		gc.shader_font = ax::GL::Shader("resources/font_vertex_shader.glsl",
-			"resources/font_fragments_shader.glsl");
+		gc.shader_font
+			= ax::GL::Shader("resources/font_vertex_shader.glsl", "resources/font_fragments_shader.glsl");
 
 		// Server obj.
 		//	ax::Event::Object obj(app.GetEventManager());
@@ -140,7 +141,7 @@ namespace sys {
 		//		ax::Rect
 		// rect(static_cast<ax::Event::SimpleMsg<ax::Rect>*>(msg)->GetMsg());
 		//		ax::Print("Rect :",rect.position.x, rect.position.y,
-		//rect.size.x,
+		// rect.size.x,
 		// rect.size.y);
 		//
 		//		std::shared_ptr<eos::Desktop> desktop =
@@ -161,7 +162,7 @@ namespace sys {
 		//&shared_buffer](ax::GC
 		// gc) {
 		//			ax::Image img((void*)shared_buffer.data(), ax::Size(300,
-		//300));
+		// 300));
 		//			gc.SetColor(ax::Color(1.0));
 		//			gc.DrawRectangle(win->dimension.GetDrawingRect());
 		//			gc.DrawImage(&img, ax::Point(0, 0));
@@ -183,8 +184,7 @@ namespace sys {
 
 		// System.
 		std::shared_ptr<eos::Core::System> system(new eos::Core::System());
-		ax::GL::Shader shader(
-			"img_vertex_shader.glsl", "img_fragments_shader.glsl");
+		ax::GL::Shader shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
 
 		// This will eventually not be there.
 		system->LoginUser(1);
@@ -207,35 +207,28 @@ namespace sys {
 			app.SetFrameSize(size);
 #endif
 
-			_desktop = std::shared_ptr<eos::Desktop>(
-				new eos::Desktop(ax::Rect(ax::Point(0, 0), size)));
+			_desktop = std::shared_ptr<eos::Desktop>(new eos::Desktop(ax::Rect(ax::Point(0, 0), size)));
 
-			_desktop->GetWindow()
-				->dimension.GetFrameBuffer()
-				->AssignCustomFBDrawFunction([&](
-					ax::GL::FrameBuffer& fb) {
+			_desktop->GetWindow()->dimension.GetFrameBuffer()->AssignCustomFBDrawFunction(
+				[&](ax::GL::FrameBuffer& fb) {
 					glEnable(GL_TEXTURE_2D);
 
 					glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR);
 
 					ax::FloatPoint pos(0.0, 0.0);
-					const ax::Size& ss(
-						_desktop->GetWindow()->dimension.GetShownRect().size);
+					const ax::Size& ss(_desktop->GetWindow()->dimension.GetShownRect().size);
 					ax::FloatSize size(ss.x, ss.y);
 
 					// Bind framebuffer texture.
-					glBindTexture(
-						GL_TEXTURE_2D, _desktop->GetWindow()
-										   ->dimension.GetFrameBuffer()
-										   ->GetFrameBufferTexture());
+					glBindTexture(GL_TEXTURE_2D,
+						_desktop->GetWindow()->dimension.GetFrameBuffer()->GetFrameBufferTexture());
 					glEnableClientState(GL_VERTEX_ARRAY);
 					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-					float vertices[8] = { pos.x, pos.y, pos.x, pos.y + size.y,
-						pos.x + size.x, pos.y + size.y, pos.x + size.x, pos.y };
+					float vertices[8] = { pos.x, pos.y, pos.x, pos.y + size.y, pos.x + size.x, pos.y + size.y,
+						pos.x + size.x, pos.y };
 
-					float tex_coords[8]
-						= { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0 };
+					float tex_coords[8] = { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0 };
 
 					glVertexPointer(2, GL_FLOAT, 0, vertices);
 					glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
@@ -249,11 +242,10 @@ namespace sys {
 				});
 
 			app.AddTopLevel(_desktop);
-//			system->GetDesktopManager()->SetDesktop(desktop);
+			//			system->GetDesktopManager()->SetDesktop(desktop);
 		});
 
-		app.AddAfterGUILoadFunction(
-			[&app]() { app.SetFrameSize(ax::Size(1000, 700)); });
+		app.AddAfterGUILoadFunction([&app]() { app.SetFrameSize(ax::Size(1000, 700)); });
 	}
 }
 }

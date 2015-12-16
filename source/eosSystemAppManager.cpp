@@ -3,7 +3,8 @@
 
 namespace eos {
 namespace sys {
-	AppManager::AppManager()
+	AppManager::AppManager(std::shared_ptr<ax::Event::Manager> evt_manager)
+		: ax::Event::Object(evt_manager)
 	{
 		/// @todo Eventually parse app folder and find apps info dynamically.
 		_appLoaders["calc"] = AppLoader("./app/calculator.so");

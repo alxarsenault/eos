@@ -2,15 +2,17 @@
 #define __EOS_SYSTEM_APP_MANAGER_H__
 
 #include <axLib/axLib.h>
+#include <axLib/axEventManager.h>
+
 #include "eosAppLoader.h"
 #include "eosFrame.h"
 
 namespace eos {
 namespace sys {
-	class AppManager {
+	class AppManager : public ax::Event::Object {
 	public:
 	
-		AppManager();
+		AppManager(std::shared_ptr<ax::Event::Manager> evt_manager);
 		
 		void LaunchApplication(const std::string& app_name);
 		
