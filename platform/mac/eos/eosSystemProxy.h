@@ -16,6 +16,8 @@ namespace sys {
 		static void FullScreenFrame(ax::Window::Ptr frame);
 		
 		static void LaunchApplication(const std::string& app_name);
+		
+		static void RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame);
 	};
 }
 }

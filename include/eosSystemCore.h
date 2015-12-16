@@ -28,6 +28,8 @@ namespace sys {
 		
 		void AddFrame(std::shared_ptr<ax::Window::Backbone> frame);
 		
+		void RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame);
+		
 		void BringToFront(ax::Window::Ptr frame);
 		
 		void FullScreenFrame(ax::Window::Ptr frame);

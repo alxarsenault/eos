@@ -13,6 +13,11 @@ namespace sys {
 			Core::GetInstance()->AddFrame(frame);
 		}
 	
+		void proxy::RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame)
+		{
+			Core::GetInstance()->RemoveFrame(frame);
+		}
+	
 		void proxy::BringToFront(ax::Window::Ptr frame)
 		{
 			Core::GetInstance()->BringToFront(frame);

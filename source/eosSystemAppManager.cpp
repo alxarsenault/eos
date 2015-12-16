@@ -58,11 +58,11 @@ namespace sys {
 		ax::Window::Backbone* frame = app_loader.GetHandle();
 
 		// Error while getting frame handle.
-		if(frame == nullptr) {
+		if (frame == nullptr) {
 			ax::Error("AppManager::LaunchApplication :", app_name, "could not get frame handle.");
 			return;
 		}
-		
+
 		// Bring application frame to front view.
 		frame->GetWindow()->Show();
 		eos::sys::proxy::BringToFront(frame->GetWindow());
@@ -71,7 +71,7 @@ namespace sys {
 	void AppManager::OnWindowMinimize(const eos::Frame::Msg& msg)
 	{
 		eos::Frame* frame = msg.GetSender();
-		
+
 		if (frame != nullptr) {
 			frame->GetWindow()->Hide();
 		}
@@ -79,12 +79,34 @@ namespace sys {
 
 	void AppManager::OnWindowClose(const eos::Frame::Msg& msg)
 	{
-	
+		ax::Print("Window close.");
+		eos::Frame* frame = msg.GetSender();
+
+		if (frame == nullptr) {
+			ax::Error("Application already closed.");
+			return;
+		}
+
+		// Find wich app loader created the frame.
+		for (auto& n : _appLoaders) {
+			ax::Window::Backbone* handle = n.second.GetHandle();
+
+			if(handle == nullptr) {
+				continue;
+			}
+			
+			if(handle->GetWindow()->GetId() == frame->GetWindow()->GetId()) {
+				ax::Print("App loader found");
+				_appLoaders[n.first].RemoveHandle();
+				eos::sys::proxy::RemoveFrame(frame->GetWindow()->backbone);
+				
+				return;
+			}
+		}
 	}
 
 	void AppManager::OnWindowFullScreen(const eos::Frame::Msg& msg)
 	{
-	
 	}
 } // namespace sys
 } // namespace eos

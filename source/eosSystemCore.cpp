@@ -56,8 +56,42 @@ namespace sys {
 		child->backbone = frame;
 
 		_desktop->GetWindow()->Update();
+	}
+	
+	void Core::RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame)
+	{
+		std::vector<ax::Window::Ptr>& children(_desktop->GetWindow()->node.GetChildren());
+		
+		unsigned int fdesk_app = _desktop->_desktop_apps[eos::Desktop::DesktopApps::DSKT_APP_NOTIFY]->GetId();
+		std::size_t fdesk_app_index = 0;
+		
+		// Find first desktop app index.
+		for (std::size_t i = _desktop->_last_icon_index; i < children.size(); i++) {
+			if (children[i]->GetId() == fdesk_app) {
+				fdesk_app_index = i;
+				break;
+			}
+		}
+		
+		// Add frame on top of all frames.
+		ax::Window::Ptr child = frame->GetWindow();
+		std::size_t child_index = 0;
+		
+		// Look for frame in vector.
+		for(auto& n : children) {
+			if(child->GetId() == n->GetId()) {
+				break;
+			}
+			child_index++;
+		}
+		
+		// Remove frame.
+		if(child_index != 0) {
+			child->node.SetParent(nullptr);
+			children.erase(children.begin() + child_index);
+		}
 
-		//		_desktop->AddFrame(frame);
+		_desktop->GetWindow()->Update();
 	}
 
 	void Core::BringToFront(ax::Window::Ptr frame)
