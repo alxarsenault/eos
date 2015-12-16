@@ -4,7 +4,7 @@ ifeq ($(UNAME), Darwin)
 CC = clang++
 CC_FLAGS = -std=c++11 -Wall
 CC_LINK = -shared -undefined dynamic_lookup
-INCLUDE_SRC = -Iinclude -I/usr/local/include/freetype2/ -I/usr/local/include/
+INCLUDE_SRC = -Iinclude -I../../include/ -I/usr/local/include/freetype2/ -I/usr/local/include/
 LINKER_FLAG = -lpng -laxLibCore -lfreetype -laxExec
 
 else 

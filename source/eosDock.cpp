@@ -37,7 +37,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 
 	ax::StringPairVector apps_icon_info = { ax::StringPair("resources/1441952929_house.png", "browser"),
 		ax::StringPair("resources/1441951759_calculator.png", "calc"),
-		ax::StringPair("resources/1441953077_notepad.png", "txtedit"),
+		ax::StringPair("resources/1441953077_notepad.png", "TextEditor"),
 		ax::StringPair("resources/1441952725_terminal.png", "Terminal"),
 		ax::StringPair("resources/1441953272_enveloppe-alt.png", "mail"),
 		ax::StringPair("resources/1441952856_calendar.png", "calender"),
@@ -60,7 +60,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 
 	_appLoaders["calc"] = AppLoader("./app/calculator.so");
 	_appLoaders["browser"] = AppLoader("./app/browser.so");
-	_appLoaders["txtedit"] = AppLoader("./app/text_editor.so");
+	_appLoaders["TextEditor"] = AppLoader("./app/text_editor.so");
 	_appLoaders["term"] = AppLoader("./app/terminal.so");
 	_appLoaders["viewer"] = AppLoader("./app/video.so");
 	_appLoaders["mail"] = AppLoader("./app/mail.so");

@@ -9,7 +9,7 @@ namespace sys {
 		/// @todo Eventually parse app folder and find apps info dynamically.
 		_appLoaders["calc"] = AppLoader("./app/calculator.so");
 		_appLoaders["browser"] = AppLoader("./app/browser.so");
-		_appLoaders["txtedit"] = AppLoader("./app/text_editor.so");
+		_appLoaders["TextEditor"] = AppLoader("./app/text_editor.so");
 		_appLoaders["Terminal"] = AppLoader("./app/terminal.so");
 		_appLoaders["viewer"] = AppLoader("./app/video.so");
 		_appLoaders["mail"] = AppLoader("./app/mail.so");
@@ -83,7 +83,7 @@ namespace sys {
 		}
 		
 		eos::Frame* frame = static_cast<eos::Frame*>(handle);
-		frame->UnSetFullScreen(ax::Rect(100, 100, 400, 400));
+		frame->UnSetFullScreen(ax::Rect(100, 100, 500, 500));
 		
 		PushEvent(UN_FULLSCREEN_FRAME, new eos::Frame::Msg(frame));
 	}

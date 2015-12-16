@@ -6,6 +6,7 @@
 
 //#include "eosFrame.h"
 #include "eosTextEditor.h"
+#include "eosFrame.h"
 
 // class TextEditorMenu : public ax::Window::Backbone
 //{
@@ -109,6 +110,31 @@
 //		return frame;
 //	}
 //}
+
+extern "C"
+{
+	ax::Window::Backbone* StartApplication(ax::Window* parent, ax::Rect rect)
+	{
+		ax::Size fixe_size(500, 500);
+		eos::Frame* frame = new eos::Frame(ax::Rect(rect.position, fixe_size),
+										   "TextEditor");
+		frame->GetWindow()->property.AddProperty("Resizable");
+		
+		eos::TextEditor::Info txt_info;
+		txt_info.text_color = ax::Color(0.6647059f, 0.686275f, 0.6333333f);
+		txt_info.bg_color = ax::Color(0.1137255f, 0.1176471f, 0.09803922f);
+		txt_info.line_number_color = ax::Color();
+		std::shared_ptr<eos::TextEditor> txtEdit(new eos::TextEditor(frame->GetChildRect(), txt_info));
+		
+		frame->GetWindow()->node.Add(txtEdit);
+		frame->SetChildHandler(txtEdit->GetWindow());
+		
+		//		TerminalMenu* menu = new TerminalMenu(frame, frame->GetChildRect());
+		//		frame->SetChildMenuHandler(menu);
+		
+		return frame;
+	}
+}
 
 int main()
 {
