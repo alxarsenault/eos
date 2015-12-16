@@ -64,19 +64,27 @@ namespace sys {
 		}
 		
 		// Bring application frame to front view.
+		frame->GetWindow()->Show();
 		eos::sys::proxy::BringToFront(frame->GetWindow());
 	}
 
 	void AppManager::OnWindowMinimize(const eos::Frame::Msg& msg)
 	{
+		eos::Frame* frame = msg.GetSender();
+		
+		if (frame != nullptr) {
+			frame->GetWindow()->Hide();
+		}
 	}
 
 	void AppManager::OnWindowClose(const eos::Frame::Msg& msg)
 	{
+	
 	}
 
 	void AppManager::OnWindowFullScreen(const eos::Frame::Msg& msg)
 	{
+	
 	}
 } // namespace sys
 } // namespace eos

@@ -124,6 +124,8 @@ void eos::Desktop::InitFixDesktopApps(const ax::Rect& rect)
 	// Create dock.
 	ax::Rect dock_rect(100, rect.size.y - 64 - 10, rect.size.x - 200, 64 + 10);
 	ax::Window::Ptr dock = win->node.Add(SHARED_PTR(eos::Dock, dock_rect));
+	
+	
 	dock->AddConnection(8012, GetOnFrameFullScreen());
 }
 

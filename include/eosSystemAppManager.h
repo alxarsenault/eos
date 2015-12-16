@@ -12,6 +12,11 @@ namespace sys {
 	class AppManager : public ax::Event::Object {
 	public:
 	
+		enum ApplicationEvents
+		{
+			
+		};
+	
 		AppManager(std::shared_ptr<ax::Event::Manager> evt_manager);
 		
 		void LaunchApplication(const std::string& app_name);
