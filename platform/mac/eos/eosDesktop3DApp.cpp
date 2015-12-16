@@ -66,13 +66,6 @@ namespace eos
 		ax::Rect rect(win->dimension.GetDrawingRect());
 		gc.SetColor(ax::Color(0.0, 0.0));
 		gc.DrawRectangle(rect);
-		
-		//		gc.DrawImageResize(_img, rect.position, rect.size);
-		
-		//		gc.SetColor(ax::Color(255, 255, 255));
-		//		gc.DrawRectangle(rect);
-		//
-		//		gc.DrawImageResize(_img, rect.position, rect.size);
 	}
 	
 	void Desktop3DApp::OnPaint3D(ax::GC gc)

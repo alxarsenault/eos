@@ -82,6 +82,7 @@ private:
 	
 	void OnDownArrowDown(const char& c);
 	void OnUpArrowDown(const char& c);
+	void OnKeyDown(const char& c);
 
 	void OnPaint(ax::GC gc);
 	void PaintView(ax::GC& gc);

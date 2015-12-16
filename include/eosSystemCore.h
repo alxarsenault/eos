@@ -1,15 +1,18 @@
 #ifndef __EOS_APP_MANAGER_H__
 #define __EOS_APP_MANAGER_H__
 
-#include "axLib/axLib.h"
-#include "eosAppLoader.h"
-#include "eosFrame.h"
+#include <axLib/axLib.h>
+//#include "eosAppLoader.h"
+//#include "eosFrame.h"
 
 namespace eos {
 
 class Desktop;
 
 namespace sys {
+
+	class AppManager;
+
 	class Core {
 	public:
 		static Core* Create();
@@ -35,6 +38,8 @@ namespace sys {
 		static Core* _instance;
 	
 		std::shared_ptr<Desktop> _desktop;
+		
+		std::shared_ptr<AppManager> _appManager;
 		
 		void SetupMainApp(); /// Setup ax::App::AddMainEntry.
 	};

@@ -28,6 +28,7 @@ eos::Desktop::Desktop(const ax::Rect& rect)
 	win->event.OnUpArrowDown = ax::WBind<char>(this, &Desktop::OnUpArrowDown);
 	win->event.OnDownArrowDown = ax::WBind<char>(this, &Desktop::OnDownArrowDown);
 	win->event.OnResize = ax::WBind<ax::Size>(this, &Desktop::OnResize);
+	win->event.OnKeyDown = ax::WBind<char>(this, &Desktop::OnKeyDown);
 
 	win->event.GrabGlobalKey();
 
@@ -435,6 +436,24 @@ void eos::Desktop::OnUpArrowDown(const char& c)
 {
 	if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 		ShowDesktopChoice();
+	}
+}
+
+void eos::Desktop::OnKeyDown(const char& c)
+{
+//	ax::Print("KEY :", (int)c);
+	
+	// Spacebar.
+	if(int(c) == 32) {
+		if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+			// Close all desktop applications.
+			for (int i = 0; i < DSKT_APP_COUNT; i++) {
+				if (_desktop_apps[i] != nullptr && _desktop_apps_status[i]) {
+					_desktop_apps[i]->Hide();
+					_desktop_apps_status[i] = false;
+				}
+			}
+		}
 	}
 }
 

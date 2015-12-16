@@ -5,6 +5,8 @@
 #include "eosCoreSystem.h"
 #include "eosDesktop.h"
 
+#include "eosSystemAppManager.h"
+
 #include "WindowServer.hpp"
 
 eos::sys::Core* eos::sys::Core::_instance = nullptr;
@@ -20,6 +22,8 @@ namespace sys {
 	Core::Core()
 	{
 		SetupMainApp();
+		
+		_appManager = std::shared_ptr<AppManager>(new AppManager());
 	}
 	
 	int Core::MainLoop()
