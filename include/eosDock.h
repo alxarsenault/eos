@@ -55,7 +55,7 @@ namespace eos {
 		
 		axEVENT_ACCESSOR(ax::Event::Timer::Msg, OnAnimationTimerDown);
 		void OnAnimationTimerDown(const ax::Event::Timer::Msg& msg);
-		
+				
 		void OnMouseEnter(const ax::Point& mouse);
 		void OnMouseLeave(const ax::Point& mouse);
 		

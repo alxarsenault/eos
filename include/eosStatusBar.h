@@ -8,6 +8,7 @@
 
 #include "eosCoreSystem.h"
 #include "eosClock.h"
+#include "eosFrame.h"
 
 //#include "axLib/axGLShader.h"
 
@@ -24,6 +25,8 @@ namespace eos {
 		std::string _user_name;
 		
 		std::shared_ptr<eos::Clock> _clock;
+		
+		std::pair<bool, std::string> _fullscreen_frame;
 		
 		ax::Image* _setting_img;
 		ax::Font _font;
@@ -43,6 +46,9 @@ namespace eos {
 		void OnApp3D(ax::Event::Msg* msg);
 		
 		void OnAppViewer(ax::Event::Msg* msg);
+		
+		void OnFrameFullScreen(ax::Event::Msg* msg);
+		void OnFrameUnFullScreen(ax::Event::Msg* msg);
 		
 		void OnSettings(ax::Event::Msg* msg);
 		

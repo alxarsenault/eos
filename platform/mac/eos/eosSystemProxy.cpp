@@ -25,7 +25,7 @@ namespace sys {
 	
 		void proxy::FullScreenFrame(ax::Window::Ptr frame)
 		{
-			
+			Core::GetInstance()->FullScreenFrame(frame);
 		}
 	
 		void proxy::LaunchApplication(const std::string& app_name)
@@ -33,6 +33,18 @@ namespace sys {
 			ax::Print("proxy::LaunchApplication");
 			std::shared_ptr<AppManager> app_manager = Core::GetInstance()->GetAppManager();
 			app_manager->LaunchApplication(app_name);
+		}
+	
+		void proxy::ConnectToAppManager(const ax::Event::Id& id, ax::Event::Function fct)
+		{
+			std::shared_ptr<AppManager> app_manager = Core::GetInstance()->GetAppManager();
+			app_manager->AddConnection(id, fct);
+		}
+	
+		void proxy::UnFullScreenFrame(const std::string& app_name)
+		{
+			std::shared_ptr<AppManager> app_manager = Core::GetInstance()->GetAppManager();
+			app_manager->CloseFullScreenApp(app_name);
 		}
 }
 }

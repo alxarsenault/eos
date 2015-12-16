@@ -2,6 +2,7 @@
 #include "eosDockIcon.h"
 #include "axLib/axWindowManager.h"
 #include "eosSystemProxy.h"
+#include "eosSystemAppManager.h"
 
 eos::Dock::Dock(const ax::Rect& rect)
 	: _anim_percent(1.0)
@@ -14,7 +15,6 @@ eos::Dock::Dock(const ax::Rect& rect)
 {
 	ax::App& app = ax::App::GetInstance();
 	_timer_up = new ax::Event::Timer(app.GetEventManager(), GetOnAnimationTimerUp());
-
 	_timer_down = new ax::Event::Timer(app.GetEventManager(), GetOnAnimationTimerDown());
 
 	win = ax::Window::Create(rect);
@@ -38,7 +38,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 	ax::StringPairVector apps_icon_info = { ax::StringPair("resources/1441952929_house.png", "browser"),
 		ax::StringPair("resources/1441951759_calculator.png", "calc"),
 		ax::StringPair("resources/1441953077_notepad.png", "txtedit"),
-		ax::StringPair("resources/1441952725_terminal.png", "term"),
+		ax::StringPair("resources/1441952725_terminal.png", "Terminal"),
 		ax::StringPair("resources/1441953272_enveloppe-alt.png", "mail"),
 		ax::StringPair("resources/1441952856_calendar.png", "calender"),
 		ax::StringPair("resources/1441952883_book.png", "book"),
@@ -80,6 +80,9 @@ eos::Dock::Dock(const ax::Rect& rect)
 	//	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
 	//
 	//_shader.CompileAndLink();
+	
+	eos::sys::proxy::ConnectToAppManager(eos::sys::AppManager::FRAME_FULL_SCREEN,
+		GetOnWindowFullScreen());
 }
 
 void eos::Dock::OnAnimationTimerUp(const ax::Event::Timer::Msg& msg)
@@ -239,8 +242,15 @@ void eos::Dock::OnWindowMinimize(const eos::Frame::Msg& msg)
 
 void eos::Dock::OnWindowFullScreen(const eos::Frame::Msg& msg)
 {
-	ax::Print("FULL SCREEN");
-	win->PushEvent(8012, new eos::Frame::Msg(msg));
+	std::string app_name(msg.GetSender()->GetAppName());
+	
+	// Find app icon and add fullscreen button.
+	for (auto& n : _app_icons) {
+		if(n->GetName() == app_name) {
+			n->ActivateFullScreenBtn();
+			break;
+		}
+	}
 }
 
 void eos::Dock::OnWindowClose(const eos::Frame::Msg& msg)

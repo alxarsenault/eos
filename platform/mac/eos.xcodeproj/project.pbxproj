@@ -107,14 +107,14 @@
 		7C7C4BE61C1B84AB0018D23A /* DesktopApp */ = {
 			isa = PBXGroup;
 			children = (
-				7CD2E37F1BA23C5600CEADC6 /* eosAppViewer.cpp */,
-				7CD2E3811BA23C6200CEADC6 /* eosAppViewer.h */,
-				7CE9A5F81B965E1B00E5D7B5 /* eosDock.cpp */,
-				7CE9A5ED1B965DC100E5D7B5 /* eosDock.h */,
 				7CE9A6921B99D73000E5D7B5 /* eosAlert.cpp */,
 				7CE9A6911B99D72300E5D7B5 /* eosAlert.h */,
+				7CD2E37F1BA23C5600CEADC6 /* eosAppViewer.cpp */,
+				7CD2E3811BA23C6200CEADC6 /* eosAppViewer.h */,
 				7C5BD7D01BCF699C00789D37 /* eosClock.cpp */,
 				7C5BD7CF1BCF699000789D37 /* eosClock.h */,
+				7CE9A5F81B965E1B00E5D7B5 /* eosDock.cpp */,
+				7CE9A5ED1B965DC100E5D7B5 /* eosDock.h */,
 				7C5BD7D31BCFED2300789D37 /* eosDockIcon.cpp */,
 				7C5BD7D21BCFED1900789D37 /* eosDockIcon.h */,
 				7CD2E37C1BA22D4000CEADC6 /* eosHome.cpp */,

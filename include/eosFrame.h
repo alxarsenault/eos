@@ -58,6 +58,8 @@ namespace eos
 			  const std::string& window_name);
 		
 		void SetFullScreen(const ax::Rect& rect);
+		void UnSetFullScreen(const ax::Rect& rect);
+
         
 //        Frame(ax::App* app,
 //              const ax::Rect& rect,
@@ -68,6 +70,8 @@ namespace eos
 		void SetChildHandler(ax::Window::Ptr child);
         
         void SetChildMenuHandler(ax::Window::Ptr menu);
+		
+		std::string GetAppName() const;
    
 		// Property.
 		// Resizable

@@ -18,6 +18,13 @@ namespace sys {
 		static void LaunchApplication(const std::string& app_name);
 		
 		static void RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame);
+		
+		static void UnFullScreenFrame(const std::string& app_name);
+//		static void RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame);
+		
+//		static void CloseFrame(const ax::Event::Id& id, ax::Event::Function fct);
+		
+		static void ConnectToAppManager(const ax::Event::Id& id, ax::Event::Function fct);
 	};
 }
 }

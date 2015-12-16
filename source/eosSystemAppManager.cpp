@@ -10,7 +10,7 @@ namespace sys {
 		_appLoaders["calc"] = AppLoader("./app/calculator.so");
 		_appLoaders["browser"] = AppLoader("./app/browser.so");
 		_appLoaders["txtedit"] = AppLoader("./app/text_editor.so");
-		_appLoaders["term"] = AppLoader("./app/terminal.so");
+		_appLoaders["Terminal"] = AppLoader("./app/terminal.so");
 		_appLoaders["viewer"] = AppLoader("./app/video.so");
 		_appLoaders["mail"] = AppLoader("./app/mail.so");
 		_appLoaders["calender"] = AppLoader("./app/slideshow.so");
@@ -67,6 +67,26 @@ namespace sys {
 		frame->GetWindow()->Show();
 		eos::sys::proxy::BringToFront(frame->GetWindow());
 	}
+	
+	void AppManager::CloseFullScreenApp(const std::string& app_name)
+	{
+		std::map<std::string, eos::AppLoader>::iterator it = _appLoaders.find(app_name);
+		
+		if(it == _appLoaders.end()) {
+			return;
+		}
+		
+		ax::Window::Backbone* handle = it->second.GetHandle();
+		
+		if(handle == nullptr) {
+			return;
+		}
+		
+		eos::Frame* frame = static_cast<eos::Frame*>(handle);
+		frame->UnSetFullScreen(ax::Rect(100, 100, 400, 400));
+		
+		PushEvent(UN_FULLSCREEN_FRAME, new eos::Frame::Msg(frame));
+	}
 
 	void AppManager::OnWindowMinimize(const eos::Frame::Msg& msg)
 	{
@@ -107,6 +127,8 @@ namespace sys {
 
 	void AppManager::OnWindowFullScreen(const eos::Frame::Msg& msg)
 	{
+		eos::sys::proxy::FullScreenFrame(msg.GetSender()->GetWindow());
+		PushEvent(FRAME_FULL_SCREEN, new eos::Frame::Msg(msg));
 	}
 } // namespace sys
 } // namespace eos

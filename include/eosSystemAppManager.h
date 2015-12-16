@@ -14,12 +14,15 @@ namespace sys {
 	
 		enum ApplicationEvents
 		{
-			
+			FRAME_FULL_SCREEN,
+			UN_FULLSCREEN_FRAME
 		};
 	
 		AppManager(std::shared_ptr<ax::Event::Manager> evt_manager);
 		
 		void LaunchApplication(const std::string& app_name);
+		
+		void CloseFullScreenApp(const std::string& app_name);
 		
 	private:
 		std::map<std::string, eos::AppLoader> _appLoaders;

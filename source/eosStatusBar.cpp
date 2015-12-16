@@ -3,9 +3,11 @@
 #include "eosPlatform.h"
 
 #include "eosSystemProxy.h"
+#include "eosSystemAppManager.h"
 
 eos::StatusBar::StatusBar(const ax::Rect& rect)
 	: _font(0)
+	, _fullscreen_frame(false, "")
 {
 	win = ax::Window::Create(rect);
 
@@ -77,6 +79,12 @@ eos::StatusBar::StatusBar(const ax::Rect& rect)
 
 		btn_rect.position = btn->dimension.GetRect().GetNextPosRight(5);
 	}
+	
+	eos::sys::proxy::ConnectToAppManager(eos::sys::AppManager::FRAME_FULL_SCREEN,
+		ax::Event::Bind(this, &eos::StatusBar::OnFrameFullScreen));
+	
+	eos::sys::proxy::ConnectToAppManager(eos::sys::AppManager::UN_FULLSCREEN_FRAME,
+		ax::Event::Bind(this, &eos::StatusBar::OnFrameUnFullScreen));
 }
 
 void eos::StatusBar::OnView(ax::Event::Msg* msg)
@@ -124,6 +132,34 @@ void eos::StatusBar::OnSettings(ax::Event::Msg* msg)
 	eos::sys::proxy::GetDesktop()->ShowDesktopChoice();
 }
 
+void eos::StatusBar::OnFrameFullScreen(ax::Event::Msg* msg)
+{
+	eos::Frame::Msg& f_msg(*static_cast<eos::Frame::Msg*>(msg));
+	_fullscreen_frame.first = true;
+	_fullscreen_frame.second = f_msg.GetSender()->GetAppName();
+	
+	win->Hide();
+//	ax::Point pos(win->dimension.GetRect().position);
+//	win->dimension.SetPosition(pos - ax::Point(0, 20));
+	
+//	win->Update();
+	ax::Print("eos::StatusBar::OnFrameFullScreen");
+}
+
+void eos::StatusBar::OnFrameUnFullScreen(ax::Event::Msg* msg)
+{
+	eos::Frame::Msg& f_msg(*static_cast<eos::Frame::Msg*>(msg));
+	_fullscreen_frame.first = false;
+	_fullscreen_frame.second = "";
+	
+	win->Show();
+	//	ax::Point pos(win->dimension.GetRect().position);
+	//	win->dimension.SetPosition(pos - ax::Point(0, 20));
+	
+	//	win->Update();
+	ax::Print("eos::StatusBar::OnFrameUnFullScreen");
+}
+
 void eos::StatusBar::OnPaint(ax::GC gc)
 {
 	//	ax::Rect rect(win->dimension.GetDrawingRect());
@@ -144,6 +180,11 @@ void eos::StatusBar::OnPaint(ax::GC gc)
 
 	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));
 	gc.DrawRectangle(rect);
+	
+	if(_fullscreen_frame.first) {
+		gc.SetColor(ax::Color(1.0));
+		gc.DrawStringAlignedCenter(_font, _fullscreen_frame.second, win->dimension.GetDrawingRect());
+	}
 
 	gc.SetColor(ax::Color(1.0));
 	gc.DrawString(_font, _user_name, ax::Point(rect.size.x - 280, 5));

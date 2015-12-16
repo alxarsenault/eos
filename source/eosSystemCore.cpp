@@ -57,14 +57,14 @@ namespace sys {
 
 		_desktop->GetWindow()->Update();
 	}
-	
+
 	void Core::RemoveFrame(std::shared_ptr<ax::Window::Backbone> frame)
 	{
 		std::vector<ax::Window::Ptr>& children(_desktop->GetWindow()->node.GetChildren());
-		
+
 		unsigned int fdesk_app = _desktop->_desktop_apps[eos::Desktop::DesktopApps::DSKT_APP_NOTIFY]->GetId();
 		std::size_t fdesk_app_index = 0;
-		
+
 		// Find first desktop app index.
 		for (std::size_t i = _desktop->_last_icon_index; i < children.size(); i++) {
 			if (children[i]->GetId() == fdesk_app) {
@@ -72,21 +72,21 @@ namespace sys {
 				break;
 			}
 		}
-		
+
 		// Add frame on top of all frames.
 		ax::Window::Ptr child = frame->GetWindow();
 		std::size_t child_index = 0;
-		
+
 		// Look for frame in vector.
-		for(auto& n : children) {
-			if(child->GetId() == n->GetId()) {
+		for (auto& n : children) {
+			if (child->GetId() == n->GetId()) {
 				break;
 			}
 			child_index++;
 		}
-		
+
 		// Remove frame.
-		if(child_index != 0) {
+		if (child_index != 0) {
 			child->node.SetParent(nullptr);
 			children.erase(children.begin() + child_index);
 		}
@@ -136,11 +136,9 @@ namespace sys {
 
 	void Core::FullScreenFrame(ax::Window::Ptr frame)
 	{
-		//		_instance->BringToFront(msg.GetSender()->GetWindow());
-		//		eos::sys::proxy::BringToFront(msg.GetSender()->GetWindow());
-		//		msg.GetSender()->SetFullScreen(ax::Rect(ax::Point(0, 25), win->dimension.GetSize() -
-		//ax::Size(0,
-		// 25)));
+		_instance->BringToFront(frame);
+		std::shared_ptr<eos::Frame> fb(std::static_pointer_cast<eos::Frame>(frame->backbone));
+		fb->SetFullScreen(ax::Rect(ax::Point(0, 0), _desktop->GetWindow()->dimension.GetSize() - ax::Size(0, 0)));
 	}
 
 	std::shared_ptr<AppManager> Core::GetAppManager()
