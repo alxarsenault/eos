@@ -181,48 +181,50 @@ void eos::Dock::OnMouseLeave(const ax::Point& mouse)
 
 void eos::Dock::OnAppSelect(const ax::Event::StringMsg& msg)
 {
-	ax::Print("App select :", msg.GetMsg());
-	AppLoader& loader = _appLoaders[msg.GetMsg()];
-
-	if (loader.GetHandle() == nullptr) {
-		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
-
-		std::shared_ptr<ax::Window::Backbone> frame(loader.Create(rect));
-
-		if (frame != nullptr) {
-			frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
-
-			frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
-
-			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
-
-			eos::sys::proxy::AddFrame(frame);
-
-			//			std::shared_ptr<eos::Desktop> desktop
-			//				= std::static_pointer_cast<eos::Desktop>(
-			//					ax::App::GetInstance().GetTopLevel()->backbone);
-
-			//			desktop->AddFrame(frame);
-			//			desktop->GetWindow()->node.Add(frame);
-			//			eos::Frame* osframe = static_cast<eos::Frame*>(frame);
-			//			static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
-		}
-		else {
-			// WARNING MESSAGE BOX.
-		}
-		return;
-	}
-
-	ax::Window::Backbone* frame = loader.GetHandle();
-
-	if (frame != nullptr) {
-		if (frame->GetWindow()->IsShown()) {
-			frame->GetWindow()->Hide();
-		}
-		else {
-			frame->GetWindow()->Show();
-		}
-	}
+	eos::sys::proxy::LaunchApplication(msg.GetMsg());
+	
+//	ax::Print("App select :", msg.GetMsg());
+//	AppLoader& loader = _appLoaders[msg.GetMsg()];
+//
+//	if (loader.GetHandle() == nullptr) {
+//		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
+//
+//		std::shared_ptr<ax::Window::Backbone> frame(loader.Create(rect));
+//
+//		if (frame != nullptr) {
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
+//
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
+//
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
+//
+//			eos::sys::proxy::AddFrame(frame);
+//
+//			//			std::shared_ptr<eos::Desktop> desktop
+//			//				= std::static_pointer_cast<eos::Desktop>(
+//			//					ax::App::GetInstance().GetTopLevel()->backbone);
+//
+//			//			desktop->AddFrame(frame);
+//			//			desktop->GetWindow()->node.Add(frame);
+//			//			eos::Frame* osframe = static_cast<eos::Frame*>(frame);
+//			//			static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
+//		}
+//		else {
+//			// WARNING MESSAGE BOX.
+//		}
+//		return;
+//	}
+//
+//	ax::Window::Backbone* frame = loader.GetHandle();
+//
+//	if (frame != nullptr) {
+//		if (frame->GetWindow()->IsShown()) {
+//			frame->GetWindow()->Hide();
+//		}
+//		else {
+//			frame->GetWindow()->Show();
+//		}
+//	}
 }
 
 void eos::Dock::OnWindowMinimize(const eos::Frame::Msg& msg)

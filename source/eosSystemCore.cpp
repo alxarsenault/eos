@@ -55,11 +55,15 @@ namespace sys {
 		children.insert(children.begin() + fdesk_app_index, child);
 		child->backbone = frame;
 		
+		_desktop->GetWindow()->Update();
+		
 //		_desktop->AddFrame(frame);
 	}
 	
 	void Core::BringToFront(ax::Window::Ptr frame)
 	{
+		ax::Print("eos::sys::Core::BringToFront");
+		
 		if (frame != nullptr) {
 			std::vector<ax::Window::Ptr>& children(_desktop->GetWindow()->node.GetChildren());
 			
@@ -91,6 +95,9 @@ namespace sys {
 			// Add frame on top of all frames.
 			children.insert(children.begin() + fdesk_app_index, frame);
 		}
+		
+//		ax::Print("Frame is in front.");
+		_desktop->GetWindow()->Update();
 	}
 	
 	void Core::FullScreenFrame(ax::Window::Ptr frame)
@@ -98,6 +105,11 @@ namespace sys {
 //		_instance->BringToFront(msg.GetSender()->GetWindow());
 //		eos::sys::proxy::BringToFront(msg.GetSender()->GetWindow());
 //		msg.GetSender()->SetFullScreen(ax::Rect(ax::Point(0, 25), win->dimension.GetSize() - ax::Size(0, 25)));
+	}
+	
+	std::shared_ptr<AppManager> Core::GetAppManager()
+	{
+		return _appManager;
 	}
 
 	std::shared_ptr<eos::Desktop> Core::GetDesktop()

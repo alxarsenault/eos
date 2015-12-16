@@ -32,6 +32,8 @@ namespace sys {
 		
 		void FullScreenFrame(ax::Window::Ptr frame);
 		
+		std::shared_ptr<AppManager> GetAppManager();
+		
 	private:
 		Core();
 		

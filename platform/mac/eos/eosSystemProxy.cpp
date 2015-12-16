@@ -1,4 +1,5 @@
 #include "eosSystemProxy.h"
+#include "eosSystemAppManager.h"
 
 namespace eos {
 namespace sys {
@@ -20,6 +21,13 @@ namespace sys {
 		void proxy::FullScreenFrame(ax::Window::Ptr frame)
 		{
 			
+		}
+	
+		void proxy::LaunchApplication(const std::string& app_name)
+		{
+			ax::Print("proxy::LaunchApplication");
+			std::shared_ptr<AppManager> app_manager = Core::GetInstance()->GetAppManager();
+			app_manager->LaunchApplication(app_name);
 		}
 }
 }

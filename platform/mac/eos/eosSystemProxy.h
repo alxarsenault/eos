@@ -14,6 +14,8 @@ namespace sys {
 		static void BringToFront(ax::Window::Ptr frame);
 		
 		static void FullScreenFrame(ax::Window::Ptr frame);
+		
+		static void LaunchApplication(const std::string& app_name);
 	};
 }
 }
