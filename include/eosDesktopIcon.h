@@ -5,7 +5,7 @@
 
 namespace eos {
 
-	class Desktop;
+	class DesktopExplorer;
 	
 	/*
 	 * eos::Core::DesktopIcon.
@@ -13,7 +13,7 @@ namespace eos {
 	class DesktopIcon : public ax::Window::Backbone
 	{
 	public:
-		DesktopIcon(Desktop* desktop, const ax::Point& pos,
+		DesktopIcon(DesktopExplorer* explorer, const ax::Point& pos,
 				const std::string& img_path, const std::string& name);
 		
 		ax::Point GetGridIndex() const;
@@ -21,12 +21,13 @@ namespace eos {
 		void SetGridIndex(const ax::Point& index);
 		
 	private:
-		Desktop* _desktop;
+		DesktopExplorer* _explorer;
 		ax::Point _clickPos;
 		ax::Color _current_color;
 		std::shared_ptr<ax::Image> _img;
 		ax::Point _grid_index;
 		std::string _name;
+		bool _selected;
 		ax::Font _font;
 		
 		void OnMouseEnter(const ax::Point& mouse);

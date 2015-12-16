@@ -2,19 +2,22 @@
 #include "eosDesktopIcon.h"
 #include "eosCoreTracer.h"
 
+#include "eosDesktopExplorer.h"
+
 #include "axLib/axWindowTree.h"
 #include "axLib/axWindowManager.h"
 #include "axLib/axOSFileSystem.h"
 
-eos::DesktopIcon::DesktopIcon(Desktop* desktop,
+eos::DesktopIcon::DesktopIcon(DesktopExplorer* explorer,
 			const ax::Point& pos,
 			const std::string& img_path,
 			const std::string& name)
-	: _desktop(desktop)
+	: _explorer(explorer)
 	, _clickPos(0, 0)
 	, _current_color(0.8, 0.005)
 	, _grid_index(0, 0)
 	, _name(name)
+	, _selected(false)
 	, _font(0)
 {
 	_img = std::shared_ptr<ax::Image>(new ax::Image(img_path));
@@ -53,12 +56,14 @@ void eos::DesktopIcon::SetGridIndex(const ax::Point& index) {
 void eos::DesktopIcon::OnMouseEnter(const ax::Point& mouse)
 {
 	_current_color = ax::Color(0.8, 0.1);
+	_selected = true;
 	win->Update();
 }
 
 void eos::DesktopIcon::OnMouseLeave(const ax::Point& mouse)
 {
 	_current_color = ax::Color(0.8, 0.005);
+	_selected = false;
 	win->Update();
 }
 
@@ -74,33 +79,36 @@ void eos::DesktopIcon::OnMouseLeftDown(const ax::Point& mouse)
 	_clickPos = ax::Point(mouse -
 						  win->dimension.GetAbsoluteRect().position);
 	
-	_desktop->HandlePickingIcon(win, _clickPos, mouse);
+	_explorer->HandlePickingIcon(win, _clickPos, mouse);
 }
 
 void eos::DesktopIcon::OnMouseLeftUp(const ax::Point& mouse)
 {
 	if(win->event.IsGrabbed()) {
 		win->event.UnGrabMouse();
-		_desktop->HandleDraggingReleaseIcon(win, _clickPos, mouse);
+		_explorer->HandleDraggingReleaseIcon(win, _clickPos, mouse);
 	}
 }
 
 void eos::DesktopIcon::OnMouseLeftDragging(const ax::Point& mouse)
 {
-	_desktop->HandleDraggingIcon(win, _clickPos, mouse);
+	_explorer->HandleDraggingIcon(win, _clickPos, mouse);
 }
 
 void eos::DesktopIcon::OnPaint(ax::GC gc)
 {
 	ax::Rect rect(win->dimension.GetDrawingRect());
 	
-	gc.SetColor(_current_color);
-	gc.DrawRoundedRectangle(rect, 8);
+	if(_selected) {
+		gc.SetColor(_current_color);
+		gc.DrawRoundedRectangle(rect, 8);
+	}
 	
 	if(_img) {
 		gc.DrawImage(_img.get(), rect.position + ax::Point(8, 0));
 	}
 	
+	// Draw icon name.
 	gc.SetColor(ax::Color(0.9));
 	gc.DrawStringAlignedCenter(_font, _name, ax::Rect(0, 62, rect.size.x, 16));
 }

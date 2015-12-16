@@ -40,6 +40,8 @@ namespace eos {
 
 		void OnHome(ax::Event::Msg* msg);
 		
+		void OnApp3D(ax::Event::Msg* msg);
+		
 		void OnAppViewer(ax::Event::Msg* msg);
 		
 		void OnSettings(ax::Event::Msg* msg);

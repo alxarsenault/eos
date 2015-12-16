@@ -9,9 +9,9 @@
 #ifndef __Minimal__eosTextEditor__
 #define __Minimal__eosTextEditor__
 
-#include "axLib/axLib.h"
-#include "axLib/axScrollBar.h"
-#include "axLib/axTimer.h"
+#include <axLib/axLib.h>
+//#include "axLib/axScrollBar.h"
+#include <axLib/axTimer.h>
 
 #include <fstream>
 #include <set>
@@ -21,7 +21,7 @@ namespace eos
     /***************************************************************************
      * eos::TextEditor.
      **************************************************************************/
-    class TextEditor : public axPanel
+    class TextEditor : public ax::Window::Backbone
     {
     public:
         /***********************************************************************
@@ -101,7 +101,7 @@ namespace eos
             ax::Color cursor_color;
         };
         
-        TextEditor(ax::Window* parent, const ax::Rect& rect, const Info& info);
+        TextEditor(const ax::Rect& rect, const Info& info);
         
         
         void Resize(const ax::Size& size);
@@ -122,15 +122,15 @@ namespace eos
             _file_start_index;
         int _n_line_shown;
         
-        axScrollBar* _scrollBar;
-        
+//        axScrollBar* _scrollBar;
+		
         ax::Point FileCursorPosToNextPosIndex();
         
         void MoveToCursorPosition();
         
-        axEVENT_ACCESSOR(axScrollBarMsg, OnScroll)
-        void OnScroll(const axScrollBarMsg& msg);
-        
+//        axEVENT_ACCESSOR(axScrollBarMsg, OnScroll)
+//        void OnScroll(const axScrollBarMsg& msg);
+		
         // Keyboard events.
         virtual void OnLeftArrowDown();
         
@@ -156,7 +156,7 @@ namespace eos
         virtual void OnMouseLeftUp(const ax::Point& mouse_pos);
         
         
-        virtual void OnPaint();
+        virtual void OnPaint(ax::GC gc);
     };
 }
 

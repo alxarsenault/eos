@@ -1,5 +1,6 @@
 #include "eosFrame.h"
 #include "eosDesktop.h"
+#include "eosSystemProxy.h"
 
 const int eos::Frame::_title_bar_height = 25;
 
@@ -286,9 +287,11 @@ void eos::Frame::OnMouseLeftDown(const ax::Point& pos)
 		std::cerr << "TODO : Launch desktop event. L 290 eosFrame.cpp"
 				  << std::endl;
 
-		std::static_pointer_cast<eos::Desktop>(
-			ax::App::GetInstance().GetTopLevel()->backbone)
-			->BringToFront(win);
+		eos::sys::proxy::BringToFront(win);
+		
+//		std::static_pointer_cast<eos::Desktop>(
+//			ax::App::GetInstance().GetTopLevel()->backbone)
+//			->BringToFront(win);
 		//        eos::Desktop* desktop =
 		//        static_cast<eos::Desktop*>(GetParent());
 		//        desktop->BringToFront(this);

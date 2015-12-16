@@ -7,6 +7,7 @@
 
 #include "eosAppLoader.h"
 #include "eosDesktop.h"
+#include "eosFrame.h"
 
 namespace eos {
 	class DockIcon;
