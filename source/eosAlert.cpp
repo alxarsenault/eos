@@ -5,12 +5,10 @@
 #include "eosCoreSystem.h"
 #include "eosCoreTracer.h"
 
-/*******************************************************************************
- * eos::Frame.
- ******************************************************************************/
+
 eos::Alert::Alert(const ax::Rect& rect)
-	: _font("resource/DejaVuSansMono.ttf")
-	, _time_font("resource/DejaVuSansMono.ttf")
+	: _font("resources/DejaVuSansMono.ttf")
+	, _time_font("resources/DejaVuSansMono.ttf")
 {
 
 	win = ax::Window::Create(rect);

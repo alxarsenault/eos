@@ -7,6 +7,7 @@
 
 #include "eosAppLoader.h"
 #include "eosDesktop.h"
+#include "eosFrame.h"
 
 namespace eos {
 	class DockIcon;
@@ -30,7 +31,7 @@ namespace eos {
 		ax::Event::Timer* _timer_up;
 		ax::Event::Timer* _timer_down;
 		
-		ax::GL::Shader _shader;
+		//ax::GL::Shader _shader;
 		std::shared_ptr<ax::Image> _bg_img;
 		
 		bool _isDrop;
@@ -54,7 +55,7 @@ namespace eos {
 		
 		axEVENT_ACCESSOR(ax::Event::Timer::Msg, OnAnimationTimerDown);
 		void OnAnimationTimerDown(const ax::Event::Timer::Msg& msg);
-		
+				
 		void OnMouseEnter(const ax::Point& mouse);
 		void OnMouseLeave(const ax::Point& mouse);
 		

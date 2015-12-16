@@ -5,8 +5,8 @@
 eos::Core::System::System()
 //_current_user(nullptr)
 {
-	_desktopManager = std::shared_ptr<eos::Core::DesktopManager>(
-			new eos::Core::DesktopManager());
+//	_desktopManager = std::shared_ptr<eos::Core::DesktopManager>(
+//			new eos::Core::DesktopManager());
 	
 	_tracer = std::unique_ptr<Tracer>(new eos::Core::Tracer());
 	
@@ -88,8 +88,8 @@ eos::Core::Tracer* eos::Core::System::GetTracer()
 	return _tracer.get();
 }
 
-std::shared_ptr<eos::Core::DesktopManager>
-	eos::Core::System::GetDesktopManager()
-{
-	return _desktopManager;
-}
+//std::shared_ptr<eos::Core::DesktopManager>
+//	eos::Core::System::GetDesktopManager()
+//{
+//	return _desktopManager;
+//}

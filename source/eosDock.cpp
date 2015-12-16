@@ -1,11 +1,8 @@
 #include "eosDock.h"
 #include "eosDockIcon.h"
-
-//#include "eosFrame.h"
-//
 #include "axLib/axWindowManager.h"
-//#include "eosDesktop.h"
-//#include "eosAlert.h"
+#include "eosSystemProxy.h"
+#include "eosSystemAppManager.h"
 
 eos::Dock::Dock(const ax::Rect& rect)
 	: _anim_percent(1.0)
@@ -14,15 +11,11 @@ eos::Dock::Dock(const ax::Rect& rect)
 	, _timer_length(200)
 	, _anim_up(true)
 	, _up_rect(rect)
-	, _drop_rect(ax::Rect(
-		  rect.position.x, rect.position.y + rect.size.y - 10, rect.size.x, 10))
+	, _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.size.x, 10))
 {
 	ax::App& app = ax::App::GetInstance();
-	_timer_up
-		= new ax::Event::Timer(app.GetEventManager(), GetOnAnimationTimerUp());
-
-	_timer_down = new ax::Event::Timer(
-		app.GetEventManager(), GetOnAnimationTimerDown());
+	_timer_up = new ax::Event::Timer(app.GetEventManager(), GetOnAnimationTimerUp());
+	_timer_down = new ax::Event::Timer(app.GetEventManager(), GetOnAnimationTimerDown());
 
 	win = ax::Window::Create(rect);
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &Dock::OnPaint);
@@ -33,8 +26,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
 			unsigned char* bg_data = nullptr;
 			ax::Rect d_rect = win->GetWindowPixelData(bg_data);
-			_bg_img = std::shared_ptr<ax::Image>(new ax::Image(
-				bg_data, d_rect.size, ax::Image::ColorType::RGBA));
+			_bg_img = ax::Image::Ptr(new ax::Image(bg_data, d_rect.size, ax::Image::ColorType::RGBA));
 			delete bg_data;
 		}
 	});
@@ -43,27 +35,23 @@ eos::Dock::Dock(const ax::Rect& rect)
 
 	ax::Size icon_size(64, 64);
 
-	ax::StringPairVector apps_icon_info
-		= { ax::StringPair("resources/1441952929_house.png", "browser"),
-			ax::StringPair("resources/1441951759_calculator.png", "calc"),
-			ax::StringPair("resources/1441953077_notepad.png", "txtedit"),
-			ax::StringPair("resources/1441952725_terminal.png", "term"),
-			ax::StringPair("resources/1441953272_enveloppe-alt.png", "mail"),
-			ax::StringPair("resources/1441952856_calendar.png", "calender"),
-			ax::StringPair("resources/1441952883_book.png", "book"),
-			ax::StringPair("resources/1441953050_image.png", "viewer"),
-			ax::StringPair(
-				"resources/1441953912_wrench-screwdriver.png", "settings"),
-			ax::StringPair(
-				"resources/1441954538_appicns_Trash_Empty.png", "trash") };
+	ax::StringPairVector apps_icon_info = { ax::StringPair("resources/1441952929_house.png", "browser"),
+		ax::StringPair("resources/1441951759_calculator.png", "calc"),
+		ax::StringPair("resources/1441953077_notepad.png", "TextEditor"),
+		ax::StringPair("resources/1441952725_terminal.png", "Terminal"),
+		ax::StringPair("resources/1441953272_enveloppe-alt.png", "mail"),
+		ax::StringPair("resources/1441952856_calendar.png", "calender"),
+		ax::StringPair("resources/1441952883_book.png", "book"),
+		ax::StringPair("resources/1441953050_image.png", "viewer"),
+		ax::StringPair("resources/1441953912_wrench-screwdriver.png", "settings"),
+		ax::StringPair("resources/1441954538_appicns_Trash_Empty.png", "trash") };
 
 	ax::Point icon_pos(10, 5);
 
 	for (auto& n : apps_icon_info) {
 
-		ax::Window::Ptr icon
-			= win->node.Add(std::shared_ptr<eos::DockIcon>(new eos::DockIcon(
-				ax::Rect(icon_pos, icon_size), n.first, n.second)));
+		ax::Window::Ptr icon = win->node.Add(std::shared_ptr<eos::DockIcon>(
+			new eos::DockIcon(ax::Rect(icon_pos, icon_size), n.first, n.second)));
 
 		_app_icons.push_back(static_cast<eos::DockIcon*>(icon->backbone.get()));
 
@@ -72,7 +60,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 
 	_appLoaders["calc"] = AppLoader("./app/calculator.so");
 	_appLoaders["browser"] = AppLoader("./app/browser.so");
-	_appLoaders["txtedit"] = AppLoader("./app/text_editor.so");
+	_appLoaders["TextEditor"] = AppLoader("./app/text_editor.so");
 	_appLoaders["term"] = AppLoader("./app/terminal.so");
 	_appLoaders["viewer"] = AppLoader("./app/video.so");
 	_appLoaders["mail"] = AppLoader("./app/mail.so");
@@ -88,10 +76,13 @@ eos::Dock::Dock(const ax::Rect& rect)
 		n->GetWindow()->Hide();
 	}
 
-	_shader
-		= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
-
-	_shader.CompileAndLink();
+	//_shader
+	//	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
+	//
+	//_shader.CompileAndLink();
+	
+	eos::sys::proxy::ConnectToAppManager(eos::sys::AppManager::FRAME_FULL_SCREEN,
+		GetOnWindowFullScreen());
 }
 
 void eos::Dock::OnAnimationTimerUp(const ax::Event::Timer::Msg& msg)
@@ -157,8 +148,7 @@ void eos::Dock::OnMouseEnter(const ax::Point& mouse)
 			_timer_down->StopTimer();
 		}
 
-		_timer_up->StartTimer(
-			ax::Event::Timer::TimeMs(_timer_interval), // Interval.
+		_timer_up->StartTimer(ax::Event::Timer::TimeMs(_timer_interval), // Interval.
 			ax::Event::Timer::TimeMs(_timer_length)); // Length.
 
 		//		// Show all icon on dock.
@@ -182,8 +172,8 @@ void eos::Dock::OnMouseLeave(const ax::Point& mouse)
 			_timer_up->StopTimer();
 		}
 
-		_timer_down->StartTimer(ax::Event::Timer::TimeMs(_timer_interval),
-			ax::Event::Timer::TimeMs(_timer_length));
+		_timer_down->StartTimer(
+			ax::Event::Timer::TimeMs(_timer_interval), ax::Event::Timer::TimeMs(_timer_length));
 
 		// Hide all icons on dock.
 		for (auto& n : _app_icons) {
@@ -194,49 +184,50 @@ void eos::Dock::OnMouseLeave(const ax::Point& mouse)
 
 void eos::Dock::OnAppSelect(const ax::Event::StringMsg& msg)
 {
-	ax::Print("App select :", msg.GetMsg());
-	AppLoader& loader = _appLoaders[msg.GetMsg()];
-
-	if (loader.GetHandle() == nullptr) {
-		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
-
-		std::shared_ptr<ax::Window::Backbone> frame(loader.Create(rect));
-
-		if (frame != nullptr) {
-			frame->GetWindow()->AddConnection(
-				eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
-
-			frame->GetWindow()->AddConnection(
-				eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
-
-			frame->GetWindow()->AddConnection(
-				eos::Frame::Events::CLOSE, GetOnWindowClose());
-
-			std::shared_ptr<eos::Desktop> desktop
-				= std::static_pointer_cast<eos::Desktop>(
-					ax::App::GetInstance().GetTopLevel()->backbone);
-
-			desktop->AddFrame(frame);
-			//			desktop->GetWindow()->node.Add(frame);
-			//			eos::Frame* osframe = static_cast<eos::Frame*>(frame);
-			//			static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
-		}
-		else {
-			// WARNING MESSAGE BOX.
-		}
-		return;
-	}
-
-	ax::Window::Backbone* frame = loader.GetHandle();
-
-	if (frame != nullptr) {
-		if (frame->GetWindow()->IsShown()) {
-			frame->GetWindow()->Hide();
-		}
-		else {
-			frame->GetWindow()->Show();
-		}
-	}
+	eos::sys::proxy::LaunchApplication(msg.GetMsg());
+	
+//	ax::Print("App select :", msg.GetMsg());
+//	AppLoader& loader = _appLoaders[msg.GetMsg()];
+//
+//	if (loader.GetHandle() == nullptr) {
+//		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
+//
+//		std::shared_ptr<ax::Window::Backbone> frame(loader.Create(rect));
+//
+//		if (frame != nullptr) {
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
+//
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
+//
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
+//
+//			eos::sys::proxy::AddFrame(frame);
+//
+//			//			std::shared_ptr<eos::Desktop> desktop
+//			//				= std::static_pointer_cast<eos::Desktop>(
+//			//					ax::App::GetInstance().GetTopLevel()->backbone);
+//
+//			//			desktop->AddFrame(frame);
+//			//			desktop->GetWindow()->node.Add(frame);
+//			//			eos::Frame* osframe = static_cast<eos::Frame*>(frame);
+//			//			static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
+//		}
+//		else {
+//			// WARNING MESSAGE BOX.
+//		}
+//		return;
+//	}
+//
+//	ax::Window::Backbone* frame = loader.GetHandle();
+//
+//	if (frame != nullptr) {
+//		if (frame->GetWindow()->IsShown()) {
+//			frame->GetWindow()->Hide();
+//		}
+//		else {
+//			frame->GetWindow()->Show();
+//		}
+//	}
 }
 
 void eos::Dock::OnWindowMinimize(const eos::Frame::Msg& msg)
@@ -251,8 +242,15 @@ void eos::Dock::OnWindowMinimize(const eos::Frame::Msg& msg)
 
 void eos::Dock::OnWindowFullScreen(const eos::Frame::Msg& msg)
 {
-	ax::Print("FULL SCREEN");
-	win->PushEvent(8012, new eos::Frame::Msg(msg));
+	std::string app_name(msg.GetSender()->GetAppName());
+	
+	// Find app icon and add fullscreen button.
+	for (auto& n : _app_icons) {
+		if(n->GetName() == app_name) {
+			n->ActivateFullScreenBtn();
+			break;
+		}
+	}
 }
 
 void eos::Dock::OnWindowClose(const eos::Frame::Msg& msg)
@@ -281,56 +279,112 @@ void eos::Dock::OnWindowClose(const eos::Frame::Msg& msg)
 	//	}
 }
 
-void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius,
-	const double& angle, const ax::Color& middle_color,
-	const ax::Color& contour_color)
+void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius, const double& angle,
+	const ax::Color& middle_color, const ax::Color& contour_color)
 {
 	const int& nSegments = 20;
 
-	glBegin(GL_TRIANGLE_FAN);
+	std::vector<ax::FloatPoint> points;
+	points.reserve(nSegments + 1);
+	points.push_back(ax::FloatPoint(pos.x, pos.y - 1));
 
-	gc.SetColor(middle_color);
-	glVertex2d(pos.x, pos.y - 1);
+	std::vector<ax::Color> colors;
+	colors.reserve(nSegments + 1);
+	colors.push_back(middle_color);
 
-	gc.SetColor(contour_color);
+	double quarter_pi_ratio = 2.0 * M_PI * 0.25 / double(nSegments);
 	for (int i = 0; i <= nSegments; i++) {
-		// Get the current angle.
-		double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
-
+		double theta = double(i) * quarter_pi_ratio;
 		double x = radius * cosf(theta + angle);
 		double y = radius * sinf(theta + angle);
-
-		glVertex2d(x + pos.x, y + pos.y - 1);
+		points.push_back(ax::FloatPoint(x + pos.x, y + pos.y - 1));
+		colors.push_back(contour_color);
 	}
-	glEnd();
+
+	gc.shader_normal.Activate();
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)points.data());
+	glEnableVertexAttribArray(0);
+	glColorPointer(4, GL_FLOAT, 0, (void*)colors.data());
+
+	glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)points.size());
+
+	glDisableVertexAttribArray(0);
+	
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	gc.shader_fb.Activate();
+
+	// glBegin(GL_TRIANGLE_FAN);
+
+	// gc.SetColor(middle_color);
+	// glVertex2d(pos.x, pos.y - 1);
+
+	// gc.SetColor(contour_color);
+	// for (int i = 0; i <= nSegments; i++) {
+	//	// Get the current angle.
+	//	double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
+	//
+	//	double x = radius * cosf(theta + angle);
+	//	double y = radius * sinf(theta + angle);
+	//
+	//	glVertex2d(x + pos.x, y + pos.y - 1);
+	//}
+	// glEnd();
 }
 
-void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rectangle,
-	const ax::Color& c1, const ax::Color& c2)
+void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rect, const ax::Color& c1, const ax::Color& c2)
 {
-	ax::FloatRect rect(rectangle.position.x, rectangle.position.y,
-		rectangle.size.x, rectangle.size.y);
+	std::vector<ax::FloatPoint> points = {
+		ax::FloatPoint(rect.position.x, rect.position.y),
+		ax::FloatPoint(rect.position.x + rect.size.x, rect.position.y),
+		ax::FloatPoint(rect.position.x + rect.size.x, rect.position.y + rect.size.y),
+		ax::FloatPoint(rect.position.x, rect.position.y + rect.size.y)
+	};
 
-	glBegin(GL_QUADS);
-	{
-		gc.SetColor(c1);
-		glVertex3f(rect.position.x, rect.position.y, 0); // Bottom left.
+	ax::Color colors[4] = { c1, c1, c2, c2 };
 
-		glVertex3f(
-			rect.position.x + rect.size.x, rect.position.y, 0); // Bottom Right.
+	gc.shader_normal.Activate();
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)points.data());
+	glEnableVertexAttribArray(0);
+//	glVertexPointer(2, GL_FLOAT, 0, &r_points);
+	glColorPointer(4, GL_FLOAT, 0, colors);
 
-		gc.SetColor(c2);
-		glVertex3f(rect.position.x + rect.size.x, rect.position.y + rect.size.y,
-			0); // Top Right.
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	
+	glDisableVertexAttribArray(0);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	
+	gc.shader_fb.Activate();
+	// glBegin(GL_QUADS);
+	//{
+	//	gc.SetColor(c1);
+	//	glVertex3f(rect.position.x, rect.position.y, 0); // Bottom left.
 
-		glVertex3f(
-			rect.position.x, rect.position.y + rect.size.y, 0); // Top Left
-	}
-	glEnd();
+	//	glVertex3f(
+	//		rect.position.x + rect.size.x, rect.position.y, 0); // Bottom Right.
+
+	//	gc.SetColor(c2);
+	//	glVertex3f(rect.position.x + rect.size.x, rect.position.y + rect.size.y,
+	//		0); // Top Right.
+
+	//	glVertex3f(
+	//		rect.position.x, rect.position.y + rect.size.y, 0); // Top Left
+	//}
+	// glEnd();
 }
 
-void DrawRoundedRectangle(ax::GC gc, const ax::Rect& rect, const int& radius,
-	const ax::Color& c1, const ax::Color& c2)
+void DrawRoundedRectangle(
+	ax::GC gc, const ax::Rect& rect, const int& radius, const ax::Color& c1, const ax::Color& c2)
 {
 	int r = radius;
 
@@ -338,69 +392,88 @@ void DrawRoundedRectangle(ax::GC gc, const ax::Rect& rect, const int& radius,
 		r = rect.size.y * 0.5;
 	}
 
-	ax::FloatRect frect(
-		rect.position.x, rect.position.y, rect.size.x, rect.size.y);
+	ax::FloatRect frect(rect.position.x, rect.position.y, rect.size.x, rect.size.y);
 
 	// Middle.
-	DrawRectangleColorFade(gc,
-		ax::Rect(frect.position.x + r - 1, frect.position.y - 1,
-							   frect.size.x - 2.0 * r + 1, frect.size.y + 1),
+	DrawRectangleColorFade(gc, ax::Rect(frect.position.x + r - 1, frect.position.y - 1,
+								   frect.size.x - 2.0 * r + 1, frect.size.y + 1),
 		c1, c2);
 
 	int size_rect_height = frect.size.y - 1.0 * r + 1;
 
 	// Left.
-	ax::FloatRect lrect(
-		frect.position.x - 1, frect.position.y + r - 1, r, size_rect_height);
+	ax::FloatRect lrect(frect.position.x - 1, frect.position.y + r - 1, r, size_rect_height);
 
 	// Right.
-	ax::FloatRect rrect(frect.position.x + frect.size.x - r,
-		frect.position.y + r - 1, r + 1, size_rect_height);
+	ax::FloatRect rrect(
+		frect.position.x + frect.size.x - r, frect.position.y + r - 1, r + 1, size_rect_height);
 
 	double color_ratio = 1.0 - lrect.size.y / (double)rect.size.y;
 
-	ax::Color lc1(
-		float(c1.GetRed() + (c2.GetRed() - c1.GetRed()) * color_ratio),
+	ax::Color lc1(float(c1.GetRed() + (c2.GetRed() - c1.GetRed()) * color_ratio),
 		float(c1.GetGreen() + (c2.GetGreen() - c1.GetGreen()) * color_ratio),
 		float(c1.GetBlue() + (c2.GetBlue() - c1.GetBlue()) * color_ratio),
 		float(c1.GetAlpha() + (c2.GetAlpha() - c1.GetAlpha()) * color_ratio));
 
-	// Draw left rectangle.
+	
+	/// TODO : Why not just draw a simple rectangle instead ???
+	
+	// Draw side rectangles.
+	std::vector<ax::FloatPoint> points_left, points_right;
+	std::vector<ax::Color> colors_left, colors_right;
+	
 	for (int y = lrect.position.y; y <= lrect.position.y + lrect.size.y; y++) {
 
 		double cc_ratio = y / (double)rect.size.y;
-		ax::Color cc(
-			float(c1.GetRed() + (c2.GetRed() - c1.GetRed()) * cc_ratio),
+		ax::Color cc(float(c1.GetRed() + (c2.GetRed() - c1.GetRed()) * cc_ratio),
 			float(c1.GetGreen() + (c2.GetGreen() - c1.GetGreen()) * cc_ratio),
 			float(c1.GetBlue() + (c2.GetBlue() - c1.GetBlue()) * cc_ratio),
 			float(c1.GetAlpha() + (c2.GetAlpha() - c1.GetAlpha()) * cc_ratio));
-
+		
 		// Left rectangle.
-		glBegin(GL_LINES);
-		gc.SetColor(c1);
-		glVertex3f(lrect.position.x, y, 0.0f); // Left.
-		gc.SetColor(cc);
-		glVertex3f(lrect.position.x + lrect.size.x, y, 0.0f); // Right.
-		glEnd();
+		points_left.push_back(ax::FloatPoint(lrect.position.x, y));
+		points_left.push_back(ax::FloatPoint(lrect.position.x + lrect.size.x, y));
+		
+		colors_left.push_back(c1);
+		colors_left.push_back(cc);
 
 		// Right rectangle.
-		glBegin(GL_LINES);
-		gc.SetColor(cc);
-		glVertex3f(rrect.position.x, y, 0.0f); // Left.
-		gc.SetColor(c1);
-		glVertex3f(rrect.position.x + rrect.size.x, y, 0.0f); // Right.
-		glEnd();
+		points_right.push_back(ax::FloatPoint(rrect.position.x, y));
+		points_right.push_back(ax::FloatPoint(rrect.position.x + rrect.size.x, y));
+		
+		colors_right.push_back(cc);
+		colors_right.push_back(c1);
 	}
+	
+	gc.shader_normal.Activate();
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableVertexAttribArray(0);
+	
+	// Left.
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)points_left.data());
+	glColorPointer(4, GL_FLOAT, 0, (void*)colors_left.data());
+	glDrawArrays(GL_LINES, 0, (GLsizei)points_left.size());
+	
+	// Right.
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)points_right.data());
+	glColorPointer(4, GL_FLOAT, 0, (void*)colors_right.data());
+	glDrawArrays(GL_LINES, 0, (GLsizei)points_right.size());
+	
+	glDisableVertexAttribArray(0);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	
+	gc.shader_fb.Activate();
+	
+	// Top left corner.
+	DrawQuarterCircle(
+		gc, ax::FloatPoint(frect.position.x + r - 1, frect.position.y + r - 1), r, M_PI, lc1, c1);
 
-	// Top left.
-	DrawQuarterCircle(gc,
-		ax::FloatPoint(frect.position.x + r - 1, frect.position.y + r - 1), r,
-		M_PI, lc1, c1);
-
-	// Top right.
-	DrawQuarterCircle(gc, ax::FloatPoint(frect.position.x + frect.size.x - r,
-							  frect.position.y + r - 1),
-		r, 3.0 * M_PI * 0.5, lc1, c1);
+	// Top right corner.
+	DrawQuarterCircle(gc, ax::FloatPoint(frect.position.x + frect.size.x - r, frect.position.y + r - 1), r,
+		3.0 * M_PI * 0.5, lc1, c1);
 }
 
 void eos::Dock::OnPaint(ax::GC gc)
@@ -450,11 +523,11 @@ void eos::Dock::OnPaint(ax::GC gc)
 		else { // Static up position.
 			ax::Rect dock_rect(0, 0, _up_rect.size.x, _up_rect.size.y);
 
-			if (_bg_img && _bg_img->IsImageReady()) {
-				_shader.Activate();
-				gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
-				glUseProgram(0);
-			}
+			// if (_bg_img && _bg_img->IsImageReady()) {
+			//	_shader.Activate();
+			//	gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
+			//	glUseProgram(0);
+			//}
 
 			DrawRoundedRectangle(gc, dock_rect, 25, dock_contour, dock_color);
 		}

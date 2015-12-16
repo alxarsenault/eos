@@ -87,12 +87,13 @@ private:
     }
 };
 
-class Calculator: public axPanel
+class Calculator: public ax::Window::Backbone
 {
 public:
-    Calculator(axWindow* parent, const ax::Rect& rect) :
-    axPanel(parent, rect)
+    Calculator(const ax::Rect& rect)
     {
+		win = ax::Window::Create(rect);
+		
         AddEventFunction("OnNumber", GetOnNumber());
         AddEventFunction("OnOperation", GetOnOperation());
         axObjectLoader loader(this, "resource/Calculator.xml");
@@ -111,15 +112,12 @@ private:
     
 	void CreateObject(const std::vector<std::pair<std::string, ax::StringPairVector>>& obj_data)
 	{
-		for(auto& n : obj_data)
-		{
-			if(n.first == "axButton")
-			{
+		for(auto& n : obj_data) {
+			if(n.first == "axButton") {
 				ax::Button::Builder builder(this);
 				builder.Create(n.second);
 			}
-			else if(n.first == "axLabel")
-			{
+			else if(n.first == "axLabel") {
 				axLabel::Builder builder(this);
 				builder.Create(n.second);
 			}
@@ -143,10 +141,9 @@ private:
         screen->SetLabel(std::to_string(_logic.GetValue()));
     }
     
-    void OnPaint()
+    void OnPaint(ax::GC gc)
     {
-		ax::GC gc;
-		ax::Rect rect(GetDrawingRect());
+		ax::Rect rect(win->dimension.GetDrawingRect());
         
 		gc.SetColor(ax::Color(0.4));
 		gc.DrawRectangle(rect);

@@ -38,8 +38,6 @@ eos::AppLoader::Module::EntryFunction eos::AppLoader::Module::GetFunctionHandle(
 	return _fctHandle;
 }
 
-
-
 eos::AppLoader::AppLoader()
 	: _path("")
 	, _func_name("")
@@ -83,6 +81,11 @@ ax::Window::Backbone* eos::AppLoader::Create(const ax::Rect& rect)
 void eos::AppLoader::RemoveHandle()
 {
 	_handle = nullptr;
+	
+	if(_module != nullptr) {
+		delete _module;
+		_module = nullptr;
+	}
 }
 
 ax::Window::Backbone* eos::AppLoader::GetHandle()

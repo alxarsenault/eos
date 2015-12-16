@@ -3,7 +3,7 @@
 
 #include "axLib/axLib.h"
 #include "axLib/axButton.h"
-#include "axLib/axGLShader.h"
+//#include "axLib/axGLShader.h"
 
 namespace eos
 {
@@ -58,6 +58,8 @@ namespace eos
 			  const std::string& window_name);
 		
 		void SetFullScreen(const ax::Rect& rect);
+		void UnSetFullScreen(const ax::Rect& rect);
+
         
 //        Frame(ax::App* app,
 //              const ax::Rect& rect,
@@ -68,6 +70,8 @@ namespace eos
 		void SetChildHandler(ax::Window::Ptr child);
         
         void SetChildMenuHandler(ax::Window::Ptr menu);
+		
+		std::string GetAppName() const;
    
 		// Property.
 		// Resizable
@@ -91,9 +95,9 @@ namespace eos
 		ax::Point _click_pos, _abs_click_pos;;
 		bool _highlight;
 		
-		ax::GL::Shader _shader;
-		ax::GL::Shader _shadow_shader;
-//		std::shared_ptr<ax::Image> _bg_img;
+		//ax::GL::Shader _shader;
+		//ax::GL::Shader _shadow_shader;
+
 		ax::Image* _bg_img;
 //		std::shared_ptr<ax::Image> _img_top_shadow;
 
