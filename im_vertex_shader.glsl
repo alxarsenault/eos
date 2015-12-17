@@ -10,9 +10,9 @@
 
 attribute vec4 vPosition;
 attribute vec2 vTexCoord;
-uniform mat4 mvp_matrix;
 varying vec4 vColor;
 varying vec2 v_textureCoordinate;
+uniform mat4 mvp_matrix;
 
 void main()
 {

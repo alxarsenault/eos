@@ -22,10 +22,17 @@ namespace eos {
 			return _name;
 		}
 		
+		inline void SetAlpha(const float& alpha)
+		{
+			_alpha = alpha;
+			win->Update();
+		}
+		
 	private:
 		std::shared_ptr<ax::Image> _img;
 		ax::Button::Ptr _close_full_screen_btn;
 		std::string _name;
+		float _alpha;
 		
 		void OnMouseLeftDown(const ax::Point& mouse);
 		void OnMouseEnter(const ax::Point& mouse);

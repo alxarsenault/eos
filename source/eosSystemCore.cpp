@@ -9,6 +9,12 @@
 
 #include "WindowServer.hpp"
 
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/vec4.hpp> // glm::vec4
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include <glm/gtc/constants.hpp> // glm::pi
+
 eos::sys::Core* eos::sys::Core::_instance = nullptr;
 
 namespace eos {
@@ -138,7 +144,8 @@ namespace sys {
 	{
 		_instance->BringToFront(frame);
 		std::shared_ptr<eos::Frame> fb(std::static_pointer_cast<eos::Frame>(frame->backbone));
-		fb->SetFullScreen(ax::Rect(ax::Point(0, 0), _desktop->GetWindow()->dimension.GetSize() - ax::Size(0, 0)));
+		fb->SetFullScreen(
+			ax::Rect(ax::Point(0, 0), _desktop->GetWindow()->dimension.GetSize() - ax::Size(0, 0)));
 	}
 
 	std::shared_ptr<AppManager> Core::GetAppManager()
@@ -155,14 +162,16 @@ namespace sys {
 	{
 		ax::App& app(ax::App::GetInstance());
 
-		ax::GC gc;
-		gc.shader_normal = ax::GL::Shader("resources/vertex_shader.glsl", "resources/fragments_shader.glsl");
-
-		gc.shader_fb
-			= ax::GL::Shader("resources/fb_vertex_shader.glsl", "resources/fb_fragments_shader.glsl");
-
-		gc.shader_font
-			= ax::GL::Shader("resources/font_vertex_shader.glsl", "resources/font_fragments_shader.glsl");
+		//		ax::GC gc;
+		//		gc.shader_normal = ax::GL::Shader("resources/vertex_shader.glsl",
+		//"resources/fragments_shader.glsl");
+		//
+		//		gc.shader_fb
+		//			= ax::GL::Shader("resources/fb_vertex_shader.glsl", "resources/fb_fragments_shader.glsl");
+		//
+		//		gc.shader_font
+		//			= ax::GL::Shader("resources/font_vertex_shader.glsl",
+		//"resources/font_fragments_shader.glsl");
 
 		// Server obj.
 		//	ax::Event::Object obj(app.GetEventManager());
@@ -223,12 +232,12 @@ namespace sys {
 
 		app.AddMainEntry([&, system]() {
 			ax::App& app(ax::App::GetInstance());
-			ax::GC gc;
-			gc.shader_normal.CompileAndLink();
-			gc.shader_fb.CompileAndLink();
-			gc.shader_font.CompileAndLink();
-
-			gc.shader_fb.Activate();
+//			ax::GC gc;
+//			gc.shader_normal.CompileAndLink();
+//			gc.shader_fb.CompileAndLink();
+//			gc.shader_font.CompileAndLink();
+//
+//			gc.shader_fb.Activate();
 
 #ifdef __linux__
 			ax::Size size(app.GetScreenSize());
@@ -243,35 +252,124 @@ namespace sys {
 
 			_desktop->GetWindow()->dimension.GetFrameBuffer()->AssignCustomFBDrawFunction(
 				[&](ax::GL::FrameBuffer& fb) {
-					glEnable(GL_TEXTURE_2D);
+//					glEnable(GL_TEXTURE_2D);
 
+					
 					glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR);
-
+					ax::GC::shader_fb.Activate();
+					glEnable(GL_TEXTURE_2D);
+					
+//					DrawingFrameBufferBlendFunction();
+					
 					ax::FloatPoint pos(0.0, 0.0);
+
 					const ax::Size& ss(_desktop->GetWindow()->dimension.GetShownRect().size);
 					ax::FloatSize size(ss.x, ss.y);
-
+					
 					// Bind framebuffer texture.
-					glBindTexture(GL_TEXTURE_2D,
-						_desktop->GetWindow()->dimension.GetFrameBuffer()->GetFrameBufferTexture());
-					glEnableClientState(GL_VERTEX_ARRAY);
-					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-					float vertices[8] = { pos.x, pos.y, pos.x, pos.y + size.y, pos.x + size.x, pos.y + size.y,
-						pos.x + size.x, pos.y };
-
+					glBindTexture(GL_TEXTURE_2D, _desktop->GetWindow()->dimension.GetFrameBuffer()->GetFrameBufferTexture());
+					
+					float vertices[8] = { pos.x, pos.y, pos.x, pos.y + size.y,
+						pos.x + size.x, pos.y + size.y, pos.x + size.x, pos.y };
+					
 					float tex_coords[8] = { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0 };
-
-					glVertexPointer(2, GL_FLOAT, 0, vertices);
-					glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
-
+					
+					ax::Point win_abs_pos = _desktop->GetWindow()->dimension.GetAbsoluteRect().position;
+					ax::Size global_size = ax::App::GetInstance().GetFrameSize();
+					
+					// Projection matrix.
+					glm::mat4 projMat = glm::ortho((float)0.0, (float)global_size.x,
+												   (float)global_size.y, (float)0.0);
+					
+					// View matrix.
+					glm::mat4 view = glm::translate(glm::mat4(1.0f),
+													glm::vec3(win_abs_pos.x, win_abs_pos.y, 0.0f));
+					
+					glm::mat4 model(1.0f);
+					
+					glm::mat4 model_view_proj = projMat * view * model;
+					
+					GLuint prog_id = ax::GC::shader_fb.GetProgramId();
+					GLuint MatrixID = glGetUniformLocation(prog_id, "mvp_matrix");
+					glUniformMatrix4fv(MatrixID, 1, GL_FALSE, (float*)&model_view_proj[0][0]);
+					
+					// Vertex coordinate.
+					glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+					glEnableVertexAttribArray(0);
+					
+					// Texture coordinate.
+					glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, tex_coords);
+					glEnableVertexAttribArray(1);
+					
+					//		glUniformMatrix4fv();
+					//		glVertexAttribPointer(2, 4 * 4, GL_FLOAT, GL_FALSE, 0, data);
+					//		glEnableVertexAttribArray(2);
+					
 					glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-					glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-					glDisableClientState(GL_VERTEX_ARRAY);
-
+					
+					glDisableVertexAttribArray(0);
+					glDisableVertexAttribArray(5);
+					
 					glDisable(GL_TEXTURE_2D);
+
+//					ax::FloatPoint pos(0.0, 0.0);
+//					const ax::Size& ss(_desktop->GetWindow()->dimension.GetShownRect().size);
+//					ax::FloatSize size(ss.x, ss.y);
+//
+//					// Bind framebuffer texture.
+//					glBindTexture(GL_TEXTURE_2D,
+//						_desktop->GetWindow()->dimension.GetFrameBuffer()->GetFrameBufferTexture());
+//					glEnableClientState(GL_VERTEX_ARRAY);
+//					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+//
+//					float vertices[8] = { pos.x, pos.y, pos.x, pos.y + size.y, pos.x + size.x, pos.y + size.y,
+//						pos.x + size.x, pos.y };
+//
+//					float tex_coords[8] = { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0 };
+//
+//					glVertexPointer(2, GL_FLOAT, 0, vertices);
+//					glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
+//
+//					glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+//
+//					glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+//					glDisableClientState(GL_VERTEX_ARRAY);
+//
+//					glDisable(GL_TEXTURE_2D);
 				});
+
+			//			_desktop->GetWindow()->dimension.GetFrameBuffer()->AssignCustomFBDrawFunction(
+			//				[&](ax::GL::FrameBuffer& fb) {
+			//					glEnable(GL_TEXTURE_2D);
+			//
+			//					glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR);
+			//
+			//					ax::FloatPoint pos(0.0, 0.0);
+			//					const ax::Size& ss(_desktop->GetWindow()->dimension.GetShownRect().size);
+			//					ax::FloatSize size(ss.x, ss.y);
+			//
+			//					// Bind framebuffer texture.
+			//					glBindTexture(GL_TEXTURE_2D,
+			//						_desktop->GetWindow()->dimension.GetFrameBuffer()->GetFrameBufferTexture());
+			//					glEnableClientState(GL_VERTEX_ARRAY);
+			//					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			//
+			//					float vertices[8] = { pos.x, pos.y, pos.x, pos.y + size.y, pos.x + size.x, pos.y +
+			//size.y,
+			//						pos.x + size.x, pos.y };
+			//
+			//					float tex_coords[8] = { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0 };
+			//
+			//					glVertexPointer(2, GL_FLOAT, 0, vertices);
+			//					glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
+			//
+			//					glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+			//
+			//					glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			//					glDisableClientState(GL_VERTEX_ARRAY);
+			//
+			//					glDisable(GL_TEXTURE_2D);
+			//				});
 
 			app.AddTopLevel(_desktop);
 			//			system->GetDesktopManager()->SetDesktop(desktop);

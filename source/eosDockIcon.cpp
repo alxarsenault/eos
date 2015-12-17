@@ -5,6 +5,7 @@
 
 eos::DockIcon::DockIcon(const ax::Rect& rect, const std::string& img_path, const std::string& name)
 	: _name(name)
+	, _alpha(0.0)
 {
 	win = ax::Window::Create(rect);
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &DockIcon::OnPaint);
@@ -59,6 +60,6 @@ void eos::DockIcon::OnPaint(ax::GC gc)
 	ax::Rect rect(win->dimension.GetDrawingRect());
 
 	if (_img && _img->IsImageReady()) {
-		gc.DrawImageResize(_img.get(), ax::Point(0, 0), rect.size);
+		gc.DrawImageResize(_img.get(), ax::Point(0, 0), rect.size, _alpha);
 	}
 }
