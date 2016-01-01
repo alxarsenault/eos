@@ -8,7 +8,7 @@ eos::Dock::Dock(const ax::Rect& rect)
 	: _anim_percent(1.0)
 	, _anim_active(false)
 	, _timer_interval(20)
-	, _timer_length(200) //(200)
+	, _timer_length(200)
 	, _anim_up(true)
 	, _up_rect(rect)
 	, _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.size.x, 10))
@@ -75,11 +75,6 @@ eos::Dock::Dock(const ax::Rect& rect)
 	for (auto& n : _app_icons) {
 		n->GetWindow()->Hide();
 	}
-
-	//_shader
-	//	= ax::GL::Shader("img_vertex_shader.glsl", "img_fragments_shader.glsl");
-	//
-	//_shader.CompileAndLink();
 
 	eos::sys::proxy::ConnectToAppManager(eos::sys::AppManager::FRAME_FULL_SCREEN, GetOnWindowFullScreen());
 }
@@ -196,49 +191,6 @@ void eos::Dock::OnMouseLeave(const ax::Point& mouse)
 void eos::Dock::OnAppSelect(const ax::Event::StringMsg& msg)
 {
 	eos::sys::proxy::LaunchApplication(msg.GetMsg());
-
-	//	ax::Print("App select :", msg.GetMsg());
-	//	AppLoader& loader = _appLoaders[msg.GetMsg()];
-	//
-	//	if (loader.GetHandle() == nullptr) {
-	//		ax::Rect rect(500, 50, 162 + 2 * 9, 255 + 25 + 9);
-	//
-	//		std::shared_ptr<ax::Window::Backbone> frame(loader.Create(rect));
-	//
-	//		if (frame != nullptr) {
-	//			frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
-	//
-	//			frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
-	//
-	//			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
-	//
-	//			eos::sys::proxy::AddFrame(frame);
-	//
-	//			//			std::shared_ptr<eos::Desktop> desktop
-	//			//				= std::static_pointer_cast<eos::Desktop>(
-	//			//					ax::App::GetInstance().GetTopLevel()->backbone);
-	//
-	//			//			desktop->AddFrame(frame);
-	//			//			desktop->GetWindow()->node.Add(frame);
-	//			//			eos::Frame* osframe = static_cast<eos::Frame*>(frame);
-	//			//			static_cast<eos::Desktop*>(GetParent())->AddFrame(osframe);
-	//		}
-	//		else {
-	//			// WARNING MESSAGE BOX.
-	//		}
-	//		return;
-	//	}
-	//
-	//	ax::Window::Backbone* frame = loader.GetHandle();
-	//
-	//	if (frame != nullptr) {
-	//		if (frame->GetWindow()->IsShown()) {
-	//			frame->GetWindow()->Hide();
-	//		}
-	//		else {
-	//			frame->GetWindow()->Show();
-	//		}
-	//	}
 }
 
 void eos::Dock::OnWindowMinimize(const eos::Frame::Msg& msg)
@@ -327,25 +279,6 @@ void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius, 
 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
-	gc.shader_fb.Activate();
-
-	// glBegin(GL_TRIANGLE_FAN);
-
-	// gc.SetColor(middle_color);
-	// glVertex2d(pos.x, pos.y - 1);
-
-	// gc.SetColor(contour_color);
-	// for (int i = 0; i <= nSegments; i++) {
-	//	// Get the current angle.
-	//	double theta = (2.0f * M_PI) * 0.25 * (double(i)) / double(nSegments);
-	//
-	//	double x = radius * cosf(theta + angle);
-	//	double y = radius * sinf(theta + angle);
-	//
-	//	glVertex2d(x + pos.x, y + pos.y - 1);
-	//}
-	// glEnd();
 }
 
 void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rect, const ax::Color& c1, const ax::Color& c2)
@@ -372,24 +305,6 @@ void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rect, const ax::Color& c1
 	glDisableVertexAttribArray(0);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
-	gc.shader_fb.Activate();
-	// glBegin(GL_QUADS);
-	//{
-	//	gc.SetColor(c1);
-	//	glVertex3f(rect.position.x, rect.position.y, 0); // Bottom left.
-
-	//	glVertex3f(
-	//		rect.position.x + rect.size.x, rect.position.y, 0); // Bottom Right.
-
-	//	gc.SetColor(c2);
-	//	glVertex3f(rect.position.x + rect.size.x, rect.position.y + rect.size.y,
-	//		0); // Top Right.
-
-	//	glVertex3f(
-	//		rect.position.x, rect.position.y + rect.size.y, 0); // Top Left
-	//}
-	// glEnd();
 }
 
 void DrawRoundedRectangle(
@@ -507,13 +422,6 @@ void eos::Dock::OnPaint(ax::GC gc)
 		}
 		else { // Static up position.
 			ax::Rect dock_rect(0, 0, _up_rect.size.x, _up_rect.size.y);
-
-			// if (_bg_img && _bg_img->IsImageReady()) {
-			//	_shader.Activate();
-			//	gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
-			//	glUseProgram(0);
-			//}
-
 			DrawRoundedRectangle(gc, dock_rect, 25, dock_contour, dock_color);
 		}
 	}

@@ -130,6 +130,21 @@ namespace sys {
 		eos::sys::proxy::FullScreenFrame(msg.GetSender()->GetWindow());
 		PushEvent(FRAME_FULL_SCREEN, new eos::Frame::Msg(msg));
 	}
+	
+	void AppManager::OnServerFrameCreation(const ax::Event::SimpleMsg<std::shared_ptr<ax::Window::Backbone>>& msg)
+	{
+		std::shared_ptr<ax::Window::Backbone> server_frame = msg.GetMsg();
+		
+		const ax::Size frame_size(eos::Frame::GetFrameSizeFromChildSize(server_frame->GetWindow()->dimension.GetSize()));
+		
+		std::shared_ptr<eos::Frame> frame(new eos::Frame(ax::Rect(50, 50, frame_size), "Server app"));
+		
+		server_frame->GetWindow()->dimension.SetPosition(frame->GetChildRect().position);
+		
+		frame->GetWindow()->node.Add(server_frame);
+		
+		eos::sys::proxy::AddFrame(frame);
+	}
 } // namespace sys
 } // namespace eos
 

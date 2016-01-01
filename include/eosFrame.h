@@ -66,6 +66,12 @@ namespace eos
 //              const std::string& window_name);
 	
 		ax::Rect GetChildRect() const;
+		
+		static ax::Size GetFrameSizeFromChildSize(const ax::Size& size)
+		{
+			int s_w = 4;
+			return ax::Size(size.x + 2 * s_w + 1, size.y + _title_bar_height + s_w);
+		}
 
 		void SetChildHandler(ax::Window::Ptr child);
         

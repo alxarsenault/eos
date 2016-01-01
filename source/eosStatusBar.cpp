@@ -56,9 +56,8 @@ eos::StatusBar::StatusBar(const ax::Rect& rect)
 			ax::Button::Flags::SINGLE_IMG)));
 
 	using AppInfo = std::pair<std::string, ax::Event::Function>;
-#define APP_INFO(path, fct_name)                                               \
-	AppInfo(path, ax::Event::Bind(this, &StatusBar::fct_name))
-
+	#define APP_INFO(path, fct_name) AppInfo(path, ax::Event::Bind(this, &StatusBar::fct_name))
+	
 	// Status bar icons info.
 	std::vector<AppInfo> app_info = { APP_INFO("resources/home.png", OnHome),
 		APP_INFO("resources/sort52.png", OnNotificationMode),
@@ -67,8 +66,10 @@ eos::StatusBar::StatusBar(const ax::Rect& rect)
 		APP_INFO("resources/setting.png", OnSettings),
 		APP_INFO("resources/list88.png", OnTraceMode),
 		APP_INFO("resources/circles23.png", OnApp3D),
-		APP_INFO("resources/elipse.png", OnView) };
-
+		APP_INFO("resources/elipse.png", OnView)
+	};
+	#undef APP_INFO
+	
 	ax::Rect btn_rect(ax::Point(6, 3), btn_size);
 	ax::Window::Ptr btn;
 
@@ -139,46 +140,24 @@ void eos::StatusBar::OnFrameFullScreen(ax::Event::Msg* msg)
 	_fullscreen_frame.second = f_msg.GetSender()->GetAppName();
 	
 	win->Hide();
-//	ax::Point pos(win->dimension.GetRect().position);
-//	win->dimension.SetPosition(pos - ax::Point(0, 20));
-	
-//	win->Update();
+
 	ax::Print("eos::StatusBar::OnFrameFullScreen");
 }
 
 void eos::StatusBar::OnFrameUnFullScreen(ax::Event::Msg* msg)
 {
-	eos::Frame::Msg& f_msg(*static_cast<eos::Frame::Msg*>(msg));
+	// eos::Frame::Msg& f_msg(*static_cast<eos::Frame::Msg*>(msg));
 	_fullscreen_frame.first = false;
 	_fullscreen_frame.second = "";
 	
 	win->Show();
-	//	ax::Point pos(win->dimension.GetRect().position);
-	//	win->dimension.SetPosition(pos - ax::Point(0, 20));
-	
-	//	win->Update();
 	ax::Print("eos::StatusBar::OnFrameUnFullScreen");
 }
 
 void eos::StatusBar::OnPaint(ax::GC gc)
 {
-	//	ax::Rect rect(win->dimension.GetDrawingRect());
-	ax::Rect rect(ax::Point(-1, -1), win->dimension.GetSize());
-
-	// if (_bg_img && _bg_img->IsImageReady()) {
-	//	_shader.Activate();
-	//	GLuint id = _shader.GetProgramId();
-	//	GLint loc = glGetUniformLocation(id, "singleStepOffset");
-	//	if (loc != -1) {
-	//		glUniform1f(loc, 1.0 / float(rect.size.x));
-	//	}
-	//	gc.DrawImage(_bg_img.get(), ax::Point(0, 0), 0.2);
-	//	glUseProgram(0);
-	//}
-
+	const ax::Rect rect(ax::Point(-1, -1), win->dimension.GetSize());
 	gc.SetColor(ax::Color(0.4, 0.2));
-
-	//	gc.SetColor(ax::Color(0.4f, 0.0f, 0.0f, 1.0));
 	gc.DrawRectangle(rect);
 	
 	if(_fullscreen_frame.first) {
@@ -188,8 +167,4 @@ void eos::StatusBar::OnPaint(ax::GC gc)
 
 	gc.SetColor(ax::Color(1.0));
 	gc.DrawString(_font, _user_name, ax::Point(rect.size.x - 280, 5));
-
-	//	gc.SetColor(ax::Color(0.4, 0.5));
-	//	gc.DrawLine(ax::Point(0, rect.size.y), ax::Point(rect.size.x,
-	// rect.size.y));
 }

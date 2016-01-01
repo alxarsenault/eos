@@ -16,6 +16,9 @@
 		7C625F151C21E92A00DCA413 /* eosDesktopExplorer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F111C21E92A00DCA413 /* eosDesktopExplorer.cpp */; };
 		7C625F161C21E92A00DCA413 /* eosSystemProxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C625F121C21E92A00DCA413 /* eosSystemProxy.cpp */; };
 		7C8DEDA11C0801C200C722A2 /* WindowServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */; };
+		7CCBDFF01C2F74E000C36DDF /* libboost_container.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCBDFED1C2F74E000C36DDF /* libboost_container.dylib */; };
+		7CCBDFF11C2F74E000C36DDF /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCBDFEE1C2F74E000C36DDF /* libboost_filesystem.dylib */; };
+		7CCBDFF21C2F74E000C36DDF /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCBDFEF1C2F74E000C36DDF /* libboost_system.dylib */; };
 		7CD0F52B1BA6580400935AD8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F52A1BA6580400935AD8 /* main.cpp */; };
 		7CD0F6671B9A4F9E00EC4D1A /* eosNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */; };
 		7CD2E3741BA1B02300CEADC6 /* eosCoreSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2E3731BA1B02300CEADC6 /* eosCoreSystem.cpp */; };
@@ -56,6 +59,9 @@
 		7C625F121C21E92A00DCA413 /* eosSystemProxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosSystemProxy.cpp; path = ../../../source/eosSystemProxy.cpp; sourceTree = "<group>"; };
 		7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowServer.cpp; path = ../../../WindowServer.cpp; sourceTree = "<group>"; };
 		7C8DEDA01C0801C200C722A2 /* WindowServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WindowServer.hpp; path = ../../../WindowServer.hpp; sourceTree = "<group>"; };
+		7CCBDFED1C2F74E000C36DDF /* libboost_container.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_container.dylib; path = ../../../../../../../usr/local/lib/libboost_container.dylib; sourceTree = "<group>"; };
+		7CCBDFEE1C2F74E000C36DDF /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../../../../usr/local/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
+		7CCBDFEF1C2F74E000C36DDF /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = ../../../../../../../usr/local/lib/libboost_system.dylib; sourceTree = "<group>"; };
 		7CD0F52A1BA6580400935AD8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../main.cpp; sourceTree = "<group>"; };
 		7CD0F6661B9A4F9E00EC4D1A /* eosNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosNotification.cpp; path = ../../../source/eosNotification.cpp; sourceTree = "<group>"; };
 		7CD0F66A1B9A4FA900EC4D1A /* eosNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosNotification.h; path = ../../../include/eosNotification.h; sourceTree = "<group>"; };
@@ -97,7 +103,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CE9A6171B96663500E5D7B5 /* OpenGL.framework in Frameworks */,
+				7CCBDFF11C2F74E000C36DDF /* libboost_filesystem.dylib in Frameworks */,
+				7CCBDFF21C2F74E000C36DDF /* libboost_system.dylib in Frameworks */,
 				7CE9A6151B96662A00E5D7B5 /* Cocoa.framework in Frameworks */,
+				7CCBDFF01C2F74E000C36DDF /* libboost_container.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +182,9 @@
 				7CD0F52A1BA6580400935AD8 /* main.cpp */,
 				7C8DED9F1C0801C200C722A2 /* WindowServer.cpp */,
 				7C8DEDA01C0801C200C722A2 /* WindowServer.hpp */,
+				7CCBDFED1C2F74E000C36DDF /* libboost_container.dylib */,
+				7CCBDFEE1C2F74E000C36DDF /* libboost_filesystem.dylib */,
+				7CCBDFEF1C2F74E000C36DDF /* libboost_system.dylib */,
 				7CE9A6161B96663500E5D7B5 /* OpenGL.framework */,
 				7CE9A6141B96662A00E5D7B5 /* Cocoa.framework */,
 				7CE9A5C81B965D4500E5D7B5 /* Supporting Files */,
