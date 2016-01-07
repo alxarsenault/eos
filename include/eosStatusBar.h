@@ -23,6 +23,7 @@ namespace eos {
 		
 	private:
 		std::string _user_name;
+		bool _is_down;
 		
 		std::shared_ptr<eos::Clock> _clock;
 		
@@ -32,6 +33,8 @@ namespace eos {
 		ax::Font _font;
 		//ax::GL::Shader _shader;
 		std::shared_ptr<ax::Image> _bg_img;
+		
+		std::thread _zoom_in_thread;
 		
 		void OnView(ax::Event::Msg* msg);
 		
@@ -51,6 +54,10 @@ namespace eos {
 		void OnFrameUnFullScreen(ax::Event::Msg* msg);
 		
 		void OnSettings(ax::Event::Msg* msg);
+		
+		void OnMouseEnter(const ax::Point& pos);
+		
+		void OnMouseLeave(const ax::Point& pos);
 		
 		void OnPaint(ax::GC gc);
 	};

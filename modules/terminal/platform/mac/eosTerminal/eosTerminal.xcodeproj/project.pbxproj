@@ -7,28 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C1EFF4F1C3AD7F400C58F03 /* eosTerminalParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C1EFF4C1C3AD7F400C58F03 /* eosTerminalParser.cpp */; };
+		7C1EFF501C3AD7F400C58F03 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C1EFF4D1C3AD7F400C58F03 /* main.cpp */; };
 		7CB50A831BC3147B00166A5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CB50A821BC3147B00166A5A /* Images.xcassets */; };
 		7CB50A9A1BC3151400166A5A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CB50A991BC3151400166A5A /* MainMenu.xib */; };
-		7CB50AA61BC3165F00166A5A /* axOSTerminal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */; };
 		7CB50AA71BC3165F00166A5A /* eosTerminal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */; };
-		7CB50AA81BC3165F00166A5A /* terminal_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AA51BC3165F00166A5A /* terminal_main.cpp */; };
-		7CB50AAC1BC316A900166A5A /* eosFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB50AAB1BC316A900166A5A /* eosFrame.cpp */; };
 		7CB50AAE1BC3180000166A5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB50AAD1BC3180000166A5A /* Cocoa.framework */; };
 		7CB50AB01BC3180500166A5A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB50AAF1BC3180500166A5A /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C1EFF4C1C3AD7F400C58F03 /* eosTerminalParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosTerminalParser.cpp; path = ../../../../source/eosTerminalParser.cpp; sourceTree = "<group>"; };
+		7C1EFF4D1C3AD7F400C58F03 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../source/main.cpp; sourceTree = "<group>"; };
+		7C1EFF521C3AD7FD00C58F03 /* eosTerminalParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosTerminalParser.h; path = ../../../../include/eosTerminalParser.h; sourceTree = "<group>"; };
+		7C1EFF531C3AE10200C58F03 /* eosTerminalType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosTerminalType.h; path = ../../../../include/eosTerminalType.h; sourceTree = "<group>"; };
 		7CB50A791BC3147B00166A5A /* terminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = terminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB50A7C1BC3147B00166A5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CB50A821BC3147B00166A5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7CB50A991BC3151400166A5A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		7CB50AA11BC3165300166A5A /* axOSTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = axOSTerminal.h; path = ../../../../include/axOSTerminal.h; sourceTree = "<group>"; };
 		7CB50AA21BC3165300166A5A /* eosTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosTerminal.h; path = ../../../../include/eosTerminal.h; sourceTree = "<group>"; };
-		7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = axOSTerminal.cpp; path = ../../../../source/axOSTerminal.cpp; sourceTree = "<group>"; };
 		7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosTerminal.cpp; path = ../../../../source/eosTerminal.cpp; sourceTree = "<group>"; };
-		7CB50AA51BC3165F00166A5A /* terminal_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = terminal_main.cpp; path = ../../../../source/terminal_main.cpp; sourceTree = "<group>"; };
-		7CB50AAA1BC3169500166A5A /* eosFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eosFrame.h; path = ../../../../../../include/eosFrame.h; sourceTree = "<group>"; };
-		7CB50AAB1BC316A900166A5A /* eosFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = eosFrame.cpp; path = ../../../../../../source/eosFrame.cpp; sourceTree = "<group>"; };
 		7CB50AAD1BC3180000166A5A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7CB50AAF1BC3180500166A5A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -75,13 +73,13 @@
 		7CB50A7A1BC3147B00166A5A /* terminal */ = {
 			isa = PBXGroup;
 			children = (
-				7CB50AA91BC3168400166A5A /* eos */,
-				7CB50AA51BC3165F00166A5A /* terminal_main.cpp */,
-				7CB50AA11BC3165300166A5A /* axOSTerminal.h */,
-				7CB50AA31BC3165F00166A5A /* axOSTerminal.cpp */,
-				7CB50AA21BC3165300166A5A /* eosTerminal.h */,
+				7C1EFF531C3AE10200C58F03 /* eosTerminalType.h */,
 				7CB50AA41BC3165F00166A5A /* eosTerminal.cpp */,
+				7CB50AA21BC3165300166A5A /* eosTerminal.h */,
+				7C1EFF4C1C3AD7F400C58F03 /* eosTerminalParser.cpp */,
+				7C1EFF521C3AD7FD00C58F03 /* eosTerminalParser.h */,
 				7CB50A821BC3147B00166A5A /* Images.xcassets */,
+				7C1EFF4D1C3AD7F400C58F03 /* main.cpp */,
 				7CB50A991BC3151400166A5A /* MainMenu.xib */,
 				7CB50A7B1BC3147B00166A5A /* Supporting Files */,
 			);
@@ -94,15 +92,6 @@
 				7CB50A7C1BC3147B00166A5A /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7CB50AA91BC3168400166A5A /* eos */ = {
-			isa = PBXGroup;
-			children = (
-				7CB50AAB1BC316A900166A5A /* eosFrame.cpp */,
-				7CB50AAA1BC3169500166A5A /* eosFrame.h */,
-			);
-			name = eos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,10 +163,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CB50AA61BC3165F00166A5A /* axOSTerminal.cpp in Sources */,
 				7CB50AA71BC3165F00166A5A /* eosTerminal.cpp in Sources */,
-				7CB50AA81BC3165F00166A5A /* terminal_main.cpp in Sources */,
-				7CB50AAC1BC316A900166A5A /* eosFrame.cpp in Sources */,
+				7C1EFF501C3AD7F400C58F03 /* main.cpp in Sources */,
+				7C1EFF4F1C3AD7F400C58F03 /* eosTerminalParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +219,8 @@
 					"-lpng",
 					"-lfreetype",
 					"-laxLibCore",
+					"-lboost_system",
+					"-lboost_container",
 				);
 				SDKROOT = macosx;
 			};
@@ -277,6 +267,8 @@
 					"-lpng",
 					"-lfreetype",
 					"-laxLibCore",
+					"-lboost_system",
+					"-lboost_container",
 				);
 				SDKROOT = macosx;
 			};

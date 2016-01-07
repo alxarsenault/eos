@@ -14,9 +14,14 @@ eos::DockIcon::DockIcon(const ax::Rect& rect, const std::string& img_path, const
 	win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &DockIcon::OnMouseLeftDown);
 	_img = std::shared_ptr<ax::Image>(new ax::Image(img_path));
 
-	ax::Button::Info btn_info(ax::Color(0.5f, 0.5f, 0.5f, 0.0f), ax::Color(1.0f, 0.0f, 0.0f, 0.0f),
-		ax::Color(0.95, 0.0, 0.0, 0.0f), ax::Color(0.5f, 0.5f, 0.5f, 0.0f), ax::Color(0.0f, 0.0f, 0.0f, 0.0f),
-		ax::Color(0.0f, 0.0f, 0.0f, 0.0f), 0);
+	// Transparent button.
+	ax::Button::Info btn_info;
+	btn_info.normal = ax::Color(0.0, 0.0);
+	btn_info.hover = ax::Color(0.0, 0.0);
+	btn_info.clicking = ax::Color(0.0, 0.0);
+	btn_info.selected = ax::Color(0.0, 0.0);
+	btn_info.contour = ax::Color(0.0, 0.0);
+	btn_info.font_color = ax::Color(0.0, 0.0);
 	
 	ax::Button::Events btn_evts;
 	btn_evts.button_click = ax::Event::Function([&](ax::Event::Msg* msg) {

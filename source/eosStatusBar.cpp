@@ -8,22 +8,25 @@
 eos::StatusBar::StatusBar(const ax::Rect& rect)
 	: _font(0)
 	, _fullscreen_frame(false, "")
+	, _is_down(false)
 {
 	win = ax::Window::Create(rect);
 
 	win->event.OnMouseLeftDown
 		= ax::WFunc<ax::Point>([&](const ax::Point& pos) { win->Update(); });
 
-	win->event.OnBeforeDrawing = ax::WFunc<int>([&](const int& nothing) {
-		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
-			unsigned char* bg_data = nullptr;
-			ax::Rect d_rect = win->GetWindowPixelData(bg_data);
-			_bg_img = std::shared_ptr<ax::Image>(new ax::Image(
-				bg_data, d_rect.size, ax::Image::ColorType::RGBA));
-			delete bg_data;
-		}
-	});
-
+//	win->event.OnBeforeDrawing = ax::WFunc<int>([&](const int& nothing) {
+//		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
+//			unsigned char* bg_data = nullptr;
+//			ax::Rect d_rect = win->GetWindowPixelData(bg_data);
+//			_bg_img = std::shared_ptr<ax::Image>(new ax::Image(
+//				bg_data, d_rect.size, ax::Image::ColorType::RGBA));
+//			delete bg_data;
+//		}
+//	});
+	
+	win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &StatusBar::OnMouseEnter);
+	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &StatusBar::OnMouseLeave);
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &StatusBar::OnPaint);
 
 	_user_name = "Alexandre Arsenault"; //_system->GetUser()->GetFullName();
@@ -86,6 +89,26 @@ eos::StatusBar::StatusBar(const ax::Rect& rect)
 	
 	eos::sys::proxy::ConnectToAppManager(eos::sys::AppManager::UN_FULLSCREEN_FRAME,
 		ax::Event::Bind(this, &eos::StatusBar::OnFrameUnFullScreen));
+}
+
+void eos::StatusBar::OnMouseEnter(const ax::Point& pos)
+{
+//	if(!_is_down) {
+//		const ax::Size size(win->dimension.GetSize());
+//		win->dimension.SetSize(size + ax::Size(0, 20));
+//		
+//		_is_down = true;
+//	}
+}
+
+void eos::StatusBar::OnMouseLeave(const ax::Point& pos)
+{
+//	if(_is_down) {
+//		const ax::Size size(win->dimension.GetSize());
+//		win->dimension.SetSize(size - ax::Size(0, 20));
+//		
+//		_is_down = false;
+//	}
 }
 
 void eos::StatusBar::OnView(ax::Event::Msg* msg)
