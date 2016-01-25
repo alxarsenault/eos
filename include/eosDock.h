@@ -1,12 +1,12 @@
 #ifndef __EOS_DOCK_H__
 #define __EOS_DOCK_H__
 
-#include "axLib/axLib.h"
-#include "axLib/axButton.h"
-#include "axLib/axTimer.h"
+#include <axLib/axLib.h>
+#include <axLib/axButton.h>
+#include <axLib/axTimer.h>
 
-#include "eosAppLoader.h"
-#include "eosDesktop.h"
+//#include "eosAppLoader.h"
+//#include "eosDesktop.h"
 #include "eosFrame.h"
 
 namespace eos {
@@ -35,7 +35,6 @@ namespace eos {
 		std::shared_ptr<ax::Image> _bg_img;
 		
 		bool _isDrop;
-		std::map<std::string, AppLoader> _appLoaders;
 		std::vector<eos::DockIcon*> _app_icons;
 		
 		axEVENT_ACCESSOR(ax::Event::StringMsg, OnAppSelect);
@@ -60,6 +59,8 @@ namespace eos {
 		void OnMouseLeave(const ax::Point& mouse);
 		
 		void OnPaint(ax::GC gc);
+		
+		static const int ICON_Y_POSITION;
 	};
 }
 

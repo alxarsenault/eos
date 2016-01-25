@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<eosDock>
+	<App name="ClientApp" label="ClientApp" description="Default window." icon="resources/edit_window.png"> </App>
+</eosDock>
+
+<!-- ax::StringPairVector apps_icon_info = { ax::StringPair("resources/1441952929_house.png", "browser"),
+		ax::StringPair("resources/1441951759_calculator.png", "calc"),
+		ax::StringPair("resources/1441953077_notepad.png", "TextEditor"),
+		ax::StringPair("resources/1441952725_terminal.png", "Terminal"),
+		ax::StringPair("resources/1441953272_enveloppe-alt.png", "mail"),
+		ax::StringPair("resources/1441952856_calendar.png", "calender"),
+		ax::StringPair("resources/1441952883_book.png", "book"),
+		ax::StringPair("resources/1441953050_image.png", "viewer"),
+		ax::StringPair("resources/1441953912_wrench-screwdriver.png", "settings"),
+		ax::StringPair("resources/1441954538_appicns_Trash_Empty.png", "app_test") }; -->

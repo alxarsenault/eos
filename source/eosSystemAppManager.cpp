@@ -1,11 +1,26 @@
 #include "eosSystemAppManager.h"
 #include "eosSystemProxy.h"
 
+#include <axLib/axExec.h>
+#include <axLib/axOSFileSystem.h>
+#include <unistd.h>
+
 namespace eos {
 namespace sys {
 	AppManager::AppManager(std::shared_ptr<ax::Event::Manager> evt_manager)
 		: ax::Event::Object(evt_manager)
 	{
+		ax::os::Directory app_dir;
+		app_dir.Goto("app");
+		
+		std::vector<ax::os::File> folder_content = app_dir.GetContent();
+		
+		for(auto& file : folder_content) {
+			if(file.ext == "epp") {
+				ax::Print(file.name);
+			}
+		}
+		
 		/// @todo Eventually parse app folder and find apps info dynamically.
 		_appLoaders["calc"] = AppLoader("./app/calculator.so");
 		_appLoaders["browser"] = AppLoader("./app/browser.so");
@@ -18,10 +33,35 @@ namespace sys {
 		_appLoaders["settings"] = AppLoader("./app/mail.so");
 		_appLoaders["trash"] = AppLoader("./app/mail.so");
 	}
-
+	
+	void AppManager::ExecApplication(const std::string& app_name)
+	{
+		ax::Print("EXEC TEST");
+		ax::Print(app_name);
+		std::string real_app_name("ClientTest.epp");
+		std::string app_folder("app/");
+		
+		pid_t pid = fork();
+		
+		// Fork error.
+		if (pid == -1) {
+			ax::Error("Can't create fork process.");
+			return;
+		}
+		// Child process.
+		else if (pid == 0) {
+			std::string full_path(app_folder + real_app_name);
+			execlp(full_path.c_str(), real_app_name.c_str(), (char *)0);
+		}
+	}
+	
 	void AppManager::LaunchApplication(const std::string& app_name)
 	{
 		ax::Print("AppManager::LaunchApplication :", app_name);
+		
+		if(app_name == "app_test") {
+			return ExecApplication(app_name);
+		}
 
 		std::map<std::string, eos::AppLoader>::iterator it = _appLoaders.find(app_name);
 
@@ -45,9 +85,9 @@ namespace sys {
 			}
 
 			// Frame has been created.
-			frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
-			frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
-			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
+//			frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
 
 			eos::sys::proxy::AddFrame(frame);
 
@@ -142,6 +182,11 @@ namespace sys {
 		server_frame->GetWindow()->dimension.SetPosition(frame->GetChildRect().position);
 		
 		frame->GetWindow()->node.Add(server_frame);
+		
+		// Frame has been created.
+		frame->GetWindow()->AddConnection(eos::Frame::Events::MINIMIZE, GetOnWindowMinimize());
+		frame->GetWindow()->AddConnection(eos::Frame::Events::FULL_SCREEN, GetOnWindowFullScreen());
+		frame->GetWindow()->AddConnection(eos::Frame::Events::CLOSE, GetOnWindowClose());
 		
 		eos::sys::proxy::AddFrame(frame);
 	}

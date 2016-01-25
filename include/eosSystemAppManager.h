@@ -37,6 +37,8 @@ namespace sys {
 		void OnWindowClose(const eos::Frame::Msg& msg);
 		void OnWindowFullScreen(const eos::Frame::Msg& msg);
 		
+		void ExecApplication(const std::string& app_path);
+		
 		void OnServerFrameCreation(const ax::Event::SimpleMsg<std::shared_ptr<ax::Window::Backbone>>& msg);
 	};
 }

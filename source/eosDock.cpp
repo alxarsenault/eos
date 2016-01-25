@@ -4,11 +4,13 @@
 #include "eosSystemProxy.h"
 #include "eosSystemAppManager.h"
 
+const int eos::Dock::ICON_Y_POSITION = 5;
+
 eos::Dock::Dock(const ax::Rect& rect)
 	: _anim_percent(1.0)
 	, _anim_active(false)
 	, _timer_interval(20)
-	, _timer_length(200)
+	, _timer_length(100)
 	, _anim_up(true)
 	, _up_rect(rect)
 	, _drop_rect(ax::Rect(rect.position.x, rect.position.y + rect.size.y - 10, rect.size.x, 10))
@@ -22,15 +24,16 @@ eos::Dock::Dock(const ax::Rect& rect)
 	win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &Dock::OnMouseEnter);
 	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &Dock::OnMouseLeave);
 
-	win->event.OnBeforeDrawing = ax::WFunc<int>([&](const int& nothing) {
-		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
-			unsigned char* bg_data = nullptr;
-			ax::Rect d_rect = win->GetWindowPixelData(bg_data);
-			_bg_img = ax::Image::Ptr(new ax::Image(bg_data, d_rect.size, ax::Image::ColorType::RGBA));
-			delete bg_data;
-		}
-	});
+//	win->event.OnBeforeDrawing = ax::WFunc<int>([&](const int& nothing) {
+//		if (win->state.Get(ax::Window::StateOption::NeedUpdate)) {
+//			unsigned char* bg_data = nullptr;
+//			ax::Rect d_rect = win->GetWindowPixelData(bg_data);
+//			_bg_img = ax::Image::Ptr(new ax::Image(bg_data, d_rect.size, ax::Image::ColorType::RGBA));
+//			delete bg_data;
+//		}
+//	});
 
+	/// @todo Change event id.
 	win->AddConnection(320, GetOnAppSelect());
 
 	ax::Size icon_size(64, 64);
@@ -44,9 +47,9 @@ eos::Dock::Dock(const ax::Rect& rect)
 		ax::StringPair("resources/1441952883_book.png", "book"),
 		ax::StringPair("resources/1441953050_image.png", "viewer"),
 		ax::StringPair("resources/1441953912_wrench-screwdriver.png", "settings"),
-		ax::StringPair("resources/1441954538_appicns_Trash_Empty.png", "trash") };
+		ax::StringPair("resources/1441954538_appicns_Trash_Empty.png", "app_test") };
 
-	ax::Point icon_pos(10, 5);
+	ax::Point icon_pos(10, ICON_Y_POSITION);
 
 	for (auto& n : apps_icon_info) {
 
@@ -58,16 +61,16 @@ eos::Dock::Dock(const ax::Rect& rect)
 		icon_pos = icon->dimension.GetRect().GetNextPosRight(10);
 	}
 
-	_appLoaders["calc"] = AppLoader("./app/calculator.so");
-	_appLoaders["browser"] = AppLoader("./app/browser.so");
-	_appLoaders["TextEditor"] = AppLoader("./app/text_editor.so");
-	_appLoaders["term"] = AppLoader("./app/terminal.so");
-	_appLoaders["viewer"] = AppLoader("./app/video.so");
-	_appLoaders["mail"] = AppLoader("./app/mail.so");
-	_appLoaders["calender"] = AppLoader("./app/slideshow.so");
-	_appLoaders["book"] = AppLoader("./app/editor.so");
-	_appLoaders["settings"] = AppLoader("./app/mail.so");
-	_appLoaders["trash"] = AppLoader("./app/mail.so");
+//	_appLoaders["calc"] = AppLoader("./app/calculator.so");
+//	_appLoaders["browser"] = AppLoader("./app/browser.so");
+//	_appLoaders["TextEditor"] = AppLoader("./app/text_editor.so");
+//	_appLoaders["term"] = AppLoader("./app/terminal.so");
+//	_appLoaders["viewer"] = AppLoader("./app/video.so");
+//	_appLoaders["mail"] = AppLoader("./app/mail.so");
+//	_appLoaders["calender"] = AppLoader("./app/slideshow.so");
+//	_appLoaders["book"] = AppLoader("./app/editor.so");
+//	_appLoaders["settings"] = AppLoader("./app/mail.so");
+//	_appLoaders["app_test"] = AppLoader("./app/mail.so");
 
 	win->dimension.SetRect(_drop_rect);
 	_isDrop = true;
@@ -85,8 +88,18 @@ void eos::Dock::OnAnimationTimerUp(const ax::Event::Timer::Msg& msg)
 		int count = (int)msg.GetTime().count() + _timer_interval;
 		_anim_percent = float(count) / float(_timer_length);
 
+
+//		int dock_y_pos = 10 + _anim_percent * (_up_rect.size.y - 10);
+		int dock_y_size = 10 + _anim_percent * (_up_rect.size.y - 10);
+		int dock_y_pos = _up_rect.size.y - dock_y_size;
+		int icon_y_pos = dock_y_pos - ICON_Y_POSITION;
+		
+		// Set icons alpha.
 		for (auto& n : _app_icons) {
 			n->SetAlpha(_anim_percent);
+			ax::Point icon_pos(n->GetWindow()->dimension.GetRect().position);
+			n->GetWindow()->dimension.SetPosition(ax::Point(icon_pos.x, icon_y_pos));
+			
 		}
 
 		// When done going up.
@@ -94,14 +107,12 @@ void eos::Dock::OnAnimationTimerUp(const ax::Event::Timer::Msg& msg)
 			_anim_percent = 1.0;
 			_anim_active = false;
 
+			// Set icons alpha to 1.
 			for (auto& n : _app_icons) {
 				n->SetAlpha(_anim_percent);
+				ax::Point icon_pos(n->GetWindow()->dimension.GetRect().position);
+				n->GetWindow()->dimension.SetPosition(ax::Point(icon_pos.x, ICON_Y_POSITION));
 			}
-
-			// Show all icon on dock.
-			//			for (auto& n : _app_icons) {
-			//				n->GetWindow()->Show();
-			//			}
 		}
 
 		win->Update();
@@ -114,8 +125,14 @@ void eos::Dock::OnAnimationTimerDown(const ax::Event::Timer::Msg& msg)
 		int count = (int)msg.GetTime().count() + _timer_interval;
 		_anim_percent = float(count) / float(_timer_length);
 
+		int dock_y_pos = 10 + _anim_percent * (_up_rect.size.y - 10);
+//		int dock_y_pos = _up_rect.size.y - dock_y_size;
+		int icon_y_pos = dock_y_pos - ICON_Y_POSITION;
+		
 		for (auto& n : _app_icons) {
 			n->SetAlpha(1.0 - _anim_percent);
+			ax::Point icon_pos(n->GetWindow()->dimension.GetRect().position);
+			n->GetWindow()->dimension.SetPosition(ax::Point(icon_pos.x, icon_y_pos));
 		}
 
 		// When done going down.
@@ -125,6 +142,7 @@ void eos::Dock::OnAnimationTimerDown(const ax::Event::Timer::Msg& msg)
 
 			win->dimension.SetRect(_drop_rect);
 
+			// Hide all icons.
 			for (auto& n : _app_icons) {
 				n->GetWindow()->Hide();
 			}
@@ -240,71 +258,6 @@ void eos::Dock::OnWindowClose(const eos::Frame::Msg& msg)
 	//			}
 	//		}
 	//	}
-}
-
-void DrawQuarterCircle(ax::GC gc, const ax::FloatPoint& pos, const int& radius, const double& angle,
-	const ax::Color& middle_color, const ax::Color& contour_color)
-{
-	const int& nSegments = 20;
-
-	std::vector<ax::FloatPoint> points;
-	points.reserve(nSegments + 1);
-	points.push_back(ax::FloatPoint(pos.x, pos.y - 1));
-
-	std::vector<ax::Color> colors;
-	colors.reserve(nSegments + 1);
-	colors.push_back(middle_color);
-
-	double quarter_pi_ratio = 2.0 * M_PI * 0.25 / double(nSegments);
-	for (int i = 0; i <= nSegments; i++) {
-		double theta = double(i) * quarter_pi_ratio;
-		double x = radius * cosf(theta + angle);
-		double y = radius * sinf(theta + angle);
-		points.push_back(ax::FloatPoint(x + pos.x, y + pos.y - 1));
-		colors.push_back(contour_color);
-	}
-
-	gc.shader_normal.Activate();
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)points.data());
-	glEnableVertexAttribArray(0);
-	glColorPointer(4, GL_FLOAT, 0, (void*)colors.data());
-
-	glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)points.size());
-
-	glDisableVertexAttribArray(0);
-
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void DrawRectangleColorFade(ax::GC gc, const ax::Rect& rect, const ax::Color& c1, const ax::Color& c2)
-{
-	std::vector<ax::FloatPoint> points = { ax::FloatPoint(rect.position.x, rect.position.y),
-		ax::FloatPoint(rect.position.x + rect.size.x, rect.position.y),
-		ax::FloatPoint(rect.position.x + rect.size.x, rect.position.y + rect.size.y),
-		ax::FloatPoint(rect.position.x, rect.position.y + rect.size.y) };
-
-	ax::Color colors[4] = { c1, c1, c2, c2 };
-
-	gc.shader_normal.Activate();
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)points.data());
-	glEnableVertexAttribArray(0);
-	//	glVertexPointer(2, GL_FLOAT, 0, &r_points);
-	glColorPointer(4, GL_FLOAT, 0, colors);
-
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-	glDisableVertexAttribArray(0);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void DrawRoundedRectangle(

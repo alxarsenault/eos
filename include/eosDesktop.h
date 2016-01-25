@@ -1,8 +1,9 @@
 #ifndef __EOS_DESKTOP_H__
 #define __EOS_DESKTOP_H__
 
-#include "axLib/axLib.h"
-#include "axLib/axButton.h"
+#include <axLib/axLib.h>
+#include <axLib/axButton.h>
+
 #include "eosStatusBar.h"
 #include "eosDock.h"
 #include "eosNotification.h"
@@ -11,6 +12,7 @@
 
 #include "eosFrame.h"
 #include "eosSystemCore.h"
+#include "eosAppLoader.h"
 
 namespace eos {
 
